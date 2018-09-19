@@ -9,12 +9,19 @@
 import Foundation
 import ContactsUI
 
-struct NotifiContact {
+@objc class NotifiContact : NSObject {
     
-    var FullName: String
-    var PhoneNumbers: [CNLabeledValue<CNPhoneNumber>] = []
-    var Emails: [CNLabeledValue<NSString>] = []
+    @objc var FullName: String = ""
+    @objc var PhoneNumbers: [CNLabeledValue<CNPhoneNumber>] = []
+    @objc var Emails: [CNLabeledValue<NSString>] = []
     
-    var ReminderPhoneNumber: String = ""
+    @objc var ReminderPhoneNumber: String = ""
+    
+    init(fullName: String, phoneNumbers: [CNLabeledValue<CNPhoneNumber>], emails: [CNLabeledValue<NSString>], reminderPhone: String ) {
+        self.FullName = fullName
+        self.PhoneNumbers = phoneNumbers
+        self.Emails = emails
+        self.ReminderPhoneNumber = reminderPhone
+    }
     
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C40F32152700800308ACD /* ContactServiceSorted.swift */; };
 		F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */; };
 		F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F08214A9F98008FB3E5 /* TableViewController.swift */; };
 		F1F36F0C214A9F98008FB3E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F36F0A214A9F98008FB3E5 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F13C40F32152700800308ACD /* ContactServiceSorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactServiceSorted.swift; sourceTree = "<group>"; };
 		F1F36F03214A9F98008FB3E5 /* Notifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1F36F08214A9F98008FB3E5 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				F1FE121D2151678700ACC512 /* CreateNotifi.swift */,
 				F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */,
 				F1F36F38214ADA46008FB3E5 /* ContactService.swift */,
+				F13C40F32152700800308ACD /* ContactServiceSorted.swift */,
 				F1F36F3A214BF219008FB3E5 /* NofitiData.swift */,
 				F1F36F0D214A9F9A008FB3E5 /* Assets.xcassets */,
 				F1F36F0F214A9F9A008FB3E5 /* LaunchScreen.storyboard */,
@@ -199,19 +202,25 @@
 		F1F36EFB214A9F98008FB3E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					b,
+				);
 				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = ilya_admin;
 				TargetAttributes = {
 					F1F36F02214A9F98008FB3E5 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 					F1F36F16214A9F9B008FB3E5 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = F1F36F02214A9F98008FB3E5;
 					};
 					F1F36F21214A9F9B008FB3E5 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = F1F36F02214A9F98008FB3E5;
 					};
 				};
@@ -269,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1F36F39214ADA46008FB3E5 /* ContactService.swift in Sources */,
+				F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */,
 				F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */,
 				F1FE121E2151678700ACC512 /* CreateNotifi.swift in Sources */,
 				F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */,
@@ -455,7 +465,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.Notifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -473,7 +483,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.Notifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -493,7 +503,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.NotifiTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Notifi.app/Notifi";
 			};
@@ -514,7 +524,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.NotifiTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Notifi.app/Notifi";
 			};
@@ -534,7 +544,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.NotifiUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Notifi;
 			};
@@ -554,7 +564,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xamarin.NotifiUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Notifi;
 			};

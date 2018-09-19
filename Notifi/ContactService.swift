@@ -51,12 +51,12 @@ class ContactService
         
         for singleContact in results
         {
-            if singleContact.givenName != "" || singleContact.familyName != ""
-            {
-                let appendContact =  NotifiContact(FullName: singleContact.familyName + " " + singleContact.givenName, PhoneNumbers: singleContact.phoneNumbers, Emails: singleContact.emailAddresses, ReminderPhoneNumber:"")
-                
-                NotifiContacts.append(appendContact)
-            }
+//            if singleContact.givenName != "" || singleContact.familyName != ""
+//            {
+//                let appendContact =  NotifiContact(FullName: singleContact.familyName + " " + singleContact.givenName, PhoneNumbers: singleContact.phoneNumbers, Emails: singleContact.emailAddresses, ReminderPhoneNumber:"")
+//                
+//                NotifiContacts.append(appendContact)
+//            }
         }
         
         return NotifiContacts

@@ -73,13 +73,14 @@ class pickerTableViewCell: UITableViewCell
         }
     }
     
-    func Update(CellContact: inout NotifiContact )
+    func Update(CellContact: NotifiContact )
     {
         
        // contact = CellContact // this should save the requested phone number
        
         titlelabel.text = CellContact.FullName
-        reminderPicker.datePickerMode = UIDatePickerMode.dateAndTime
+        reminderPicker.minuteInterval = 5
+        reminderPicker.datePickerMode = UIDatePicker.Mode.dateAndTime
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
