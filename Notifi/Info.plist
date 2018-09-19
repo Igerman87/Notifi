@@ -41,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>Get contacts for reminder</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Add reminders </string>
 </dict>
 </plist>

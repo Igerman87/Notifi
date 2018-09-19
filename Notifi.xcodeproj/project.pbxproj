@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */; };
-		F1F36F09214A9F98008FB3E5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F08214A9F98008FB3E5 /* ViewController.swift */; };
+		F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F08214A9F98008FB3E5 /* TableViewController.swift */; };
 		F1F36F0C214A9F98008FB3E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F36F0A214A9F98008FB3E5 /* Main.storyboard */; };
 		F1F36F0E214A9F9A008FB3E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1F36F0D214A9F9A008FB3E5 /* Assets.xcassets */; };
 		F1F36F11214A9F9A008FB3E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F36F0F214A9F9A008FB3E5 /* LaunchScreen.storyboard */; };
 		F1F36F1C214A9F9B008FB3E5 /* NotifiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F1B214A9F9B008FB3E5 /* NotifiTests.swift */; };
 		F1F36F27214A9F9B008FB3E5 /* NotifiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F26214A9F9B008FB3E5 /* NotifiUITests.swift */; };
+		F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */; };
+		F1F36F39214ADA46008FB3E5 /* ContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F38214ADA46008FB3E5 /* ContactService.swift */; };
+		F1F36F3B214BF219008FB3E5 /* NofitiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F3A214BF219008FB3E5 /* NofitiData.swift */; };
+		F1FE121E2151678700ACC512 /* CreateNotifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FE121D2151678700ACC512 /* CreateNotifi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +40,7 @@
 /* Begin PBXFileReference section */
 		F1F36F03214A9F98008FB3E5 /* Notifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F1F36F08214A9F98008FB3E5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F1F36F08214A9F98008FB3E5 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		F1F36F0B214A9F98008FB3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F1F36F0D214A9F9A008FB3E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1F36F10214A9F9A008FB3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +51,10 @@
 		F1F36F22214A9F9B008FB3E5 /* NotifiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotifiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F36F26214A9F9B008FB3E5 /* NotifiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifiUITests.swift; sourceTree = "<group>"; };
 		F1F36F28214A9F9B008FB3E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickerTableViewCell.swift; sourceTree = "<group>"; };
+		F1F36F38214ADA46008FB3E5 /* ContactService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactService.swift; sourceTree = "<group>"; };
+		F1F36F3A214BF219008FB3E5 /* NofitiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NofitiData.swift; sourceTree = "<group>"; };
+		F1FE121D2151678700ACC512 /* CreateNotifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNotifi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +106,12 @@
 			isa = PBXGroup;
 			children = (
 				F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */,
-				F1F36F08214A9F98008FB3E5 /* ViewController.swift */,
+				F1F36F08214A9F98008FB3E5 /* TableViewController.swift */,
 				F1F36F0A214A9F98008FB3E5 /* Main.storyboard */,
+				F1FE121D2151678700ACC512 /* CreateNotifi.swift */,
+				F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */,
+				F1F36F38214ADA46008FB3E5 /* ContactService.swift */,
+				F1F36F3A214BF219008FB3E5 /* NofitiData.swift */,
 				F1F36F0D214A9F9A008FB3E5 /* Assets.xcassets */,
 				F1F36F0F214A9F9A008FB3E5 /* LaunchScreen.storyboard */,
 				F1F36F12214A9F9A008FB3E5 /* Info.plist */,
@@ -256,8 +268,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1F36F09214A9F98008FB3E5 /* ViewController.swift in Sources */,
+				F1F36F39214ADA46008FB3E5 /* ContactService.swift in Sources */,
+				F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */,
+				F1FE121E2151678700ACC512 /* CreateNotifi.swift in Sources */,
+				F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */,
 				F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */,
+				F1F36F3B214BF219008FB3E5 /* NofitiData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
