@@ -8,26 +8,59 @@
 
 import Foundation
 import EventKit
+import UserNotificationsUI
 
-class CreateNotifi
+class CreateNotifi: UIAlertController
 {
     var eventStore = EKEventStore()
     
     
-    func setReminder(contact: NotifiContact) -> Bool {
+    func setReminder(contact: NotifiContact, time: Date) -> Void {
         
-        let reminder = EKReminder(eventStore: self.eventStore)
-    
-        reminder.title = "Call: " + contact.FullName + ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
-        reminder.calendar = eventStore.defaultCalendarForNewReminders()
+        eventStore.requestAccess(to: .reminder, completion: {(granted, error) in
+            
+            if !granted
+            {
+                let alert = UIAlertController(title: "No permission No Notifi", message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OH NO !!!", style: .default, handler: nil))
+                
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            }
+            else
+            {
+//                let phoneNumber = "TEL://" + ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+//                let phoneUrl: NSURL = URL(string: phoneNumber)! as NSURL
+                
+                
+                let reminder = EKReminder(eventStore: self.eventStore)
+                
+                reminder.title = "Call: " + contact.FullName //+ " " + ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+                
+                reminder.addAlarm(EKAlarm(absoluteDate: time))
+                reminder.notes = ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+                reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
+                do {
+                    try self.eventStore.save(reminder, commit: true)
+                } catch let error {
+                    
+                    let alert = UIAlertController(title: "Problem setting Notifi", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    
+                    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                let alert = UIAlertController(title: "Notifi set successfuly", message: "Don't forget to call !!!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Great", style: .default, handler: nil))
+                
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            }
+        })
         
-        do {
-            try eventStore.save(reminder, commit: true)
-        } catch _ {
-            return false
-        }
         
-        return true
+        
+        
+        return
     }
     
 }

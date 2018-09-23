@@ -18,7 +18,7 @@ class ContactServiceSorted
     let collation = UILocalizedIndexedCollation.current()
     var sectionTitles = [String]()
     
-    func fetchContacts() -> ([[NotifiContact]], [String])
+    func fetchContacts() -> ([[NotifiContact]], [String], [NotifiContact])
     {
         let keys = [CNContactGivenNameKey,CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey]
         
@@ -30,7 +30,7 @@ class ContactServiceSorted
             try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, error) -> Void in
                 guard (contact.phoneNumbers.first?.value.stringValue) != nil  else {return}
                 
-                self.NotifiContacts.append(NotifiContact(fullName: contact.familyName + " " + contact.givenName, phoneNumbers: contact.phoneNumbers, emails: contact.emailAddresses, reminderPhone:""))
+                self.NotifiContacts.append(NotifiContact(fullName: contact.givenName + " " + contact.familyName, phoneNumbers: contact.phoneNumbers, emails: contact.emailAddresses, reminderPhone:""))
             })
             
             self.setUpCollation()
@@ -44,7 +44,7 @@ class ContactServiceSorted
                 print(error.localizedDescription)
             }
         
-        return (self.NotifiContactsWithSections, self.sectionTitles)
+        return (self.NotifiContactsWithSections, self.sectionTitles, self.NotifiContacts)
     }
     
     @objc func setUpCollation()

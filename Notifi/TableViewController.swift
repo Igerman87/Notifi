@@ -27,7 +27,9 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     var selectedIndexPath :IndexPath?
     var Contacts: [[NotifiContact]] = []
     var sectionTitles: [String] = []
-    var searchContacts: [[NotifiContact]] = []
+    var searchContacts: [NotifiContact] = []
+    var contactsOneDimantion: [NotifiContact] = []
+    var isSearching: Bool = false
     
     override func viewDidLoad()
     {
@@ -37,43 +39,77 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         let getContact = ContactServiceSorted()
         
-        (Contacts, sectionTitles) = getContact.fetchContacts()
+        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
         
         tableView.dataSource = self
         tableView.delegate = self
-        searchBar.delegate = self
-        navigationItem.hidesSearchBarWhenScrolling = false
+        //searchBar.delegate = self
         
-        searchContacts = Contacts
+//        navigationItem.search
+//        navigationItem.hidesSearchBarWhenScrolling = false
+        
+        searchContacts = contactsOneDimantion
         
         searchBar.returnKeyType = .search
         searchBar.searchBarStyle = UISearchBar.Style.prominent
         searchBar.placeholder = " Search..."
-        
-        addNotifiOutlet.isEnabled = false
+
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
+    override func numberOfSections(in tableView: UITableView) -> Int
+    {
+        if isSearching
+        {
+            return 1
+        }
+        else
+        {
+            return sectionTitles.count
+        }
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchContacts[section].count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        if isSearching
+        {
+            return searchContacts.count
+        }
+        else
+        {
+            return Contacts[section].count
+        }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        if isSearching
+        {
+            return "Search results:"
+        }
+        else
+        {
+            return sectionTitles[section]
+        }
     }
     
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+    {
         if let headerTitle = view as? UITableViewHeaderFooterView
         {
             headerTitle.textLabel?.textColor = UIColor.blue
         }
     }
     
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sectionTitles
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]?
+    {
+        if isSearching
+        {
+            return nil
+        }
+        else
+        {
+            return sectionTitles
+        }
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int
@@ -84,7 +120,14 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! pickerTableViewCell
         
-        cell.Update(CellContact: (searchContacts[indexPath.section][indexPath.item]))
+        if isSearching
+        {
+            cell.Update(CellContact: searchContacts[indexPath.row])
+        }
+        else
+        {
+            cell.Update(CellContact: (Contacts[indexPath.section][indexPath.item]))
+        }
         
         return cell
     }
@@ -98,12 +141,10 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         if indexPath == selectedIndexPath
         {
             selectedIndexPath = nil
-            addNotifiOutlet.isEnabled = false
         }
         else
         {
             selectedIndexPath = indexPath
-             addNotifiOutlet.isEnabled = true
         }
         
         var indexPaths : Array<IndexPath> = []
@@ -148,35 +189,37 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         }
     }
     
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-//    {
-//        if searchBar.text != ""
-//        {
-//            searchBar.resignFirstResponder()
-//
-//
-//           // searchContacts = Contacts.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
-//
-//
-//            // = Contacts.filter {$0.FullName.lowercased() == search?.lowercased()//  .contains(searchswi)}
-//
-//            tableView.reloadData()
-//        }
-//
-//    }
-    
-    func searchBar(_searchBar: UISearchBar, textDidChange searchText: String)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
-//        guard !searchText.isEmpty else { searchContacts = Contacts; return}
-//
-////        searchContacts = Contacts.filter({ (contact) -> Bool in
-////            //guard var text = textSearched else {return false}
-////            return contact.FullName.contains(searchText)
-//        })
+        if searchBar.text != ""
+        {
+            isSearching = true
+            
+            searchBar.resignFirstResponder()
 
-        //searchContacts.append(contentsOf:  Contacts.filter {$0.FullName == textSearched} //  ({$0.FullName == t})//  (where: {$0.name == textSearched})
-
-        tableView.reloadData()
+            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
+            
+            tableView.reloadData()
+        }
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        if searchText == ""
+        {
+            searchBar.resignFirstResponder()
+            
+            isSearching = false
+        }
+//        else
+//        {
+//            isSearching = true
+//
+//            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
+//        }
+
+       tableView.reloadData()
+    }
+    
 }
 

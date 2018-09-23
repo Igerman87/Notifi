@@ -21,6 +21,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="K7a-xt-Uay" id="kE1-tz-JRU"/>
+                            </connections>
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="&quot;cell_id&quot;" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_id" rowHeight="330" id="CVo-ee-kPW" customClass="pickerTableViewCell" customModule="Notifi" customModuleProvider="target">
@@ -37,7 +40,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrq-Cc-2wM">
-                                            <rect key="frame" x="230" y="67" width="129" height="30"/>
+                                            <rect key="frame" x="239" y="93" width="120" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <state key="normal" title="Change number"/>
@@ -53,26 +56,35 @@
                                             </date>
                                         </datePicker>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reminder time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jhz-Xj-MJc">
-                                            <rect key="frame" x="16" y="127" width="123" height="21"/>
+                                            <rect key="frame" x="16" y="134" width="123" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Phone number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ViB-hb-AzU">
-                                            <rect key="frame" x="16" y="72" width="194" height="21"/>
+                                            <rect key="frame" x="16" y="98" width="215" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqE-9p-Oo4">
-                                            <rect key="frame" x="196" y="127" width="151" height="21"/>
+                                            <rect key="frame" x="208" y="134" width="151" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.89370142487046633" green="0.090270447734476608" blue="0.023688221976869716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5o-uf-Nip">
+                                            <rect key="frame" x="173" y="56" width="29" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                            <state key="normal" title="+"/>
+                                            <connections>
+                                                <action selector="addNotifi:" destination="CVo-ee-kPW" eventType="touchUpInside" id="7EQ-pJ-wiZ"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="fua-yk-f8v" firstAttribute="leading" secondItem="x5e-b0-od4" secondAttribute="leading" constant="16" id="AjV-jY-IO5"/>
@@ -81,6 +93,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="PhoneNumberLabel" destination="ViB-hb-AzU" id="Wua-bd-fZB"/>
+                                    <outlet property="addNotifiOutlet" destination="I5o-uf-Nip" id="9d3-fP-s5t"/>
                                     <outlet property="phoneButtonOutlet" destination="xrq-Cc-2wM" id="nxe-mQ-6HL"/>
                                     <outlet property="reminderPicker" destination="58H-Vm-2GY" id="5eL-Nq-9rR"/>
                                     <outlet property="reminderTimeLabel" destination="YqE-9p-Oo4" id="FUI-jx-XBR"/>
