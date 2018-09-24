@@ -12,11 +12,8 @@ let cellID = "cell_id"
 
 
 
-class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate
+class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate
 {
-
-    
-    @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var addNotifiOutlet: UIBarButtonItem!
     @IBAction func addNotifi(_ sender: Any)
@@ -24,6 +21,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     }
     
+    var searchController = UISearchController(searchResultsController: nil)
     var selectedIndexPath :IndexPath?
     var Contacts: [[NotifiContact]] = []
     var sectionTitles: [String] = []
@@ -33,27 +31,28 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     override func viewDidLoad()
     {
-        // Contact service
-        //let getContact = ContactService()
-        //Contacts = getContact.GetContacts()
-        
         let getContact = ContactServiceSorted()
         
         (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
         
         tableView.dataSource = self
         tableView.delegate = self
-        //searchBar.delegate = self
         
-//        navigationItem.search
-//        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.sizeToFit()
+        
+        searchController.searchBar.returnKeyType = .search
+        searchController.searchBar.searchBarStyle = UISearchBar.Style.prominent
+        searchController.searchBar.placeholder = " Search..."
+        searchController.searchBar.delegate = self
+        searchController.dimsBackgroundDuringPresentation = false
+
+
+        navigationItem.title = "Contacts"
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         searchContacts = contactsOneDimantion
-        
-        searchBar.returnKeyType = .search
-        searchBar.searchBarStyle = UISearchBar.Style.prominent
-        searchBar.placeholder = " Search..."
-
+ 
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int
@@ -134,7 +133,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-        searchBar.resignFirstResponder()
+        searchController.searchBar.resignFirstResponder()
         
         let previousIndexPath = selectedIndexPath
         
@@ -176,10 +175,12 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
 
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+
         if indexPath == selectedIndexPath
         {
-
+            
             return pickerTableViewCell.expendedHeight
         }
         else
@@ -187,6 +188,18 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
             return pickerTableViewCell.defaultHeight
         }
+ 
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    {
+        searchBar.resignFirstResponder()
+        
+        selectedIndexPath = nil
+        
+        isSearching = false
+        
+        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
