@@ -13,6 +13,7 @@ import ContactsUI
 class pickerTableViewCell: UITableViewCell
 {
     var cellContactDetails: NotifiContact!
+    var cellReminderPhoneNumber: String!
     
     var isObserving = false
     
@@ -27,27 +28,23 @@ class pickerTableViewCell: UITableViewCell
     
     @IBAction func phoneButton(_ sender: Any)
     {
-        
+        // To be added
     }
     
     @IBAction func addNotifi(_ sender: Any)
     {
-        let timeStamp = Date()
+        let myNotifi = myNotifications()
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
         
-        if (reminderPicker.date < timeStamp)
-        {
-            let alert = UIAlertController(title: "Reminder time", message: "Reminder time must be in the future", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let time = dateFormatter.date(from: reminderTimeLabel.text!)
         
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-        }
-        else
-        {
-            let nofiti = CreateNotifi()
-            
-            nofiti.setReminder(contact: cellContactDetails, time: reminderPicker.date)
-        }
+        cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
+        
+        myNotifi.createNotification(contact: cellContactDetails, time: time!)
+        //nofiti.setReminder(contact: cellContactDetails, time: reminderPicker.date)
+
     }
     
     class var expendedHeight: CGFloat{get {return 330}}
@@ -95,16 +92,15 @@ class pickerTableViewCell: UITableViewCell
         }
     }
     
-    func Update(CellContact: NotifiContact )
+    func Update(CellContact: NotifiContact)
     {
+        cellReminderPhoneNumber = ((CellContact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
         
-       // contact = CellContact // this should save the requested phone number
         cellContactDetails = CellContact
-        cellContactDetails.ReminderPhoneNumber = ((CellContact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
-        
+        cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
         
         titlelabel.text = CellContact.FullName
-        reminderPicker.minuteInterval = 5
+        //reminderPicker.minuteInterval = 5
         reminderPicker.datePickerMode = UIDatePicker.Mode.dateAndTime
 
         let dateFormatter = DateFormatter()
@@ -114,7 +110,7 @@ class pickerTableViewCell: UITableViewCell
         
         self.reminderPicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
 
-        PhoneNumberLabel.text = "Number: " + ((CellContact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+        PhoneNumberLabel.text = "Number: " + cellReminderPhoneNumber
         if CellContact.PhoneNumbers.count == 1
         {
             phoneButtonOutlet.isEnabled = false
@@ -128,10 +124,22 @@ class pickerTableViewCell: UITableViewCell
     
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
     {
+        let timeStamp = Date()
+        
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
-        reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+        if reminderPicker.date < timeStamp
+        {
+            addNotifiOutlet.isEnabled = false
+        }
+        else
+        {
+            addNotifiOutlet.isEnabled = true
+            reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+        }
+        
     }
         
 

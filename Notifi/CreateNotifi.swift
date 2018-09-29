@@ -53,7 +53,16 @@ class CreateNotifi: UIAlertController
                 let alert = UIAlertController(title: "Notifi set successfuly", message: "Don't forget to call !!!", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Great", style: .default, handler: nil))
                 
-                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+                if let presentedVC = self.presentedViewController
+                {
+                    presentedVC.present(alert, animated: true, completion: nil)
+                }
+                else
+                {
+                    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+                }
+                
+
             }
         })
         

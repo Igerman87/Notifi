@@ -8,11 +8,12 @@
 
 import UIKit
 import ContactsUI
+import UserNotifications
 let cellID = "cell_id"
 
 
 
-class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate
+class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate
 {
     
     @IBOutlet weak var addNotifiOutlet: UIBarButtonItem!
@@ -20,6 +21,8 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     {
     
     }
+    
+    
     
     var searchController = UISearchController(searchResultsController: nil)
     var selectedIndexPath :IndexPath?
@@ -32,14 +35,18 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     override func viewDidLoad()
     {
         let getContact = ContactServiceSorted()
+        let localNotification = myNotifications()
+        
+        localNotification.initMyNotifications()
         
         (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        searchController.searchBar.sizeToFit()
+        UNUserNotificationCenter.current().delegate = self
         
+        searchController.searchBar.sizeToFit()
         searchController.searchBar.returnKeyType = .search
         searchController.searchBar.searchBarStyle = UISearchBar.Style.prominent
         searchController.searchBar.placeholder = " Search..."
@@ -234,5 +241,62 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
        tableView.reloadData()
     }
     
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        var ident: [String] = []
+        
+        ident.append(response.notification.request.identifier)
+        
+        switch response.actionIdentifier {
+        case "CALL_ACTION":
+            
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            
+            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            
+            let url = URL(string: phoneNumber)
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            
+            break
+            
+        case "SNOOZE":
+            
+           UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            
+            let trig = UNTimeIntervalNotificationTrigger(timeInterval: 300.0, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "Notifi", content: response.notification.request.content, trigger: trig)
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+            break
+            
+        case "DISMISS_ACTION":
+            
+           UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            
+            break
+            
+        default:
+            break
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+      
+        var ident: [String] = []
+        
+        ident.append(notification.request.identifier)
+        
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        
+        let phoneNumber = "tel://\(notification.request.content.body)"
+        
+        let url = URL(string: phoneNumber)
+        
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
 }
-
+		
