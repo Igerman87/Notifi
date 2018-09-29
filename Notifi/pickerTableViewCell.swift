@@ -47,7 +47,7 @@ class pickerTableViewCell: UITableViewCell
 
     }
     
-    class var expendedHeight: CGFloat{get {return 330}}
+    class var expendedHeight: CGFloat{get {return 350}}
     class var defaultHeight: CGFloat{get {return 44}}
     
     func checkHeight()
