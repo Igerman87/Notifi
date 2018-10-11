@@ -12,6 +12,10 @@ import ContactsUI
 
 class pickerTableViewCell: UITableViewCell
 {
+    
+    class var expendedHeight: CGFloat{get {return 350}}
+    class var defaultHeight: CGFloat{get {return 44}}
+    
     var cellContactDetails: NotifiContact!
     var cellReminderPhoneNumber: String!
     
@@ -33,22 +37,42 @@ class pickerTableViewCell: UITableViewCell
     
     @IBAction func addNotifi(_ sender: Any)
     {
-        let myNotifi = myNotifications()
+        let timeStamp = Date()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
         
-        let time = dateFormatter.date(from: reminderTimeLabel.text!)
-        
-        cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
-        
-        myNotifi.createNotification(contact: cellContactDetails, time: time!)
-        //nofiti.setReminder(contact: cellContactDetails, time: reminderPicker.date)
-
+        if reminderPicker.date > Date()
+        {
+            let myNotifi = myNotifications()
+            
+            let time = dateFormatter.date(from: reminderTimeLabel.text!)
+            
+            cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
+            
+            myNotifi.createNotification(contact: cellContactDetails, time: time!)
+            //nofiti.setReminder(contact: cellContactDetails, time: reminderPicker.date)
+        }
+        else
+        {
+            let alert = UIAlertController(title: "Fool", message: "Time travel is not possible", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "I'm sorry", style: .default, handler: nil))
+            
+            if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
+            {
+                presentedVC.present(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            }
+            
+            reminderPicker.date = timeStamp
+            
+            reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+        }
     }
     
-    class var expendedHeight: CGFloat{get {return 350}}
-    class var defaultHeight: CGFloat{get {return 44}}
     
     func checkHeight()
     {
@@ -119,27 +143,14 @@ class pickerTableViewCell: UITableViewCell
         {
             phoneButtonOutlet.isEnabled = true
         }
-    
     }
     
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
     {
-        let timeStamp = Date()
-        
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
-        if reminderPicker.date < timeStamp
-        {
-            addNotifiOutlet.isEnabled = false
-        }
-        else
-        {
-            addNotifiOutlet.isEnabled = true
-            reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
-        }
-        
+        reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
     }
         
 

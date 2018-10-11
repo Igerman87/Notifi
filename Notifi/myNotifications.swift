@@ -10,8 +10,40 @@ import Foundation
 import UserNotifications
 import UIKit
 
+let semaphore = DispatchSemaphore(value: 1)
+
+var localBadgeNumber = 0
+
+func incrementBadge() -> Int
+{
+    semaphore.wait()
+    
+    localBadgeNumber += 1
+
+    semaphore.signal()
+    
+    return localBadgeNumber
+}
+
+func decrementBadge() -> Int
+{
+    if localBadgeNumber > 0
+    {
+        semaphore.wait()
+    
+        localBadgeNumber -= 1
+    
+        semaphore.signal()
+    }
+    
+    return localBadgeNumber
+}
+
 class myNotifications: UIAlertController
 {
+    //static var notificationNumber = 0
+
+    
     func initMyNotifications()
     {
         let callAction = UNNotificationAction(identifier: "CALL_ACTION", title: "Call now", options: UNNotificationActionOptions(rawValue: 0))
@@ -27,20 +59,38 @@ class myNotifications: UIAlertController
     
     func createNotification(contact: NotifiContact, time: Date) -> Void
     {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
+        
         let notification = UNMutableNotificationContent()
         
-        notification.title = "Its time to call: " + contact.FullName
-        //notification.subtitle =
+        notification.title = "Its time to call: "
+        notification.subtitle = contact.FullName
         notification.body = contact.ReminderPhoneNumber
         //notification.userInfo = ["NOTIFI_ID": notifiID, "USER_ID": ruserok]
         notification.categoryIdentifier = "NOTIFI"
-        notification.badge = 1
+        notification.sound = UNNotificationSound.default
+        
+        notification.badge = 0
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time.timeIntervalSinceNow > 60 ? time.timeIntervalSinceNow: 60, repeats: false)
         
-        let request = UNNotificationRequest(identifier: "Notifi", content: notification, trigger: trigger)
+        //myNotifications.notificationNumber += 1
+        
+        let request = UNNotificationRequest(identifier: dateFormatter.string(from: time) , content: notification, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
+        if allNotifis[contact.FullName] != nil
+        {
+           allNotifis[contact.FullName]?.append(dateFormatter.string(from: time))
+        }
+        else
+        {
+            allNotifis[contact.FullName] = []
+            
+            allNotifis[contact.FullName]?.append(dateFormatter.string(from: time))
+        }
         
         let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -53,5 +103,7 @@ class myNotifications: UIAlertController
         {
             UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }
+        
+        print(allNotifis)
     }
 }
