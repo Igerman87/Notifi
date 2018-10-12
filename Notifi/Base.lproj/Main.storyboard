@@ -140,10 +140,10 @@
             </objects>
             <point key="canvasLocation" x="285.50724637681162" y="-38.169642857142854"/>
         </scene>
-        <!--Active Notifis-->
+        <!--Active Notifis Controller-->
         <scene sceneID="ffP-pK-9so">
             <objects>
-                <tableViewController storyboardIdentifier="ActiveNotifiStoryBoard" id="tyJ-FO-YN6" customClass="ActiveNotifis" customModule="Notifi" customModuleProvider="target" propertyAccessControl="none" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ActiveNotifiStoryBoard" id="tyJ-FO-YN6" customClass="ActiveNotifisController" propertyAccessControl="none" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="HUo-NW-5gC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -177,6 +177,13 @@
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBU-Ky-Pya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="XGE-cX-nWp">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Item" id="glf-Fs-3Lu"/>
+                    </items>
+                </toolbar>
             </objects>
             <point key="canvasLocation" x="1147.8260869565217" y="-35.491071428571423"/>
         </scene>
