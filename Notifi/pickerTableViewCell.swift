@@ -37,8 +37,6 @@ class pickerTableViewCell: UITableViewCell
     
     @IBAction func addNotifi(_ sender: Any)
     {
-        let timeStamp = Date()
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
         
@@ -55,21 +53,7 @@ class pickerTableViewCell: UITableViewCell
         }
         else
         {
-            let alert = UIAlertController(title: "Fool", message: "Time travel is not possible", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "I'm sorry", style: .default, handler: nil))
-            
-            if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
-            {
-                presentedVC.present(alert, animated: true, completion: nil)
-            }
-            else
-            {
-                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-            }
-            
-            reminderPicker.date = timeStamp
-            
-            reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+            reminderPicker.date = Date()
         }
     }
     

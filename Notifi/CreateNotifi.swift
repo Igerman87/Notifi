@@ -27,10 +27,7 @@ class CreateNotifi: UIAlertController
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
             }
             else
-            {
-//                let phoneNumber = "TEL://" + ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
-//                let phoneUrl: NSURL = URL(string: phoneNumber)! as NSURL
-                
+            {               
                 
                 let reminder = EKReminder(eventStore: self.eventStore)
                 
@@ -64,11 +61,7 @@ class CreateNotifi: UIAlertController
                 
 
             }
-        })
-        
-        
-        
-        
+        })        
         return
     }
     

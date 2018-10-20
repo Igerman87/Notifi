@@ -20,6 +20,8 @@ class ContactServiceSorted
     
     func fetchContacts() -> ([[NotifiContact]], [String], [NotifiContact])
     {
+
+        
         let keys = [CNContactGivenNameKey,CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey]
         
         let fetchRequest = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])

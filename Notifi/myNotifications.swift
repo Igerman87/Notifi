@@ -46,6 +46,7 @@ class myNotifications: UIAlertController
     
     func initMyNotifications()
     {
+        
         let callAction = UNNotificationAction(identifier: "CALL_ACTION", title: "Call now", options: UNNotificationActionOptions(rawValue: 0))
         
         let dismissAction = UNNotificationAction(identifier: "DISMISS_ACTION", title: "Dismiss", options: UNNotificationActionOptions(rawValue: 0))
@@ -59,6 +60,19 @@ class myNotifications: UIAlertController
     
     func createNotification(contact: NotifiContact, time: Date) -> Void
     {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {granted, error in
+            
+            if !granted
+            {
+                let alert = UIAlertController(title: "Notifi issue", message: "This app won't work without permission", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+                
+                UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+            }
+        })
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
         
@@ -74,8 +88,7 @@ class myNotifications: UIAlertController
         notification.badge = 0
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time.timeIntervalSinceNow > 60 ? time.timeIntervalSinceNow: 60, repeats: false)
-        
-        //myNotifications.notificationNumber += 1
+    
         
         let request = UNNotificationRequest(identifier: dateFormatter.string(from: time) , content: notification, trigger: trigger)
         
@@ -103,7 +116,6 @@ class myNotifications: UIAlertController
         {
             UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }
-        
-        print(allNotifis)
+ 
     }
 }

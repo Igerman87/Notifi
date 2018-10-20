@@ -11,7 +11,7 @@ import ContactsUI
 import UserNotifications
 let cellID = "cell_id"
 
-
+var allNotifis = [String:[String]]()
 
 class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate
 {
@@ -21,9 +21,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     {
     
     }
-    
-    
-    
+
     var searchController = UISearchController(searchResultsController: nil)
     var selectedIndexPath :IndexPath?
     var Contacts: [[NotifiContact]] = []
@@ -32,8 +30,19 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     var contactsOneDimantion: [NotifiContact] = []
     var isSearching: Bool = false
     
+   
+    override func viewWillAppear(_ animated: Bool)
+    {
+        
+    }
+    
     override func viewDidLoad()
     {
+        if !UserDefaults.standard.bool(forKey: "init")
+        {
+            UserDefaults.standard.set(true, forKey: "init")
+        }
+        
         let getContact = ContactServiceSorted()
         let localNotification = myNotifications()
         
@@ -244,14 +253,14 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        var ident: [String] = []
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
-        ident.append(response.notification.request.identifier)
+        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
         
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
             
             let phoneNumber = "tel://\(response.notification.request.content.body)"
             
@@ -263,11 +272,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
         case "SNOOZE":
             
-           UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+           UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
             
             let trig = UNTimeIntervalNotificationTrigger(timeInterval: 300.0, repeats: false)
             
-            let request = UNNotificationRequest(identifier: "Notifi", content: response.notification.request.content, trigger: trig)
+            let request = UNNotificationRequest(identifier: response.notification.request.identifier, content: response.notification.request.content, trigger: trig)
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             
@@ -275,7 +284,13 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
         case "DISMISS_ACTION":
             
-           UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+           UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
+           
+           let phoneNumber = "tel://\(response.notification.request.content.body)"
+           
+           let url = URL(string: phoneNumber)
+           
+           UIApplication.shared.open(url!, options: [:], completionHandler: nil)
             
             break
             
@@ -284,13 +299,14 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         }
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-      
-        var ident: [String] = []
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        allNotifis[notification.request.content.subtitle] =
+            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
         
-        ident.append(notification.request.identifier)
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
         
         let phoneNumber = "tel://\(notification.request.content.body)"
         

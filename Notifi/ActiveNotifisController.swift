@@ -8,17 +8,16 @@
 
 import Foundation
 import UIKit
+import UserNotifications
 
-class ActiveNotifisController:TableViewController  {
+class ActiveNotifisController:TableViewController{
+    
+    var activeNotifiSectionTitles: [String] = []
+    var isFirstRun: Bool = true
     
     override func viewDidLoad()
     {
-        let getContact = ContactServiceSorted()
-        let localNotification = myNotifications()
-        
-        localNotification.initMyNotifications()
-        
-        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -32,36 +31,117 @@ class ActiveNotifisController:TableViewController  {
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
         
-        
-        navigationItem.title = "Contacts"
+
+        navigationItem.title = "Active Notifis"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        searchContacts = contactsOneDimantion
+        updateTable()
         
     }
     
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int
     {
-        if isSearching
-        {
-            return 1
-        }
-        else
-        {
-            return sectionTitles.count
-        }
+        return activeNotifiSectionTitles.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        return activeNotifiSectionTitles[section]
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        if isSearching
+        return (allNotifis[activeNotifiSectionTitles[section]]?.count ?? 0)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_notifis", for: indexPath) as! ActiveNotifiCell
+        
+        cell.Update(time:(allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!)
+       
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        // Empty
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        // Empty
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        updateTable()
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        searchController.searchBar.resignFirstResponder()
+        
+        // Empty for now
+    }
+    
+//    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int
+//    {
+//        return index
+//    }
+//
+//    override func sectionIndexTitles(for tableView: UITableView) -> [String]?
+//    {
+//        return activeNotifiSectionTitles
+//    }
+    
+    func updateTable() -> Void
+    {
+        allNotifis.removeAll()
+        activeNotifiSectionTitles.removeAll()
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { requests in
+            
+            for req in requests
+            {
+                
+                if (req.content.categoryIdentifier == "NOTIFI")
+                {
+                    if allNotifis[req.content.subtitle] != nil
+                    {
+                        allNotifis[req.content.subtitle]?.append(req.identifier)
+                    }
+                    else
+                    {
+                        allNotifis[req.content.subtitle] = []
+                        
+                        allNotifis[req.content.subtitle]?.append(req.identifier)
+                    }
+                }
+            }
+            
+            if allNotifis.isEmpty
+            {
+                allNotifis[""] = []
+                
+                allNotifis[""]?.append("No reminders")
+            }
+            
+        })
+        while allNotifis.isEmpty
         {
-            return searchContacts.count
+            usleep(100)
         }
-        else
+        
+        for activeNotifi in allNotifis
         {
-            return Contacts[section].count
+            activeNotifiSectionTitles.append(activeNotifi.key)
         }
+        
+        tableView.reloadData()
     }
 }

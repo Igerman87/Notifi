@@ -17,18 +17,7 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="9648554617fa4b5466ce6c6848bc7805_how-to-be-less-forgetful-quora-elephant-remember-clipart_602-425.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="XKT-MD-JH9">
-                                <rect key="frame" x="23" y="173" width="329" height="321"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="XKT-MD-JH9" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="NkW-co-3oA"/>
-                            <constraint firstItem="XKT-MD-JH9" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="329:667" id="R3F-zh-aZ4"/>
-                            <constraint firstItem="XKT-MD-JH9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="153" id="YcF-rx-KUq"/>
-                            <constraint firstItem="XKT-MD-JH9" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="hSW-IW-9cZ"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -37,7 +26,4 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="9648554617fa4b5466ce6c6848bc7805_how-to-be-less-forgetful-quora-elephant-remember-clipart_602-425.jpg" width="602" height="425"/>
-    </resources>
 </document>
