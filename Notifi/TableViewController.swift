@@ -11,7 +11,13 @@ import ContactsUI
 import UserNotifications
 let cellID = "cell_id"
 
+let group = DispatchGroup()
+var sectionTitles: [String] = []
+var Contacts: [[NotifiContact]] = []
+var contactsOneDimantion: [NotifiContact] = []
+
 var allNotifis = [String:[String]]()
+
 
 class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate
 {
@@ -24,31 +30,28 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
 
     var searchController = UISearchController(searchResultsController: nil)
     var selectedIndexPath :IndexPath?
-    var Contacts: [[NotifiContact]] = []
-    var sectionTitles: [String] = []
     var searchContacts: [NotifiContact] = []
-    var contactsOneDimantion: [NotifiContact] = []
+
+ 
     var isSearching: Bool = false
-    
-   
-    override func viewWillAppear(_ animated: Bool)
-    {
-        
-    }
     
     override func viewDidLoad()
     {
-        if !UserDefaults.standard.bool(forKey: "init")
-        {
-            UserDefaults.standard.set(true, forKey: "init")
-        }
         
         let getContact = ContactServiceSorted()
+        
+        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
+
+
+                
+        group.wait()
+
         let localNotification = myNotifications()
         
         localNotification.initMyNotifications()
         
-        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
+//        let getContact = ContactServiceSorted()
+//        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
         
         tableView.dataSource = self
         tableView.delegate = self

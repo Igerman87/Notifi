@@ -118,4 +118,9 @@ class myNotifications: UIAlertController
         }
  
     }
+    
+    private func genericNotificationCreator (fullName: String, time:Date) -> Void
+    {
+        
+    }
 }

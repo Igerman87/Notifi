@@ -12,6 +12,7 @@
 		F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */; };
 		F1A29F452159016F00592DF1 /* myNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A29F442159016F00592DF1 /* myNotifications.swift */; };
 		F1A29F47215D551C00592DF1 /* 9648554617fa4b5466ce6c6848bc7805_how-to-be-less-forgetful-quora-elephant-remember-clipart_602-425.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F1A29F46215D551C00592DF1 /* 9648554617fa4b5466ce6c6848bc7805_how-to-be-less-forgetful-quora-elephant-remember-clipart_602-425.jpg */; };
+		F1EC60B5217F89E70089ADF1 /* randomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EC60B4217F89E70089ADF1 /* randomViewController.swift */; };
 		F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */; };
 		F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F08214A9F98008FB3E5 /* TableViewController.swift */; };
 		F1F36F0C214A9F98008FB3E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F36F0A214A9F98008FB3E5 /* Main.storyboard */; };
@@ -48,6 +49,7 @@
 		F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiCell.swift; sourceTree = "<group>"; };
 		F1A29F442159016F00592DF1 /* myNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNotifications.swift; sourceTree = "<group>"; };
 		F1A29F46215D551C00592DF1 /* 9648554617fa4b5466ce6c6848bc7805_how-to-be-less-forgetful-quora-elephant-remember-clipart_602-425.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "9648554617fa4b5466ce6c6848bc7805_how-to-be-less-forgetful-quora-elephant-remember-clipart_602-425.jpg"; sourceTree = "<group>"; };
+		F1EC60B4217F89E70089ADF1 /* randomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = randomViewController.swift; sourceTree = "<group>"; };
 		F1F36F03214A9F98008FB3E5 /* Notifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1F36F08214A9F98008FB3E5 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */,
 				F1F36F08214A9F98008FB3E5 /* TableViewController.swift */,
 				F1F36F0A214A9F98008FB3E5 /* Main.storyboard */,
+				F1EC60B4217F89E70089ADF1 /* randomViewController.swift */,
 				F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */,
 				F1FE121D2151678700ACC512 /* CreateNotifi.swift */,
 				F1A29F442159016F00592DF1 /* myNotifications.swift */,
@@ -300,6 +303,7 @@
 				F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */,
 				F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */,
 				F1F36F3B214BF219008FB3E5 /* NofitiData.swift in Sources */,
+				F1EC60B5217F89E70089ADF1 /* randomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

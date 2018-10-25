@@ -16,9 +16,7 @@ class ActiveNotifisController:TableViewController{
     var isFirstRun: Bool = true
     
     override func viewDidLoad()
-    {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        
+    {        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -36,8 +34,7 @@ class ActiveNotifisController:TableViewController{
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        updateTable()
-        
+
     }
     
     
