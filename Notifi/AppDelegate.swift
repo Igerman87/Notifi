@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         })
 
+        UNUserNotificationCenter.current().delegate = self
         
         return true
     }
@@ -61,6 +62,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
+        
+        print(response.actionIdentifier)
+        
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
+        
+        switch response.actionIdentifier {
+        case "CALL_ACTION":
+            
+            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            
+            let url = URL(string: phoneNumber)
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            
+            break
+            
+        case "SNOOZE":
+            
+            let trig = UNTimeIntervalNotificationTrigger(timeInterval: 300.0, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: response.notification.request.identifier, content: response.notification.request.content, trigger: trig)
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+            break
+            
+        case "DISMISS_ACTION":
+            
+            // nothing to do here
+            break
+            
+        case "com.apple.UNNotificationDefaultActionIdentifier":
+            
+            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            
+            let url = URL(string: phoneNumber)
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            
+            break
+            
+        default:
+            
+            //nothing to do here
+            
+            break
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        allNotifis[notification.request.content.subtitle] =
+            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
+        
+        let phoneNumber = "tel://\(notification.request.content.body)"
+        
+        let url = URL(string: phoneNumber)
+        
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
 }
 

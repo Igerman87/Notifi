@@ -41,24 +41,38 @@ func decrementBadge() -> Int
 
 class myNotifications: UIAlertController
 {
-    //static var notificationNumber = 0
+    static var isFirstClassCreate = true
 
     
     func initMyNotifications()
     {
-        
-        let callAction = UNNotificationAction(identifier: "CALL_ACTION", title: "Call now", options: UNNotificationActionOptions(rawValue: 0))
-        
-        let dismissAction = UNNotificationAction(identifier: "DISMISS_ACTION", title: "Dismiss", options: UNNotificationActionOptions(rawValue: 0))
-        
-        let snooze = UNNotificationAction(identifier: "SNOOZE", title: "Snooze", options: UNNotificationActionOptions(rawValue: 0))
-        
-        let notifiReminderCategory = UNNotificationCategory(identifier: "NOTIFI", actions: [callAction, dismissAction, snooze], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
-        
-        UNUserNotificationCenter.current().setNotificationCategories([notifiReminderCategory])
+        if (myNotifications.isFirstClassCreate)
+        {
+            let callAction = UNNotificationAction(identifier: "CALL_ACTION", title: "Call now", options: UNNotificationActionOptions(rawValue: 0))
+            
+            let dismissAction = UNNotificationAction(identifier: "DISMISS_ACTION", title: "Dismiss", options: UNNotificationActionOptions(rawValue: 0))
+            
+            let snooze = UNNotificationAction(identifier: "SNOOZE", title: "Snooze", options: UNNotificationActionOptions(rawValue: 0))
+            
+            let notifiReminderCategory = UNNotificationCategory(identifier: "NOTIFI", actions: [callAction, dismissAction, snooze], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+            
+            UNUserNotificationCenter.current().setNotificationCategories([notifiReminderCategory])
+            
+            myNotifications.isFirstClassCreate = false
+        }
     }
     
     func createNotification(contact: NotifiContact, time: Date) -> Void
+    {
+        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber, time: time)
+    }
+    
+    func createNotification(FullName: String,ReminderPhoneNumber: String, time:Date) -> Void
+    {
+        genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber, time: time)
+    }
+    
+    private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String, time:Date) -> Void
     {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {granted, error in
             
@@ -79,8 +93,8 @@ class myNotifications: UIAlertController
         let notification = UNMutableNotificationContent()
         
         notification.title = "Its time to call: "
-        notification.subtitle = contact.FullName
-        notification.body = contact.ReminderPhoneNumber
+        notification.subtitle = FullName
+        notification.body = ReminderPhoneNumber
         //notification.userInfo = ["NOTIFI_ID": notifiID, "USER_ID": ruserok]
         notification.categoryIdentifier = "NOTIFI"
         notification.sound = UNNotificationSound.default
@@ -88,21 +102,21 @@ class myNotifications: UIAlertController
         notification.badge = 0
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time.timeIntervalSinceNow > 60 ? time.timeIntervalSinceNow: 60, repeats: false)
-    
         
-        let request = UNNotificationRequest(identifier: dateFormatter.string(from: time) , content: notification, trigger: trigger)
+        
+        let request = UNNotificationRequest(identifier: dateFormatter.string(from: time) + FullName , content: notification, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
-        if allNotifis[contact.FullName] != nil
+        if allNotifis[FullName] != nil
         {
-           allNotifis[contact.FullName]?.append(dateFormatter.string(from: time))
+            allNotifis[FullName]?.append(dateFormatter.string(from: time))
         }
         else
         {
-            allNotifis[contact.FullName] = []
+            allNotifis[FullName] = []
             
-            allNotifis[contact.FullName]?.append(dateFormatter.string(from: time))
+            allNotifis[FullName]?.append(dateFormatter.string(from: time))
         }
         
         let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
@@ -116,11 +130,5 @@ class myNotifications: UIAlertController
         {
             UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }
- 
-    }
-    
-    private func genericNotificationCreator (fullName: String, time:Date) -> Void
-    {
-        
     }
 }

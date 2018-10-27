@@ -54,6 +54,8 @@ class pickerTableViewCell: UITableViewCell
         else
         {
             reminderPicker.date = Date()
+            
+            
         }
     }
     
@@ -116,6 +118,8 @@ class pickerTableViewCell: UITableViewCell
         
         reminderTimeLabel.text = dateFormatter.string(from: Date.init(timeIntervalSinceNow: (60 * 60)))
         
+        reminderPicker.date = Date(timeIntervalSinceNow: 60 * 60)
+        
         self.reminderPicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
 
         PhoneNumberLabel.text = "Number: " + cellReminderPhoneNumber
@@ -134,7 +138,14 @@ class pickerTableViewCell: UITableViewCell
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
-        reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+        if reminderPicker.date < Date()
+        {
+            reminderPicker.date = Date()
+        }
+        else
+        {
+            reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+        }
     }
         
 

@@ -56,7 +56,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         tableView.dataSource = self
         tableView.delegate = self
         
-        UNUserNotificationCenter.current().delegate = self
+       // UNUserNotificationCenter.current().delegate = self
         
         searchController.searchBar.sizeToFit()
         searchController.searchBar.returnKeyType = .search
@@ -253,69 +253,8 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
        tableView.reloadData()
     }
     
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        
-        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
-        
-        switch response.actionIdentifier {
-        case "CALL_ACTION":
-            
-            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
-            
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
-            
-            let url = URL(string: phoneNumber)
-            
-            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-            
-            break
-            
-        case "SNOOZE":
-            
-           UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
-            
-            let trig = UNTimeIntervalNotificationTrigger(timeInterval: 300.0, repeats: false)
-            
-            let request = UNNotificationRequest(identifier: response.notification.request.identifier, content: response.notification.request.content, trigger: trig)
-            
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-            
-            break
-            
-        case "DISMISS_ACTION":
-            
-           UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
-           
-           let phoneNumber = "tel://\(response.notification.request.content.body)"
-           
-           let url = URL(string: phoneNumber)
-           
-           UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-            
-            break
-            
-        default:
-            break
-        }
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-    {
-        allNotifis[notification.request.content.subtitle] =
-            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
-        
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        
-        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
-        
-        let phoneNumber = "tel://\(notification.request.content.body)"
-        
-        let url = URL(string: phoneNumber)
-        
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-    }
+
 }
+    
+
 		

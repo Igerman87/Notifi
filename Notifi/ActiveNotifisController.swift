@@ -34,7 +34,7 @@ class ActiveNotifisController:TableViewController{
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     
@@ -96,10 +96,12 @@ class ActiveNotifisController:TableViewController{
 //        return activeNotifiSectionTitles
 //    }
     
-    func updateTable() -> Void
+    @objc func updateTable() -> Void
     {
         allNotifis.removeAll()
         activeNotifiSectionTitles.removeAll()
+        
+        group.enter()
         
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { requests in
             
@@ -110,29 +112,31 @@ class ActiveNotifisController:TableViewController{
                 {
                     if allNotifis[req.content.subtitle] != nil
                     {
-                        allNotifis[req.content.subtitle]?.append(req.identifier)
+                        allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
                     }
                     else
                     {
                         allNotifis[req.content.subtitle] = []
                         
-                        allNotifis[req.content.subtitle]?.append(req.identifier)
+                        allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
                     }
                 }
             }
             
-            if allNotifis.isEmpty
-            {
-                allNotifis[""] = []
-                
-                allNotifis[""]?.append("No reminders")
-            }
+            group.leave()
             
         })
-        while allNotifis.isEmpty
+        
+        group.wait()
+
+        if allNotifis.isEmpty
         {
-            usleep(100)
+            allNotifis[""] = []
+            
+            allNotifis[""]?.append("No reminders")
         }
+        
+
         
         for activeNotifi in allNotifis
         {
