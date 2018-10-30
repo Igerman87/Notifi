@@ -18,6 +18,7 @@ var contactsOneDimantion: [NotifiContact] = []
 
 var allNotifis = [String:[String]]()
 
+var isFirstRun: Bool = true
 
 class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate
 {
@@ -37,14 +38,13 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     override func viewDidLoad()
     {
-        
         let getContact = ContactServiceSorted()
         
         (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
 
 
                 
-        group.wait()
+        //group.wait()
 
         let localNotification = myNotifications()
         

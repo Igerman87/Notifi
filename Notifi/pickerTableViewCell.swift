@@ -53,9 +53,7 @@ class pickerTableViewCell: UITableViewCell
         }
         else
         {
-            reminderPicker.date = Date()
-            
-            
+            reminderPicker.date = Date(timeIntervalSinceNow: 120)
         }
     }
     
@@ -140,12 +138,11 @@ class pickerTableViewCell: UITableViewCell
         
         if reminderPicker.date < Date()
         {
-            reminderPicker.date = Date()
+            reminderPicker.date = Date(timeIntervalSinceNow: 120)
         }
-        else
-        {
-            reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
-        }
+        
+        reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
+        
     }
         
 

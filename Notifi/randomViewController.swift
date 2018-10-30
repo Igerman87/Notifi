@@ -43,7 +43,7 @@ class randomViewController: UIViewController, UITextFieldDelegate
                 let dateFormatterWithoutSeconds = DateFormatter()
                 dateFormatterWithoutSeconds.dateFormat = "yyyy-MM-dd HH:mm"
                 
-                datePicker.date = Date()
+                datePicker.date = Date(timeIntervalSinceNow: 120)
                 
                 timeText.text = dateFormatterWithoutSeconds.string(from: datePicker.date)
             }
@@ -57,20 +57,9 @@ class randomViewController: UIViewController, UITextFieldDelegate
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        if UIPasteboard.general.string != nil
-        {
-            var numberString = UIPasteboard.general.string
-            
-            numberString = numberString!.filter{$0 != "-"}
-            
-            let num = Int(numberString!)
-            
-            if num != nil
-            {
-                phoneText.text = numberString
-            }
-        }
+    override func viewWillAppear(_ animated: Bool)
+    {
+        checkClipBoard()
     }
 
     override func viewDidLoad()
@@ -79,7 +68,7 @@ class randomViewController: UIViewController, UITextFieldDelegate
         self.datePicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
         
         phoneText.delegate = self
-        phoneText.keyboardType = UIKeyboardType.numberPad
+        phoneText.keyboardType = UIKeyboardType.phonePad
         nameText.delegate = self
         timeText.delegate = self
         
@@ -104,12 +93,10 @@ class randomViewController: UIViewController, UITextFieldDelegate
         
         if datePicker.date < Date()
         {
-            datePicker.date = Date()
+            datePicker.date = Date(timeIntervalSinceNow: 120)
         }
-        else
-        {
-            timeText.text = dateFormatter.string(from: datePicker.date)
-        }
+        
+        timeText.text = dateFormatter.string(from: datePicker.date)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField)
@@ -129,11 +116,9 @@ class randomViewController: UIViewController, UITextFieldDelegate
         {
             var numberString = UIPasteboard.general.string
             
-            numberString = numberString!.filter{$0 != "-"}
+            numberString = numberString?.filter{ "+0123456789".contains($0)}
             
-            let num = Int(numberString!)
-            
-            if num != nil
+            if (numberString?.count)! >= 9
             {
                 phoneText.text = numberString
             }

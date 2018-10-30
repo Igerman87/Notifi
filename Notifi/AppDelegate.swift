@@ -68,8 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
         
-        print(response.actionIdentifier)
-        
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
         switch response.actionIdentifier {
@@ -85,11 +83,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         case "SNOOZE":
             
-            let trig = UNTimeIntervalNotificationTrigger(timeInterval: 300.0, repeats: false)
+            let snoozeNotifi = myNotifications()
             
-            let request = UNNotificationRequest(identifier: response.notification.request.identifier, content: response.notification.request.content, trigger: trig)
+            snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
+                                            ReminderPhoneNumber: response.notification.request.content.body, time: Date(timeIntervalSinceNow: 300))
             
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             
             break
             
