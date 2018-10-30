@@ -91,10 +91,25 @@ class ActiveNotifisController:TableViewController{
 //        return index
 //    }
 //
-//    override func sectionIndexTitles(for tableView: UITableView) -> [String]?
-//    {
-//        return activeNotifiSectionTitles
-//    }
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]?
+    {
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
+    {
+        print(indexPath)
+        
+        if editingStyle == .delete
+        {
+            let notifiToDeleteName = activeNotifiSectionTitles[indexPath.section]
+            let notifiToDeleteTime = allNotifis[notifiToDeleteName]![indexPath.row]
+            
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
+
+            updateTable()
+        }
+    }
     
     @objc func updateTable() -> Void
     {
@@ -110,6 +125,7 @@ class ActiveNotifisController:TableViewController{
                 
                 if (req.content.categoryIdentifier == "NOTIFI")
                 {
+                    
                     if allNotifis[req.content.subtitle] != nil
                     {
                         allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
@@ -135,8 +151,6 @@ class ActiveNotifisController:TableViewController{
             
             allNotifis[""]?.append("No reminders")
         }
-        
-
         
         for activeNotifi in allNotifis
         {
