@@ -22,8 +22,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         store.requestAccess(for: .contacts, completionHandler: {granted, error in
             
-            if (!granted)
+            if (granted)
             {
+                group.enter()
+                
+                DispatchQueue.main.async
+                {
+                    let getContact = ContactServiceSorted()
+                    
+                    (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
+                    
+                    group.leave()
+                }
+            }
+            else
+            {
+                // try to put contacts fetch here
                 let alert = UIAlertController(title: "Notifi issue", message: "This app won't work without permission", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 
@@ -129,5 +143,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
+    
 }
 

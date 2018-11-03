@@ -41,6 +41,7 @@ class ContactServiceSorted
             //DispatchQueue.main.async {
               //  self.tableView.reloadData()
             }
+            
             catch let error as NSError
             {
                 print(error.localizedDescription)

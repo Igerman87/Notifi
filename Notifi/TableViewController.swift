@@ -20,6 +20,8 @@ var allNotifis = [String:[String]]()
 
 var isFirstRun: Bool = true
 
+var totalUpdateTime: Double = 0
+
 class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate
 {
     
@@ -38,25 +40,15 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     override func viewDidLoad()
     {
-        let getContact = ContactServiceSorted()
+        let start = Date()
         
-        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
-
-
+        group.wait()
                 
-        //group.wait()
-
-        let localNotification = myNotifications()
-        
-        localNotification.initMyNotifications()
-        
-//        let getContact = ContactServiceSorted()
-//        (Contacts, sectionTitles, contactsOneDimantion) = getContact.fetchContacts()
-        
         tableView.dataSource = self
         tableView.delegate = self
-        
-       // UNUserNotificationCenter.current().delegate = self
+        tableView.estimatedRowHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
         
         searchController.searchBar.sizeToFit()
         searchController.searchBar.returnKeyType = .search
@@ -65,13 +57,21 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
 
-
         navigationItem.title = "Contacts"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        
+
         searchContacts = contactsOneDimantion
+        
+        DispatchQueue.main.async
+        {
+
+            let localNotification = myNotifications()
+            
+            localNotification.initMyNotifications()
+        }
  
+        totalUpdateTime += Date().timeIntervalSince(start)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int
@@ -90,11 +90,25 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     {
         if isSearching
         {
-            return searchContacts.count
+            if selectedIndexPath != nil && selectedIndexPath?.section == section
+            {
+                return searchContacts.count + 1
+            }
+            else
+            {
+                return searchContacts.count
+            }
         }
         else
         {
-            return Contacts[section].count
+            if selectedIndexPath != nil && selectedIndexPath?.section == section
+            {
+                return Contacts[section].count + 1
+            }
+            else
+            {
+                return Contacts[section].count
+            }
         }
     }
     
@@ -135,79 +149,143 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         return index
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! pickerTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         
-        if isSearching
+        if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row && selectedIndexPath!.section == indexPath.section
         {
-            cell.Update(CellContact: searchContacts[indexPath.row])
+            
+            let cellpicker = tableView.dequeueReusableCell(withIdentifier: "cell_id") as! pickerTableViewCell
+            if isSearching
+            {
+                cellpicker.Update(CellContact: searchContacts[indexPath.row - 1])                
+            }
+            else
+            {
+             //   print(Contacts[indexPath.section][indexPath.row - 1].FullName)
+                
+               cellpicker.Update(CellContact: Contacts[indexPath.section][indexPath.row - 1])
+            }
+            
+            return cellpicker
+        }
+        else if selectedIndexPath != nil && indexPath.row > selectedIndexPath!.row && indexPath.section == selectedIndexPath?.section
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
+            if isSearching
+            {
+                cell.Update(fullName: searchContacts[indexPath.row - 1].FullName)
+            }
+            else
+            {
+                cell.Update(fullName: Contacts[indexPath.section][indexPath.row - 1].FullName)
+            }
+            
+            return cell
         }
         else
         {
-            cell.Update(CellContact: (Contacts[indexPath.section][indexPath.item]))
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
+            if isSearching
+            {
+                cell.Update(fullName: searchContacts[indexPath.row].FullName)
+            }
+            else
+            {
+                cell.Update(fullName: Contacts[indexPath.section][indexPath.row].FullName)
+            }
+            
+            return cell
         }
-        
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
         searchController.searchBar.resignFirstResponder()
         
-        let previousIndexPath = selectedIndexPath
+        tableView.beginUpdates()
         
-        if indexPath == selectedIndexPath
+        if selectedIndexPath != nil && selectedIndexPath!.row - 1 == indexPath.row && selectedIndexPath!.section == indexPath.section
         {
+            tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
             selectedIndexPath = nil
         }
         else
         {
-            selectedIndexPath = indexPath
-        }
-        
-        var indexPaths : Array<IndexPath> = []
-        if let previous = previousIndexPath
-        {
-            indexPaths = [previous]
+            if selectedIndexPath != nil
+            {
+                tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
+            }
             
+            selectedIndexPath = calculateDatePickerIndexPath(indexPathSelected: indexPath)
+            print("selected index path ",selectedIndexPath!)
+            tableView.insertRows(at: [selectedIndexPath!], with: .fade)
         }
+        tableView.endUpdates()
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: true )
         
-        if let current = selectedIndexPath
-        {
-            indexPaths = [current]
-        }
-        
-        if indexPaths.count > 0
-        {
-            tableView.reloadRows(at: indexPaths, with: UITableView.RowAnimation.automatic)
-        }
+//        let previousIndexPath = selectedIndexPath
+//        
+//        if indexPath == selectedIndexPath
+//        {
+//            selectedIndexPath = nil
+//        }
+//        else
+//        {
+//            selectedIndexPath = indexPath
+//        }
+//        
+//        var indexPaths : Array<IndexPath> = []
+//        if let previous = previousIndexPath
+//        {
+//            indexPaths = [previous]
+//            
+//        }
+//        
+//        if let current = selectedIndexPath
+//        {
+//            indexPaths = [current]
+//        }
+//        
+//        if indexPaths.count > 0
+//        {
+//            tableView.reloadRows(at: indexPaths, with: UITableView.RowAnimation.automatic)
+//        }
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-    {
-        (cell as! pickerTableViewCell).watchFrameChages()
-    }
-    
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
-    {
-        (cell as! pickerTableViewCell).ignoreFrameChanges()
-
-    }
+//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+//    {
+//        (cell as! pickerTableViewCell).watchFrameChages()
+//    }
+//
+//    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
+//    {
+//        (cell as! pickerTableViewCell).ignoreFrameChanges()
+//
+//    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-
-        if indexPath == selectedIndexPath
+        
+        if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row && selectedIndexPath!.section == indexPath.section
         {
-            
-            return pickerTableViewCell.expendedHeight
+            return 350
+        }
+        
+        return 44
+    }
+    
+    func calculateDatePickerIndexPath(indexPathSelected:IndexPath) -> IndexPath {
+        
+        if selectedIndexPath != nil && selectedIndexPath!.row < indexPathSelected.row && selectedIndexPath!.section == indexPathSelected.section
+        {
+            return IndexPath(row: indexPathSelected.row, section: indexPathSelected.section)
         }
         else
         {
-            
-            return pickerTableViewCell.defaultHeight
+            return IndexPath(row: indexPathSelected.row + 1, section: indexPathSelected.section)
         }
- 
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
@@ -221,19 +299,19 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         tableView.reloadData()
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-    {
-        if searchBar.text != ""
-        {
-            isSearching = true
-            
-            searchBar.resignFirstResponder()
-
-            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
-            
-            tableView.reloadData()
-        }
-    }
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+//    {
+//        if searchBar.text != ""
+//        {
+//            isSearching = true
+//
+//            searchBar.resignFirstResponder()
+//
+//            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
+//
+//            tableView.reloadData()
+//        }
+//    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
@@ -243,17 +321,40 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
             isSearching = false
         }
-//        else
-//        {
-//            isSearching = true
-//
-//            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
-//        }
+        else
+        {
+            isSearching = true
+
+            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
+        }
 
        tableView.reloadData()
     }
     
-
+    override func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+//        var visible:Bool = false
+//
+//        if selectedIndexPath != nil
+//        {
+//            for index in (tableView?.indexPathsForVisibleRows)!
+//            {
+//                if index.section == selectedIndexPath?.section
+//                {
+//                    visible = true
+//
+//                    break
+//                }
+//            }
+//
+//            if !visible
+//            {
+//                tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
+//                selectedIndexPath = nil
+//            }
+//        }
+    }
+    
 }
     
 

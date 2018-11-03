@@ -35,6 +35,7 @@ class pickerTableViewCell: UITableViewCell
         // To be added
     }
     
+    
     @IBAction func addNotifi(_ sender: Any)
     {
         let dateFormatter = DateFormatter()
@@ -72,42 +73,42 @@ class pickerTableViewCell: UITableViewCell
         }
     }
     
-    func watchFrameChages()
-    {
-        if !isObserving
-        {
-            addObserver(self, forKeyPath: "frame", options: [NSKeyValueObservingOptions.new, NSKeyValueObservingOptions.initial], context: nil)
-            checkHeight()
-            
-            isObserving = true
-        }
-    }
-    
-    func ignoreFrameChanges()
-    {
-        if isObserving
-        {
-            removeObserver(self, forKeyPath:"frame")
-            isObserving = false
-        }
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
-    {
-        if keyPath == "frame"
-        {
-            checkHeight()  
-        }
-    }
+//    func watchFrameChages()
+//    {
+//        if !isObserving
+//        {
+//            addObserver(self, forKeyPath: "frame", options: [NSKeyValueObservingOptions.new, NSKeyValueObservingOptions.initial], context: nil)
+//            checkHeight()
+//
+//            isObserving = true
+//        }
+//    }
+//
+//    func ignoreFrameChanges()
+//    {
+//        if isObserving
+//        {
+//            removeObserver(self, forKeyPath:"frame")
+//            isObserving = false
+//        }
+//    }
+//
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
+//    {
+//        if keyPath == "frame"
+//        {
+//            checkHeight()
+//        }
+//    }
     
     func Update(CellContact: NotifiContact)
     {
-        cellReminderPhoneNumber = ((CellContact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
         
+        cellReminderPhoneNumber = ((CellContact.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+
         cellContactDetails = CellContact
         cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
-        
-        titlelabel.text = CellContact.FullName
+
         //reminderPicker.minuteInterval = 5
         reminderPicker.datePickerMode = UIDatePicker.Mode.dateAndTime
 
@@ -128,7 +129,7 @@ class pickerTableViewCell: UITableViewCell
         else
         {
             phoneButtonOutlet.isEnabled = true
-        }
+        }        
     }
     
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)

@@ -18,11 +18,6 @@ class randomViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var timeText: UITextField!
     @IBOutlet weak var nameText: UITextField!
     
-    @IBAction func debugDeleteAllReminders(_ sender: UIButton)
-    {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-    }
-    
     @IBAction func buttonSetNotifi(_ sender: UIButton)
     {
         let dateFormatter = DateFormatter()
@@ -84,6 +79,7 @@ class randomViewController: UIViewController, UITextFieldDelegate
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
+        
     }
 
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
