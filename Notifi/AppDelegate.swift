@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let snoozeNotifi = myNotifications()
             
             snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
-                                            ReminderPhoneNumber: response.notification.request.content.body, time: Date(timeIntervalSinceNow: 300))
+                                            ReminderPhoneNumber: response.notification.request.content.body, Time: Date(timeIntervalSinceNow: 300), Alert: false)
             
             
             break

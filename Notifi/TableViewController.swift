@@ -18,29 +18,42 @@ var contactsOneDimantion: [NotifiContact] = []
 
 var allNotifis = [String:[String]]()
 
-var isFirstRun: Bool = true
-
-var totalUpdateTime: Double = 0
-
-class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate
+class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate, UIPickerViewDelegate
 {
     
     @IBOutlet weak var addNotifiOutlet: UIBarButtonItem!
-    @IBAction func addNotifi(_ sender: Any)
-    {
-    
-    }
 
     var searchController = UISearchController(searchResultsController: nil)
     var selectedIndexPath :IndexPath?
     var searchContacts: [NotifiContact] = []
-
  
     var isSearching: Bool = false
     
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        if selectedIndexPath != nil
+        {
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
+            selectedIndexPath = nil
+            tableView.endUpdates()
+        }
+        
+        if isSearching
+        {
+            isSearching = false
+            searchController.isActive = false
+            
+            tableView.reloadData()
+            tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+        }
+
+        
+
+    }
+    
     override func viewDidLoad()
     {
-        let start = Date()
         
         group.wait()
                 
@@ -56,10 +69,13 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         searchController.searchBar.placeholder = " Search..."
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
+        self.definesPresentationContext = true
 
         navigationItem.title = "Contacts"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        
+        tableView.keyboardDismissMode = .onDrag
 
         searchContacts = contactsOneDimantion
         
@@ -70,8 +86,9 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
             localNotification.initMyNotifications()
         }
- 
-        totalUpdateTime += Date().timeIntervalSince(start)
+        
+        UNUserNotificationCenter.current().delegate = self
+
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int
@@ -154,7 +171,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row && selectedIndexPath!.section == indexPath.section
         {
-            
             let cellpicker = tableView.dequeueReusableCell(withIdentifier: "cell_id") as! pickerTableViewCell
             if isSearching
             {
@@ -162,8 +178,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             }
             else
             {
-             //   print(Contacts[indexPath.section][indexPath.row - 1].FullName)
-                
                cellpicker.Update(CellContact: Contacts[indexPath.section][indexPath.row - 1])
             }
             
@@ -218,52 +232,16 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             }
             
             selectedIndexPath = calculateDatePickerIndexPath(indexPathSelected: indexPath)
-            print("selected index path ",selectedIndexPath!)
             tableView.insertRows(at: [selectedIndexPath!], with: .fade)
         }
         tableView.endUpdates()
-        tableView.deselectRow(at: indexPath, animated: true)
-        tableView.scrollToRow(at: indexPath, at: .middle, animated: true )
+        var scrolIndex = indexPath
+        scrolIndex.row = scrolIndex.row > 0 ? scrolIndex.row - 1 : 0
         
-//        let previousIndexPath = selectedIndexPath
-//        
-//        if indexPath == selectedIndexPath
-//        {
-//            selectedIndexPath = nil
-//        }
-//        else
-//        {
-//            selectedIndexPath = indexPath
-//        }
-//        
-//        var indexPaths : Array<IndexPath> = []
-//        if let previous = previousIndexPath
-//        {
-//            indexPaths = [previous]
-//            
-//        }
-//        
-//        if let current = selectedIndexPath
-//        {
-//            indexPaths = [current]
-//        }
-//        
-//        if indexPaths.count > 0
-//        {
-//            tableView.reloadRows(at: indexPaths, with: UITableView.RowAnimation.automatic)
-//        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.scrollToRow(at: scrolIndex, at: .top, animated: true)
+        
     }
-    
-//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-//    {
-//        (cell as! pickerTableViewCell).watchFrameChages()
-//    }
-//
-//    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
-//    {
-//        (cell as! pickerTableViewCell).ignoreFrameChanges()
-//
-//    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
@@ -298,6 +276,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         tableView.reloadData()
     }
+
     
 //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
 //    {
@@ -315,11 +294,17 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
+        if selectedIndexPath != nil
+        {
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
+            selectedIndexPath = nil
+            tableView.endUpdates()
+        }
+        
         if searchText == ""
         {
-            searchBar.resignFirstResponder()
-            
-            isSearching = false
+            searchContacts.removeAll()
         }
         else
         {
@@ -331,31 +316,74 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
        tableView.reloadData()
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView)
-    {
-//        var visible:Bool = false
-//
-//        if selectedIndexPath != nil
-//        {
-//            for index in (tableView?.indexPathsForVisibleRows)!
-//            {
-//                if index.section == selectedIndexPath?.section
-//                {
-//                    visible = true
-//
-//                    break
-//                }
-//            }
-//
-//            if !visible
-//            {
-//                tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
-//                selectedIndexPath = nil
-//            }
-//        }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
+        
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
+        
+        switch response.actionIdentifier {
+        case "CALL_ACTION":
+            
+            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            
+            let url = URL(string: phoneNumber)
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            
+            break
+            
+        case "SNOOZE":
+            
+            let snoozeNotifi = myNotifications()
+            
+            snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
+                                            ReminderPhoneNumber: response.notification.request.content.body, Time: Date(timeIntervalSinceNow: 300), Alert:false)
+            
+            break
+            
+        case "DISMISS_ACTION":
+            
+            // nothing to do here
+            break
+            
+        case "com.apple.UNNotificationDefaultActionIdentifier":
+            
+            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            
+            let url = URL(string: phoneNumber)
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            
+            break
+            
+        default:
+            
+            //nothing to do here
+            
+            break
+        }
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        allNotifis[notification.request.content.subtitle] =
+            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
+        
+        let phoneNumber = "tel://\(notification.request.content.body)"
+        
+        let url = URL(string: phoneNumber)
+        
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
 }
+
     
 
 		

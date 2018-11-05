@@ -31,7 +31,8 @@ class randomViewController: UIViewController, UITextFieldDelegate
             {
                 let myNot = myNotifications()
                 
-                myNot.createNotification(FullName: (nameText.text == "" ? "John Doe": nameText.text!) ,ReminderPhoneNumber: phoneText.text!, time:datePicker.date)
+                myNot.createNotification(FullName: nameText.text == "" ? "John Doe": nameText.text!,
+                                        ReminderPhoneNumber: phoneText.text!, Time:datePicker.date, Alert: true)
             }
             else
             {
@@ -119,6 +120,8 @@ class randomViewController: UIViewController, UITextFieldDelegate
                 phoneText.text = numberString
             }
         }
+        
+        nameText.text = ""
     }
         
     @objc func DismissKeyboard(){

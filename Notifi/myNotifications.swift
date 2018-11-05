@@ -62,17 +62,17 @@ class myNotifications: UIAlertController
         }
     }
     
-    func createNotification(contact: NotifiContact, time: Date) -> Void
+    func createNotification(contact: NotifiContact, Time: Date) -> Void
     {
-        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber, time: time)
+        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber, Time: Time, Alert: true)
     }
     
-    func createNotification(FullName: String,ReminderPhoneNumber: String, time:Date) -> Void
+    func createNotification(FullName: String,ReminderPhoneNumber: String, Time:Date, Alert:Bool) -> Void
     {
-        genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber, time: time)
+        genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber, Time: Time, Alert: Alert)
     }
     
-    private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String, time:Date) -> Void
+    private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String, Time:Date, Alert:Bool) -> Void
     {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {granted, error in
             
@@ -101,34 +101,37 @@ class myNotifications: UIAlertController
         
         notification.badge = 0
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time.timeIntervalSinceNow > 60 ? time.timeIntervalSinceNow: 60, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Time.timeIntervalSinceNow > 60 ? Time.timeIntervalSinceNow: 60, repeats: false)
         
         
-        let request = UNNotificationRequest(identifier: dateFormatter.string(from: time) + FullName , content: notification, trigger: trigger)
+        let request = UNNotificationRequest(identifier: dateFormatter.string(from: Time) + FullName , content: notification, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
         if allNotifis[FullName] != nil
         {
-            allNotifis[FullName]?.append(dateFormatter.string(from: time))
+            allNotifis[FullName]?.append(dateFormatter.string(from: Time))
         }
         else
         {
             allNotifis[FullName] = []
             
-            allNotifis[FullName]?.append(dateFormatter.string(from: time))
+            allNotifis[FullName]?.append(dateFormatter.string(from: Time))
         }
         
-        let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        if Alert
+        {
+            let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
-        if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
-        {
-            presentedVC.present(alert, animated: true, completion: nil)
-        }
-        else
-        {
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
+            {
+                presentedVC.present(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            }
         }
     }
 }

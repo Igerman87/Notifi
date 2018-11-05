@@ -22,19 +22,10 @@ class pickerTableViewCell: UITableViewCell
     var isObserving = false
     
     @IBOutlet weak var titlelabel: UILabel!
-    @IBOutlet weak var phoneButtonOutlet: UIButton!
-    @IBOutlet weak var reminderTimeSelect: UILabel!
-    @IBOutlet weak var reminderTimeLabel: UILabel!
     @IBOutlet weak var PhoneNumberLabel: UILabel!
     @IBOutlet weak var addNotifiOutlet: UIButton!
     
     @IBOutlet weak var reminderPicker: UIDatePicker!
-    
-    @IBAction func phoneButton(_ sender: Any)
-    {
-        // To be added
-    }
-    
     
     @IBAction func addNotifi(_ sender: Any)
     {
@@ -45,11 +36,13 @@ class pickerTableViewCell: UITableViewCell
         {
             let myNotifi = myNotifications()
             
-            let time = dateFormatter.date(from: reminderTimeLabel.text!)
+            let timeString = dateFormatter.string(from: reminderPicker.date)
+            
+            let time = dateFormatter.date(from: timeString)
             
             cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
             
-            myNotifi.createNotification(contact: cellContactDetails, time: time!)
+            myNotifi.createNotification(contact: cellContactDetails, Time: time!)
             //nofiti.setReminder(contact: cellContactDetails, time: reminderPicker.date)
         }
         else
@@ -73,34 +66,6 @@ class pickerTableViewCell: UITableViewCell
         }
     }
     
-//    func watchFrameChages()
-//    {
-//        if !isObserving
-//        {
-//            addObserver(self, forKeyPath: "frame", options: [NSKeyValueObservingOptions.new, NSKeyValueObservingOptions.initial], context: nil)
-//            checkHeight()
-//
-//            isObserving = true
-//        }
-//    }
-//
-//    func ignoreFrameChanges()
-//    {
-//        if isObserving
-//        {
-//            removeObserver(self, forKeyPath:"frame")
-//            isObserving = false
-//        }
-//    }
-//
-//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
-//    {
-//        if keyPath == "frame"
-//        {
-//            checkHeight()
-//        }
-//    }
-    
     func Update(CellContact: NotifiContact)
     {
         
@@ -115,21 +80,12 @@ class pickerTableViewCell: UITableViewCell
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
-        reminderTimeLabel.text = dateFormatter.string(from: Date.init(timeIntervalSinceNow: (60 * 60)))
-        
         reminderPicker.date = Date(timeIntervalSinceNow: 60 * 60)
         
         self.reminderPicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
 
-        PhoneNumberLabel.text = "Number: " + cellReminderPhoneNumber
-        if CellContact.PhoneNumbers.count == 1
-        {
-            phoneButtonOutlet.isEnabled = false
-        }
-        else
-        {
-            phoneButtonOutlet.isEnabled = true
-        }        
+        PhoneNumberLabel.text = cellReminderPhoneNumber
+   
     }
     
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
@@ -141,9 +97,6 @@ class pickerTableViewCell: UITableViewCell
         {
             reminderPicker.date = Date(timeIntervalSinceNow: 120)
         }
-        
-        reminderTimeLabel.text = dateFormatter.string(from: reminderPicker.date)
-        
     }
         
 

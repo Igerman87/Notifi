@@ -13,6 +13,7 @@ import UserNotifications
 class ActiveNotifisController:TableViewController{
     
     var activeNotifiSectionTitles: [String] = []
+    var indexTitles: [String] = []
     var isFirstRun: Bool = true
     
     override func viewDidLoad()
@@ -22,16 +23,16 @@ class ActiveNotifisController:TableViewController{
         
         UNUserNotificationCenter.current().delegate = self
         
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.returnKeyType = .search
-        searchController.searchBar.searchBarStyle = UISearchBar.Style.prominent
-        searchController.searchBar.placeholder = " Search..."
-        searchController.searchBar.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false
+//        searchController.searchBar.sizeToFit()
+//        searchController.searchBar.returnKeyType = .search
+//        searchController.searchBar.searchBarStyle = UISearchBar.Style.prominent
+//        searchController.searchBar.placeholder = " Search..."
+//        searchController.searchBar.delegate = self
+//        searchController.dimsBackgroundDuringPresentation = false
         
 
-        navigationItem.title = "Active Notifis"
-        navigationItem.searchController = searchController
+        navigationItem.title = "Active Reminders"
+        navigationItem.searchController = nil
         navigationItem.hidesSearchBarWhenScrolling = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -76,6 +77,8 @@ class ActiveNotifisController:TableViewController{
     
     override func viewWillAppear(_ animated: Bool)
     {
+
+        
         updateTable()
     }
     
@@ -86,14 +89,14 @@ class ActiveNotifisController:TableViewController{
         // Empty for now
     }
     
-//    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int
-//    {
-//        return index
-//    }
-//
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int
+    {
+        return index
+    }
+
     override func sectionIndexTitles(for tableView: UITableView) -> [String]?
     {
-        return nil
+        return indexTitles
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
@@ -156,6 +159,16 @@ class ActiveNotifisController:TableViewController{
         {
             activeNotifiSectionTitles.append(activeNotifi.key)
         }
+        
+        for index in activeNotifiSectionTitles
+        {
+            if !(indexTitles.contains(String(index.prefix(1))))
+            {
+                indexTitles.append(String(index.prefix(1)))
+            }
+        }
+        
+        indexTitles.sort()
         
         tableView.reloadData()
     }
