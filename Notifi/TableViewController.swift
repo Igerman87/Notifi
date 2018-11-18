@@ -86,8 +86,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
             localNotification.initMyNotifications()
         }
-        
-        UNUserNotificationCenter.current().delegate = self
 
     }
     
@@ -248,7 +246,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row && selectedIndexPath!.section == indexPath.section
         {
-            return 350
+            return 277
         }
         
         return 44
@@ -256,7 +254,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     func calculateDatePickerIndexPath(indexPathSelected:IndexPath) -> IndexPath {
         
-        if selectedIndexPath != nil && selectedIndexPath!.row < indexPathSelected.row && selectedIndexPath!.section == indexPathSelected.section
+        if selectedIndexPath != nil && selectedIndexPath!.row <= indexPathSelected.row && selectedIndexPath!.section == indexPathSelected.section
         {
             return IndexPath(row: indexPathSelected.row, section: indexPathSelected.section)
         }
@@ -317,6 +315,8 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        completionHandler()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         

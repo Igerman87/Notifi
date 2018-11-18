@@ -22,7 +22,6 @@ class pickerTableViewCell: UITableViewCell
     var isObserving = false
     
     @IBOutlet weak var titlelabel: UILabel!
-    @IBOutlet weak var PhoneNumberLabel: UILabel!
     @IBOutlet weak var addNotifiOutlet: UIButton!
     
     @IBOutlet weak var reminderPicker: UIDatePicker!
@@ -40,10 +39,33 @@ class pickerTableViewCell: UITableViewCell
             
             let time = dateFormatter.date(from: timeString)
             
-            cellContactDetails.ReminderPhoneNumber = cellReminderPhoneNumber
+            let phoneMenu = UIAlertController(title: nil, message: "Choose number", preferredStyle: .actionSheet)
             
-            myNotifi.createNotification(contact: cellContactDetails, Time: time!)
-            //nofiti.setReminder(contact: cellContactDetails, time: reminderPicker.date)
+            phoneMenu.addAction(UIAlertAction(title: "Cancel", style: .cancel,
+                                              handler: {(alert:UIAlertAction!) ->Void in
+                                                
+                                                self.cellContactDetails.ReminderPhoneNumber = ""
+            }))
+            
+            if cellContactDetails.PhoneNumbers.count > 1
+            {
+                for phoneNumber in cellContactDetails.PhoneNumbers
+                {
+                    phoneMenu.addAction(UIAlertAction(title: ((phoneNumber.value).value(forKey: "digits") as! String), style: .default,
+                                          handler: {(alert:UIAlertAction!) ->Void in
+                     
+                                            self.cellContactDetails.ReminderPhoneNumber = alert.title!
+                                            
+                                            myNotifi.createNotification(contact: self.cellContactDetails, Time: time!)
+                    }))
+                }
+                UIApplication.shared.keyWindow?.rootViewController?.present(phoneMenu, animated: true, completion: nil)
+            }
+            else
+            {
+               cellContactDetails.ReminderPhoneNumber = ((cellContactDetails.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+                myNotifi.createNotification(contact: cellContactDetails, Time: time!)
+            }
         }
         else
         {
@@ -82,10 +104,7 @@ class pickerTableViewCell: UITableViewCell
         
         reminderPicker.date = Date(timeIntervalSinceNow: 60 * 60)
         
-        self.reminderPicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
-
-        PhoneNumberLabel.text = cellReminderPhoneNumber
-   
+        self.reminderPicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)   
     }
     
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
@@ -98,32 +117,5 @@ class pickerTableViewCell: UITableViewCell
             reminderPicker.date = Date(timeIntervalSinceNow: 120)
         }
     }
-        
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
+    

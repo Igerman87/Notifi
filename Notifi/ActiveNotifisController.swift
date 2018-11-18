@@ -14,6 +14,8 @@ class ActiveNotifisController:TableViewController{
     
     var activeNotifiSectionTitles: [String] = []
     var indexTitles: [String] = []
+    var phoneNumberForCall = [String:String]()
+    
     var isFirstRun: Bool = true
     
     override func viewDidLoad()
@@ -29,7 +31,7 @@ class ActiveNotifisController:TableViewController{
 //        searchController.searchBar.placeholder = " Search..."
 //        searchController.searchBar.delegate = self
 //        searchController.dimsBackgroundDuringPresentation = false
-        
+        UNUserNotificationCenter.current().delegate = self
 
         navigationItem.title = "Active Reminders"
         navigationItem.searchController = nil
@@ -60,7 +62,7 @@ class ActiveNotifisController:TableViewController{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_notifis", for: indexPath) as! ActiveNotifiCell
         
         cell.Update(time:(allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!)
-       
+        
         return cell
     }
     
@@ -99,18 +101,48 @@ class ActiveNotifisController:TableViewController{
         return indexTitles
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+
+        let notifiToDeleteName = self.activeNotifiSectionTitles[indexPath.section]
+        let notifiToDeleteTime = allNotifis[notifiToDeleteName]![indexPath.row]
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (UITableViewRowAction, indexPath) in
+        
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
+            
+            self.updateTable()
+            
+        }
+        
+        let call = UITableViewRowAction(style: .normal, title: "Call") { (UITableViewRowAction, indexPath) in
+            
+            let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
+            
+            let phone = self.phoneNumberForCall[cell.ActiveNotifiLabel.text! + self.activeNotifiSectionTitles[indexPath.section]]
+
+            let phoneUrl = "tel://" + phone!
+            
+            let url = URL(string: phoneUrl)
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
+            
+            self.updateTable()
+        }
+        
+        call.backgroundColor = UIColor.green
+        
+        return [delete,call]
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
-        print(indexPath)
+        print(editingStyle)
         
         if editingStyle == .delete
         {
-            let notifiToDeleteName = activeNotifiSectionTitles[indexPath.section]
-            let notifiToDeleteTime = allNotifis[notifiToDeleteName]![indexPath.row]
-            
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
-
-            updateTable()
+ 
         }
     }
     
@@ -118,6 +150,7 @@ class ActiveNotifisController:TableViewController{
     {
         allNotifis.removeAll()
         activeNotifiSectionTitles.removeAll()
+        indexTitles.removeAll()
         
         group.enter()
         
@@ -132,6 +165,7 @@ class ActiveNotifisController:TableViewController{
                     if allNotifis[req.content.subtitle] != nil
                     {
                         allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
+                        
                     }
                     else
                     {
@@ -139,6 +173,8 @@ class ActiveNotifisController:TableViewController{
                         
                         allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
                     }
+                    
+                    self.phoneNumberForCall[String(req.identifier.prefix(16)) + req.content.subtitle] = req.content.body
                 }
             }
             
@@ -169,6 +205,8 @@ class ActiveNotifisController:TableViewController{
         }
         
         indexTitles.sort()
+        
+        print(phoneNumberForCall)
         
         tableView.reloadData()
     }

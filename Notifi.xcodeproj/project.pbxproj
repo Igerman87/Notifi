@@ -8,7 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		F1032B9E218AEC8100CA5B38 /* nameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1032B9D218AEC8100CA5B38 /* nameCell.swift */; };
+		F11B3E902198ADFF0095F51F /* icons8-alarm-clock-filled-30.png in Resources */ = {isa = PBXBuildFile; fileRef = F11B3E8F2198ADFE0095F51F /* icons8-alarm-clock-filled-30.png */; };
 		F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C40F32152700800308ACD /* ContactServiceSorted.swift */; };
+		F1579CAE219762090043BF81 /* Apple-12-512.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CAD219762080043BF81 /* Apple-12-512.png */; };
+		F1579CC22198A73C0043BF81 /* icons8-alarm-clock35.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CC12198A73C0043BF81 /* icons8-alarm-clock35.png */; };
+		F1579CC42198A74F0043BF81 /* icons8-contact35.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CC32198A74F0043BF81 /* icons8-contact35.png */; };
+		F1579CC62198A7600043BF81 /* icons8-add-phone35.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CC52198A7600043BF81 /* icons8-add-phone35.png */; };
+		F1579CC82198A83E0043BF81 /* icons8-add-phone-30.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CC72198A83D0043BF81 /* icons8-add-phone-30.png */; };
+		F1579CCA2198A9020043BF81 /* icons8-user-account-filled-30.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CC92198A9010043BF81 /* icons8-user-account-filled-30.png */; };
+		F1579CCE2198AC9C0043BF81 /* icons8-user-account-30.png in Resources */ = {isa = PBXBuildFile; fileRef = F1579CCD2198AC9C0043BF81 /* icons8-user-account-30.png */; };
 		F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */; };
 		F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */; };
 		F1A29F452159016F00592DF1 /* myNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A29F442159016F00592DF1 /* myNotifications.swift */; };
@@ -21,7 +29,6 @@
 		F1F36F1C214A9F9B008FB3E5 /* NotifiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F1B214A9F9B008FB3E5 /* NotifiTests.swift */; };
 		F1F36F27214A9F9B008FB3E5 /* NotifiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F26214A9F9B008FB3E5 /* NotifiUITests.swift */; };
 		F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */; };
-		F1F36F39214ADA46008FB3E5 /* ContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F38214ADA46008FB3E5 /* ContactService.swift */; };
 		F1F36F3B214BF219008FB3E5 /* NofitiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F36F3A214BF219008FB3E5 /* NofitiData.swift */; };
 		F1FE121E2151678700ACC512 /* CreateNotifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FE121D2151678700ACC512 /* CreateNotifi.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +52,15 @@
 
 /* Begin PBXFileReference section */
 		F1032B9D218AEC8100CA5B38 /* nameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nameCell.swift; sourceTree = "<group>"; };
+		F11B3E8F2198ADFE0095F51F /* icons8-alarm-clock-filled-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-alarm-clock-filled-30.png"; sourceTree = "<group>"; };
 		F13C40F32152700800308ACD /* ContactServiceSorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactServiceSorted.swift; sourceTree = "<group>"; };
+		F1579CAD219762080043BF81 /* Apple-12-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apple-12-512.png"; sourceTree = "<group>"; };
+		F1579CC12198A73C0043BF81 /* icons8-alarm-clock35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-alarm-clock35.png"; sourceTree = "<group>"; };
+		F1579CC32198A74F0043BF81 /* icons8-contact35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-contact35.png"; sourceTree = "<group>"; };
+		F1579CC52198A7600043BF81 /* icons8-add-phone35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-add-phone35.png"; sourceTree = "<group>"; };
+		F1579CC72198A83D0043BF81 /* icons8-add-phone-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-add-phone-30.png"; sourceTree = "<group>"; };
+		F1579CC92198A9010043BF81 /* icons8-user-account-filled-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user-account-filled-30.png"; sourceTree = "<group>"; };
+		F1579CCD2198AC9C0043BF81 /* icons8-user-account-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user-account-30.png"; sourceTree = "<group>"; };
 		F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifisController.swift; sourceTree = "<group>"; };
 		F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiCell.swift; sourceTree = "<group>"; };
 		F1A29F442159016F00592DF1 /* myNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNotifications.swift; sourceTree = "<group>"; };
@@ -64,7 +79,6 @@
 		F1F36F26214A9F9B008FB3E5 /* NotifiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifiUITests.swift; sourceTree = "<group>"; };
 		F1F36F28214A9F9B008FB3E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickerTableViewCell.swift; sourceTree = "<group>"; };
-		F1F36F38214ADA46008FB3E5 /* ContactService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactService.swift; sourceTree = "<group>"; };
 		F1F36F3A214BF219008FB3E5 /* NofitiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NofitiData.swift; sourceTree = "<group>"; };
 		F1FE121D2151678700ACC512 /* CreateNotifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNotifi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,10 +141,17 @@
 				F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */,
 				F1032B9D218AEC8100CA5B38 /* nameCell.swift */,
 				F1F36F36214AAB07008FB3E5 /* pickerTableViewCell.swift */,
-				F1F36F38214ADA46008FB3E5 /* ContactService.swift */,
 				F13C40F32152700800308ACD /* ContactServiceSorted.swift */,
 				F1F36F3A214BF219008FB3E5 /* NofitiData.swift */,
 				F1F36F0D214A9F9A008FB3E5 /* Assets.xcassets */,
+				F11B3E8F2198ADFE0095F51F /* icons8-alarm-clock-filled-30.png */,
+				F1579CCD2198AC9C0043BF81 /* icons8-user-account-30.png */,
+				F1579CC92198A9010043BF81 /* icons8-user-account-filled-30.png */,
+				F1579CC72198A83D0043BF81 /* icons8-add-phone-30.png */,
+				F1579CC52198A7600043BF81 /* icons8-add-phone35.png */,
+				F1579CC32198A74F0043BF81 /* icons8-contact35.png */,
+				F1579CC12198A73C0043BF81 /* icons8-alarm-clock35.png */,
+				F1579CAD219762080043BF81 /* Apple-12-512.png */,
 				F1F36F0F214A9F9A008FB3E5 /* LaunchScreen.storyboard */,
 				F1F36F12214A9F9A008FB3E5 /* Info.plist */,
 			);
@@ -266,7 +287,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1F36F11214A9F9A008FB3E5 /* LaunchScreen.storyboard in Resources */,
+				F11B3E902198ADFF0095F51F /* icons8-alarm-clock-filled-30.png in Resources */,
+				F1579CCE2198AC9C0043BF81 /* icons8-user-account-30.png in Resources */,
+				F1579CC22198A73C0043BF81 /* icons8-alarm-clock35.png in Resources */,
+				F1579CC42198A74F0043BF81 /* icons8-contact35.png in Resources */,
+				F1579CC82198A83E0043BF81 /* icons8-add-phone-30.png in Resources */,
 				F1F36F0E214A9F9A008FB3E5 /* Assets.xcassets in Resources */,
+				F1579CCA2198A9020043BF81 /* icons8-user-account-filled-30.png in Resources */,
+				F1579CC62198A7600043BF81 /* icons8-add-phone35.png in Resources */,
+				F1579CAE219762090043BF81 /* Apple-12-512.png in Resources */,
 				F1F36F0C214A9F98008FB3E5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,7 +322,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1A29F452159016F00592DF1 /* myNotifications.swift in Sources */,
-				F1F36F39214ADA46008FB3E5 /* ContactService.swift in Sources */,
 				F1032B9E218AEC8100CA5B38 /* nameCell.swift in Sources */,
 				F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */,
 				F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */,

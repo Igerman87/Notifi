@@ -25,7 +25,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1.52" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okd-FI-u2B">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1.6" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okd-FI-u2B">
                                 <rect key="frame" x="316" y="157" width="43" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -46,21 +46,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8A-mQ-Kpg">
-                                <rect key="frame" x="16" y="347" width="295" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3) Removed action sheet for 1 number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8A-mQ-Kpg">
+                                <rect key="frame" x="16" y="347" width="343" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2) Fix black bug" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2Y-P7-PqI">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2) Icons" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2Y-P7-PqI">
                                 <rect key="frame" x="16" y="298" width="295" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgh-1H-RIb">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4) Removed  last cell crash" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgh-1H-RIb">
                                 <rect key="frame" x="16" y="396" width="295" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -177,14 +177,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="P99-bU-kX4"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Random" id="nim-7g-Wcb"/>
-                    <navigationItem key="navigationItem" title="Random Reminder" id="GnF-02-Cua">
-                        <barButtonItem key="rightBarButtonItem" title="Info" id="poa-EK-Q6B">
-                            <connections>
-                                <segue destination="OBX-nd-OI6" kind="show" id="C09-DN-htl"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <tabBarItem key="tabBarItem" image="icons8-add-phone-30.png" id="nim-7g-Wcb"/>
+                    <navigationItem key="navigationItem" title="Random Reminder" id="GnF-02-Cua"/>
                     <connections>
                         <outlet property="nameText" destination="tgn-kd-fnw" id="8gk-dB-Ox1"/>
                         <outlet property="phoneText" destination="ark-oQ-ytb" id="l27-3F-uZd"/>
@@ -246,15 +240,15 @@
                                     <outlet property="nameLabel" destination="8pJ-tP-tWv" id="lM9-FD-2Jc"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_id" rowHeight="342" id="CVo-ee-kPW" customClass="pickerTableViewCell" customModule="Notifi" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="80" width="375" height="342"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_id" rowHeight="277" id="CVo-ee-kPW" customClass="pickerTableViewCell" customModule="Notifi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="80" width="375" height="277"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CVo-ee-kPW" id="x5e-b0-od4">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="342"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="277"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5o-uf-Nip">
-                                            <rect key="frame" x="131" y="42" width="113" height="40"/>
+                                            <rect key="frame" x="131.33333333333334" y="42" width="113" height="39.666666666666657"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                             <state key="normal" title="Remind Me"/>
                                             <connections>
@@ -262,46 +256,25 @@
                                             </connections>
                                         </button>
                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="58H-Vm-2GY">
-                                            <rect key="frame" x="37.666666666666657" y="175" width="300" height="167"/>
+                                            <rect key="frame" x="0.0" y="109.66666666666669" width="368" height="167"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="167" id="G5j-iI-hCf"/>
-                                                <constraint firstAttribute="width" constant="300" id="Z3r-3K-mGb"/>
+                                                <constraint firstAttribute="height" constant="167" id="VdX-X6-tMT"/>
                                             </constraints>
                                             <date key="date" timeIntervalSinceReferenceDate="558796987.080634">
                                                 <!--2018-09-16 13:23:07 +0000-->
                                             </date>
                                         </datePicker>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone number" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ViB-hb-AzU">
-                                            <rect key="frame" x="192" y="131" width="149" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="149" id="AUf-yx-3SM"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Phone number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipw-te-mR1">
-                                            <rect key="frame" x="33" y="131" width="128" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="ViB-hb-AzU" secondAttribute="trailing" constant="18" id="0wK-tW-Bbm"/>
-                                        <constraint firstItem="ViB-hb-AzU" firstAttribute="top" secondItem="I5o-uf-Nip" secondAttribute="bottom" constant="49" id="1Ay-wI-unE"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="58H-Vm-2GY" secondAttribute="bottom" constant="-11" id="4lF-Wc-7if"/>
-                                        <constraint firstItem="I5o-uf-Nip" firstAttribute="centerX" secondItem="58H-Vm-2GY" secondAttribute="centerX" id="4xh-mJ-nQs"/>
-                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="top" secondItem="ViB-hb-AzU" secondAttribute="bottom" constant="23" id="Ar3-G0-rcl"/>
-                                        <constraint firstItem="ViB-hb-AzU" firstAttribute="baseline" secondItem="ipw-te-mR1" secondAttribute="baseline" id="EmQ-Gc-8oN"/>
-                                        <constraint firstItem="ViB-hb-AzU" firstAttribute="leading" secondItem="ipw-te-mR1" secondAttribute="trailing" constant="31" id="QOq-pi-em4"/>
+                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="centerX" secondItem="I5o-uf-Nip" secondAttribute="centerX" constant="-3.8333333333333428" id="45M-L6-Zpi"/>
+                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="centerX" secondItem="x5e-b0-od4" secondAttribute="centerX" constant="-3.5" id="9Sy-H9-cxr"/>
+                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="top" secondItem="I5o-uf-Nip" secondAttribute="bottom" constant="28" id="GYj-Tq-3WP"/>
+                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="leading" secondItem="x5e-b0-od4" secondAttribute="leadingMargin" constant="-16" id="Zl0-W7-WOG"/>
                                         <constraint firstItem="I5o-uf-Nip" firstAttribute="top" secondItem="x5e-b0-od4" secondAttribute="topMargin" constant="31" id="Zth-gt-Ehj"/>
-                                        <constraint firstItem="ViB-hb-AzU" firstAttribute="firstBaseline" secondItem="ipw-te-mR1" secondAttribute="firstBaseline" id="eCf-nY-Ux2"/>
-                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="centerX" secondItem="x5e-b0-od4" secondAttribute="centerX" id="kab-Xe-aAa"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="58H-Vm-2GY" secondAttribute="bottom" constant="-10.666666666666686" id="hxs-ox-ou4"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="PhoneNumberLabel" destination="ViB-hb-AzU" id="Wua-bd-fZB"/>
                                     <outlet property="addNotifiOutlet" destination="I5o-uf-Nip" id="9d3-fP-s5t"/>
                                     <outlet property="reminderPicker" destination="58H-Vm-2GY" id="5eL-Nq-9rR"/>
                                 </connections>
@@ -312,7 +285,7 @@
                             <outlet property="delegate" destination="K7a-xt-Uay" id="a13-iQ-Zxd"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Contacts" id="IrS-oz-PKM"/>
+                    <tabBarItem key="tabBarItem" title="" selectedImage="icons8-contact35.png" systemItem="contacts" id="IrS-oz-PKM"/>
                     <navigationItem key="navigationItem" title="Nofiti" id="afb-XC-be0"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="G3p-cp-H7O" id="9Xl-Hs-hOo"/>
@@ -328,13 +301,15 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="122.40000000000001" y="-495.07389162561577"/>
+            <point key="canvasLocation" x="120.8" y="-495.81280788177344"/>
         </scene>
-        <!--Active-->
+        <!--Navigation Controller-->
         <scene sceneID="QnQ-1b-SLS">
             <objects>
                 <navigationController id="raL-Gx-Q0d" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Active" id="TcV-oQ-kRZ"/>
+                    <tabBarItem key="tabBarItem" title="" id="TcV-oQ-kRZ">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1000"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4EG-7v-a3J">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -364,11 +339,11 @@
             </objects>
             <point key="canvasLocation" x="-2551" y="-494"/>
         </scene>
-        <!--Contacts-->
+        <!--Navigation Controller-->
         <scene sceneID="Pao-q0-lsP">
             <objects>
                 <navigationController id="iRg-G6-SPT" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Contacts" id="vMP-XK-1u3"/>
+                    <tabBarItem key="tabBarItem" id="vMP-XK-1u3"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vTH-Ct-8CC">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -381,7 +356,7 @@
             </objects>
             <point key="canvasLocation" x="-846" y="-494"/>
         </scene>
-        <!--Notifis-->
+        <!--Active Notifis Controller-->
         <scene sceneID="ffP-pK-9so">
             <objects>
                 <tableViewController id="tyJ-FO-YN6" customClass="ActiveNotifisController" customModule="Notifi" customModuleProvider="target" propertyAccessControl="none" sceneMemberID="viewController">
@@ -416,7 +391,7 @@
                             <outlet property="delegate" destination="tyJ-FO-YN6" id="qeN-ne-7Au"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Notifis" id="xrE-7i-kco"/>
+                    <tabBarItem key="tabBarItem" title="" image="icons8-alarm-clock-filled-30.png" id="xrE-7i-kco"/>
                     <navigationItem key="navigationItem" id="BLg-M6-6Zb"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBU-Ky-Pya" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -424,4 +399,9 @@
             <point key="canvasLocation" x="125" y="183"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-add-phone-30.png" width="30" height="30"/>
+        <image name="icons8-alarm-clock-filled-30.png" width="30" height="30"/>
+        <image name="icons8-contact35.png" width="35" height="35"/>
+    </resources>
 </document>
