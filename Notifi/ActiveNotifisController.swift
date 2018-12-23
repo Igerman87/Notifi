@@ -22,6 +22,7 @@ class ActiveNotifisController:TableViewController{
     {        
         tableView.dataSource = self
         tableView.delegate = self
+        //self.tableView.estimatedRowHeight = 90
         
         UNUserNotificationCenter.current().delegate = self
         
@@ -61,9 +62,15 @@ class ActiveNotifisController:TableViewController{
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_notifis", for: indexPath) as! ActiveNotifiCell
         
-        cell.Update(time:(allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!)
+        let phoneNumber = phoneNumberForCall[((allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!) + activeNotifiSectionTitles[indexPath.section]]
+        
+        cell.Update(time:(allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!, phone: phoneNumber ?? "")
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
@@ -111,14 +118,14 @@ class ActiveNotifisController:TableViewController{
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
             
             self.updateTable()
-            
+
         }
         
         let call = UITableViewRowAction(style: .normal, title: "Call") { (UITableViewRowAction, indexPath) in
             
             let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
             
-            let phone = self.phoneNumberForCall[cell.ActiveNotifiLabel.text! + self.activeNotifiSectionTitles[indexPath.section]]
+            let phone = (self.phoneNumberForCall[cell.ActiveNotifiLabel.text! + self.activeNotifiSectionTitles[indexPath.section]])?.filter{ "+0123456789".contains($0)}
 
             let phoneUrl = "tel://" + phone!
             
@@ -138,7 +145,6 @@ class ActiveNotifisController:TableViewController{
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
-        print(editingStyle)
         
         if editingStyle == .delete
         {
@@ -161,11 +167,10 @@ class ActiveNotifisController:TableViewController{
                 
                 if (req.content.categoryIdentifier == "NOTIFI")
                 {
-                    
                     if allNotifis[req.content.subtitle] != nil
                     {
+    
                         allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
-                        
                     }
                     else
                     {
@@ -175,6 +180,7 @@ class ActiveNotifisController:TableViewController{
                     }
                     
                     self.phoneNumberForCall[String(req.identifier.prefix(16)) + req.content.subtitle] = req.content.body
+                    
                 }
             }
             
@@ -205,8 +211,8 @@ class ActiveNotifisController:TableViewController{
         }
         
         indexTitles.sort()
+
         
-        print(phoneNumberForCall)
         
         tableView.reloadData()
     }

@@ -12,9 +12,11 @@ import UIKit
 class NameCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var contactImage: UIImageView!
     
-    func Update(fullName:String) -> Void {
+    func Update(CellContact: NotifiContact) -> Void {
         
-       nameLabel.text = fullName
+        nameLabel.text = CellContact.FullName
+        contactImage.image = CellContact.Picture
     }
 }

@@ -12,10 +12,9 @@ import UserNotifications // debug
 
 class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate
 {
-    var datePicker:UIDatePicker = UIDatePicker()
-
+    @IBOutlet weak var datePicker: UIDatePicker!
+    
     @IBOutlet weak var phoneText: UITextField!
-    @IBOutlet weak var timeText: UITextField!
     @IBOutlet weak var nameText: UITextField!
     
     @IBAction func buttonSetNotifi(_ sender: UIButton)
@@ -32,7 +31,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
                 let myNot = myNotifications()
                 
                 myNot.createNotification(FullName: nameText.text == "" ? "John Doe": nameText.text!,
-                                        ReminderPhoneNumber: phoneText.text!, Time:datePicker.date, Alert: true)
+                                         ReminderPhoneNumber: phoneText.text!, Type:"Random", Time:datePicker.date, Alert: true)
             }
             else
             {
@@ -40,8 +39,6 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
                 dateFormatterWithoutSeconds.dateFormat = "yyyy-MM-dd HH:mm"
                 
                 datePicker.date = Date(timeIntervalSinceNow: 120)
-                
-                timeText.text = dateFormatterWithoutSeconds.string(from: datePicker.date)
             }
         }
         else
@@ -66,13 +63,9 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         phoneText.delegate = self
         phoneText.keyboardType = UIKeyboardType.phonePad
         nameText.delegate = self
-        timeText.delegate = self
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
-        timeText.inputView = datePicker
-        timeText.text = dateFormatter.string(from: Date(timeIntervalSinceNow: 3600))
         
         datePicker.date = Date(timeIntervalSinceNow: 3600)
     
@@ -92,13 +85,17 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         {
             datePicker.date = Date(timeIntervalSinceNow: 120)
         }
-        
-        timeText.text = dateFormatter.string(from: datePicker.date)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField)
+    {
+        datePicker.isHidden = true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField)
     {
         view.endEditing(true)
+        datePicker.isHidden = false
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -140,7 +137,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
             
@@ -153,7 +150,17 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             let snoozeNotifi = myNotifications()
             
             snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
-                                            ReminderPhoneNumber: response.notification.request.content.body, Time: Date(timeIntervalSinceNow: 300), Alert:false)
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type:"",Time: Date(timeIntervalSinceNow: 300), Alert: false)
+            
+            
+            break
+            
+        case "SNOOZE_HOUR":
+            
+            let snoozeNotifi = myNotifications()
+            
+            snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "", Time: Date(timeIntervalSinceNow: 3600), Alert: false)
             
             break
             
@@ -164,7 +171,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
             
@@ -189,7 +196,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
         
-        let phoneNumber = "tel://\(notification.request.content.body)"
+        let phoneNumber = "tel://\(notification.request.content.body.filter{ "+0123456789".contains($0)})"
         
         let url = URL(string: phoneNumber)
         

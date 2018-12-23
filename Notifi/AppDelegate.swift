@@ -97,10 +97,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
+        print(response.notification.request.content.body.filter{ "+0123456789".contains($0)})
+        
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
 
@@ -113,8 +115,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let snoozeNotifi = myNotifications()
             
             snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
-                                            ReminderPhoneNumber: response.notification.request.content.body, Time: Date(timeIntervalSinceNow: 300), Alert: false)
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "",Time: Date(timeIntervalSinceNow: 300), Alert: false)
             
+            
+            break
+            
+        case "SNOOZE_HOUR":
+            
+            let snoozeNotifi = myNotifications()
+            
+            snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "", Time: Date(timeIntervalSinceNow: 3600), Alert: false)
             
             break
             
@@ -125,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
             
@@ -150,10 +161,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
         
-        let phoneNumber = "tel://\(notification.request.content.body)"
+        let phoneNumber = "tel://\(notification.request.content.body.filter{ "+0123456789".contains($0)})"
         
         let url = URL(string: phoneNumber)
         
+
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
     

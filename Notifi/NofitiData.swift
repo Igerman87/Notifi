@@ -14,14 +14,17 @@ import ContactsUI
     @objc var FullName: String = ""
     @objc var PhoneNumbers: [CNLabeledValue<CNPhoneNumber>] = []
     @objc var Emails: [CNLabeledValue<NSString>] = []
+    @objc var Picture: UIImage
     
     @objc var ReminderPhoneNumber: String = ""
+    @objc var ReminderType:String = ""
     
-    init(fullName: String, phoneNumbers: [CNLabeledValue<CNPhoneNumber>], emails: [CNLabeledValue<NSString>], reminderPhone: String ) {
+    init(fullName: String, phoneNumbers: [CNLabeledValue<CNPhoneNumber>], emails: [CNLabeledValue<NSString>], Picture: UIImage, reminderPhone: String ) {
         self.FullName = fullName
         self.PhoneNumbers = phoneNumbers
         self.Emails = emails
         self.ReminderPhoneNumber = reminderPhone
+        self.Picture = Picture
     }
     
 }

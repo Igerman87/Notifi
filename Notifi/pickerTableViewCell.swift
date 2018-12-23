@@ -49,22 +49,46 @@ class pickerTableViewCell: UITableViewCell
             
             if cellContactDetails.PhoneNumbers.count > 1
             {
+            
                 for phoneNumber in cellContactDetails.PhoneNumbers
-                {
+                {                    
                     phoneMenu.addAction(UIAlertAction(title: ((phoneNumber.value).value(forKey: "digits") as! String), style: .default,
                                           handler: {(alert:UIAlertAction!) ->Void in
                      
-                                            self.cellContactDetails.ReminderPhoneNumber = alert.title!
+                                            var phoneType = phoneNumber.label!
                                             
-                                            myNotifi.createNotification(contact: self.cellContactDetails, Time: time!)
+                                            if(phoneType.isEmpty)
+                                            {
+                                                phoneType = "Phone"
+                                            }
+                                            else
+                                            {
+                                                phoneType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                                            }
+                                            
+                                            self.cellContactDetails.ReminderPhoneNumber = alert.title!
+                                            self.cellContactDetails.ReminderType = phoneType
+                                                                                        
+                                            myNotifi.createNotification(contact: self.cellContactDetails, Type:self.cellContactDetails.ReminderType, Time: time!)
                     }))
                 }
                 UIApplication.shared.keyWindow?.rootViewController?.present(phoneMenu, animated: true, completion: nil)
             }
             else
             {
+                var phoneType = cellContactDetails.PhoneNumbers[0].label!
+                
+                if(phoneType.isEmpty)
+                {
+                    phoneType = "Unknown"
+                }
+                else
+                {
+                    phoneType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                }
+            
                cellContactDetails.ReminderPhoneNumber = ((cellContactDetails.PhoneNumbers[0].value).value(forKey: "digits") as! String)
-                myNotifi.createNotification(contact: cellContactDetails, Time: time!)
+                myNotifi.createNotification(contact: cellContactDetails, Type:phoneType , Time: time!)
             }
         }
         else

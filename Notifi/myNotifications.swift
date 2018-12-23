@@ -52,9 +52,11 @@ class myNotifications: UIAlertController
             
             let dismissAction = UNNotificationAction(identifier: "DISMISS_ACTION", title: "Dismiss", options: UNNotificationActionOptions(rawValue: 0))
             
-            let snooze = UNNotificationAction(identifier: "SNOOZE", title: "Snooze", options: UNNotificationActionOptions(rawValue: 0))
+            let snooze = UNNotificationAction(identifier: "SNOOZE", title: "Remind me In 5 minutes", options: UNNotificationActionOptions(rawValue: 0))
             
-            let notifiReminderCategory = UNNotificationCategory(identifier: "NOTIFI", actions: [callAction, dismissAction, snooze], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+            let snoozeHour = UNNotificationAction(identifier: "SNOOZE_HOUR", title: "Remind me In one hour", options: UNNotificationActionOptions(rawValue: 0))
+            
+            let notifiReminderCategory = UNNotificationCategory(identifier: "NOTIFI", actions: [callAction, dismissAction, snooze, snoozeHour], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
             
             UNUserNotificationCenter.current().setNotificationCategories([notifiReminderCategory])
             
@@ -62,17 +64,17 @@ class myNotifications: UIAlertController
         }
     }
     
-    func createNotification(contact: NotifiContact, Time: Date) -> Void
+    func createNotification(contact: NotifiContact, Type:String, Time: Date) -> Void
     {
-        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber, Time: Time, Alert: true)
+        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber,Type: Type, Time: Time, Alert: true)
     }
     
-    func createNotification(FullName: String,ReminderPhoneNumber: String, Time:Date, Alert:Bool) -> Void
+    func createNotification(FullName: String,ReminderPhoneNumber: String, Type:String, Time:Date, Alert:Bool) -> Void
     {
-        genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber, Time: Time, Alert: Alert)
+        genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber,Type: Type, Time: Time, Alert: Alert)
     }
     
-    private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String, Time:Date, Alert:Bool) -> Void
+    private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String,Type:String, Time:Date, Alert:Bool) -> Void
     {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {granted, error in
             
@@ -87,6 +89,8 @@ class myNotifications: UIAlertController
             }
         })
         
+
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
         
@@ -94,8 +98,17 @@ class myNotifications: UIAlertController
         
         notification.title = "Its time to call: "
         notification.subtitle = FullName
-        notification.body = ReminderPhoneNumber
-        //notification.userInfo = ["NOTIFI_ID": notifiID, "USER_ID": ruserok]
+        print(Type)
+        
+        if Type != ""
+        {
+            notification.body = Type + ": " + ReminderPhoneNumber
+        }
+        else
+        {
+            notification.body = ReminderPhoneNumber
+        }
+            //notification.userInfo = ["NOTIFI_ID": notifiID, "USER_ID": ruserok]
         notification.categoryIdentifier = "NOTIFI"
         notification.sound = UNNotificationSound.default
         
@@ -104,7 +117,7 @@ class myNotifications: UIAlertController
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Time.timeIntervalSinceNow > 60 ? Time.timeIntervalSinceNow: 60, repeats: false)
         
         
-        let request = UNNotificationRequest(identifier: dateFormatter.string(from: Time) + FullName , content: notification, trigger: trigger)
+        let request = UNNotificationRequest(identifier: dateFormatter.string(from: Time) + FullName, content: notification, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         

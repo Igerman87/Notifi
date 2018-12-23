@@ -12,9 +12,14 @@ import UIKit
 class ActiveNotifiCell: UITableViewCell {
     
     @IBOutlet weak var ActiveNotifiLabel: UILabel!
+    @IBOutlet weak var ActiveNotifiNumber: UILabel!
     
-    func Update(time:String) -> Void {
+    func Update(time:String, phone:String) -> Void {
         
-        ActiveNotifiLabel.text = time
+        print(time)
+        print(phone)
+        
+        ActiveNotifiLabel.text =  time
+        ActiveNotifiNumber.text = phone
     }
 }

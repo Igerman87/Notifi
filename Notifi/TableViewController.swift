@@ -48,8 +48,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         }
 
-        
-
     }
     
     override func viewDidLoad()
@@ -186,11 +184,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
             if isSearching
             {
-                cell.Update(fullName: searchContacts[indexPath.row - 1].FullName)
+                cell.Update(CellContact: searchContacts[indexPath.row - 1])
             }
             else
             {
-                cell.Update(fullName: Contacts[indexPath.section][indexPath.row - 1].FullName)
+                cell.Update(CellContact: Contacts[indexPath.section][indexPath.row - 1])
             }
             
             return cell
@@ -200,11 +198,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
             if isSearching
             {
-                cell.Update(fullName: searchContacts[indexPath.row].FullName)
+                cell.Update(CellContact: searchContacts[indexPath.row])
             }
             else
             {
-                cell.Update(fullName: Contacts[indexPath.section][indexPath.row].FullName)
+                cell.Update(CellContact: Contacts[indexPath.section][indexPath.row])
             }
             
             return cell
@@ -249,7 +247,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             return 277
         }
         
-        return 44
+        return 60 // Height for nameCell
     }
     
     func calculateDatePickerIndexPath(indexPathSelected:IndexPath) -> IndexPath {
@@ -324,10 +322,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
+        
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
             
@@ -340,7 +339,17 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             let snoozeNotifi = myNotifications()
             
             snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
-                                            ReminderPhoneNumber: response.notification.request.content.body, Time: Date(timeIntervalSinceNow: 300), Alert:false)
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "",Time: Date(timeIntervalSinceNow: 300), Alert: false)
+            
+            
+            break
+            
+        case "SNOOZE_HOUR":
+            
+            let snoozeNotifi = myNotifications()
+            
+            snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "", Time: Date(timeIntervalSinceNow: 3600), Alert: false)
             
             break
             
@@ -351,7 +360,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
-            let phoneNumber = "tel://\(response.notification.request.content.body)"
+            let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
             
@@ -376,7 +385,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
         
-        let phoneNumber = "tel://\(notification.request.content.body)"
+        let phoneNumber = "tel://\(notification.request.content.body.filter{ "+0123456789".contains($0)})"
         
         let url = URL(string: phoneNumber)
         

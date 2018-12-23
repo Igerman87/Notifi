@@ -22,7 +22,7 @@ class ContactServiceSorted
     {
 
         
-        let keys = [CNContactGivenNameKey,CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey]
+        let keys = [CNContactGivenNameKey,CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactEmailAddressesKey, CNContactImageDataKey]
         
         let fetchRequest = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
         
@@ -32,7 +32,18 @@ class ContactServiceSorted
             try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, error) -> Void in
                 guard (contact.phoneNumbers.first?.value.stringValue) != nil  else {return}
                 
-                self.NotifiContacts.append(NotifiContact(fullName: contact.givenName + " " + contact.familyName, phoneNumbers: contact.phoneNumbers, emails: contact.emailAddresses, reminderPhone:""))
+                var contactImgae: UIImage?
+                
+                if contact.imageData != nil
+                {
+                    contactImgae = UIImage(data: contact.imageData!)
+                }
+                else
+                {
+                    contactImgae = UIImage(named: "icons8-decision-filled")
+                }
+                
+                self.NotifiContacts.append(NotifiContact(fullName: contact.givenName + " " + contact.familyName, phoneNumbers: contact.phoneNumbers, emails: contact.emailAddresses, Picture:contactImgae!, reminderPhone:""))
             })
             
             self.setUpCollation()
