@@ -218,7 +218,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hih-xM-7kt" id="8RA-K2-IAb">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SsF-LB-3lx">
@@ -245,38 +245,39 @@
                                     <outlet property="nameLabel" destination="8pJ-tP-tWv" id="lM9-FD-2Jc"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_id" rowHeight="277" id="CVo-ee-kPW" customClass="pickerTableViewCell" customModule="Notifi" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88" width="375" height="277"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_id" rowHeight="280" id="CVo-ee-kPW" customClass="pickerTableViewCell" customModule="Notifi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="375" height="280"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CVo-ee-kPW" id="x5e-b0-od4">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="276.66666666666669"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="280"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="58H-Vm-2GY">
+                                            <rect key="frame" x="0.0" y="99" width="375" height="180"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="180" id="qVb-gK-gKj"/>
+                                            </constraints>
+                                            <date key="date" timeIntervalSinceReferenceDate="558796987.080634">
+                                                <!--2018-09-16 13:23:07 +0000-->
+                                            </date>
+                                        </datePicker>
                                         <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5o-uf-Nip">
-                                            <rect key="frame" x="131.33333333333334" y="42" width="113" height="39.666666666666657"/>
+                                            <rect key="frame" x="0.0" y="40" width="375" height="40"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                             <state key="normal" title="Remind Me"/>
                                             <connections>
                                                 <action selector="addNotifi:" destination="CVo-ee-kPW" eventType="touchUpInside" id="7EQ-pJ-wiZ"/>
                                             </connections>
                                         </button>
-                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="58H-Vm-2GY">
-                                            <rect key="frame" x="0.0" y="109.66666666666669" width="368" height="167"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="167" id="VdX-X6-tMT"/>
-                                            </constraints>
-                                            <date key="date" timeIntervalSinceReferenceDate="558796987.080634">
-                                                <!--2018-09-16 13:23:07 +0000-->
-                                            </date>
-                                        </datePicker>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="centerX" secondItem="I5o-uf-Nip" secondAttribute="centerX" constant="-3.8333333333333428" id="45M-L6-Zpi"/>
-                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="centerX" secondItem="x5e-b0-od4" secondAttribute="centerX" constant="-3.5" id="9Sy-H9-cxr"/>
-                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="top" secondItem="I5o-uf-Nip" secondAttribute="bottom" constant="28" id="GYj-Tq-3WP"/>
-                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="leading" secondItem="x5e-b0-od4" secondAttribute="leadingMargin" constant="-16" id="Zl0-W7-WOG"/>
-                                        <constraint firstItem="I5o-uf-Nip" firstAttribute="top" secondItem="x5e-b0-od4" secondAttribute="topMargin" constant="31" id="Zth-gt-Ehj"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="58H-Vm-2GY" secondAttribute="bottom" constant="-10.666666666666686" id="hxs-ox-ou4"/>
+                                        <constraint firstAttribute="trailing" secondItem="I5o-uf-Nip" secondAttribute="trailing" constant="-1" id="ClY-Ls-3fU"/>
+                                        <constraint firstAttribute="bottom" secondItem="58H-Vm-2GY" secondAttribute="bottom" id="Dbx-0G-UEE"/>
+                                        <constraint firstItem="I5o-uf-Nip" firstAttribute="top" secondItem="x5e-b0-od4" secondAttribute="top" constant="40" id="Lq8-Kd-ZSW"/>
+                                        <constraint firstItem="I5o-uf-Nip" firstAttribute="leading" secondItem="x5e-b0-od4" secondAttribute="leading" id="NF8-bW-fmb"/>
+                                        <constraint firstItem="58H-Vm-2GY" firstAttribute="leading" secondItem="x5e-b0-od4" secondAttribute="leading" id="djp-yp-CVa"/>
+                                        <constraint firstAttribute="trailing" secondItem="58H-Vm-2GY" secondAttribute="trailing" constant="-1" id="qi5-Tg-0vt"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

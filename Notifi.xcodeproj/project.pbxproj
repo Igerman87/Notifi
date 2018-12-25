@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B513B5B34518113C4834851 /* Pods_Notifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26FDBF0B829C23F63DCF054C /* Pods_Notifi.framework */; };
+		9960E16856BAB84ABD75A501 /* Pods_NotifiUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15B64156065FDF93F8A6AB9 /* Pods_NotifiUITests.framework */; };
+		EA93E068EA1CFEBCC7310C53 /* Pods_NotifiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B48BFC9FF63CC8F67E2B99 /* Pods_NotifiTests.framework */; };
 		F1032B9E218AEC8100CA5B38 /* nameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1032B9D218AEC8100CA5B38 /* nameCell.swift */; };
 		F1245DFA21A48B2700720A74 /* icons8-user-account-filled-90@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1245DF921A48B2600720A74 /* icons8-user-account-filled-90@3x.png */; };
 		F1245DFC21A48BDC00720A74 /* icons8-alarm-clock-filled-90@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1245DFB21A48BDB00720A74 /* icons8-alarm-clock-filled-90@3x.png */; };
@@ -17,6 +20,7 @@
 		F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C40F32152700800308ACD /* ContactServiceSorted.swift */; };
 		F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */; };
 		F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */; };
+		F173BC5021D00C7A00BC2B24 /* calendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */; };
 		F18FB7F521CEB6CE003C0B41 /* icons8-decision-filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F421CEB6CE003C0B41 /* icons8-decision-filled@3x.png */; };
 		F18FB7F721CEB6E4003C0B41 /* icons8-decision-filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F621CEB6E4003C0B41 /* icons8-decision-filled@2x.png */; };
 		F18FB7F921CEB6F3003C0B41 /* icons8-decision-filled@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F821CEB6F2003C0B41 /* icons8-decision-filled@1x.png */; };
@@ -52,6 +56,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		26FDBF0B829C23F63DCF054C /* Pods_Notifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Notifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E01E1CB1D8E8EC0A917EFBD /* Pods-NotifiUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotifiUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NotifiUITests/Pods-NotifiUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		5A2022D12CEE5B4A931162F8 /* Pods-NotifiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotifiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NotifiTests/Pods-NotifiTests.release.xcconfig"; sourceTree = "<group>"; };
+		73B48BFC9FF63CC8F67E2B99 /* Pods_NotifiTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotifiTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9378D3AC670D188557A42075 /* Pods-Notifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notifi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Notifi/Pods-Notifi.debug.xcconfig"; sourceTree = "<group>"; };
+		967AA3600B3F5D79293D9F9F /* Pods-NotifiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotifiTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NotifiTests/Pods-NotifiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D15B64156065FDF93F8A6AB9 /* Pods_NotifiUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotifiUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3C714F3CEAF3159A3E8EEC9 /* Pods-Notifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notifi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Notifi/Pods-Notifi.release.xcconfig"; sourceTree = "<group>"; };
+		EBEB7753A1FCC0F521F0C64E /* Pods-NotifiUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotifiUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NotifiUITests/Pods-NotifiUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F1032B9D218AEC8100CA5B38 /* nameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nameCell.swift; sourceTree = "<group>"; };
 		F1245DF921A48B2600720A74 /* icons8-user-account-filled-90@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user-account-filled-90@3x.png"; sourceTree = "<group>"; };
 		F1245DFB21A48BDB00720A74 /* icons8-alarm-clock-filled-90@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-alarm-clock-filled-90@3x.png"; sourceTree = "<group>"; };
@@ -62,6 +75,7 @@
 		F13C40F32152700800308ACD /* ContactServiceSorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactServiceSorted.swift; sourceTree = "<group>"; };
 		F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifisController.swift; sourceTree = "<group>"; };
 		F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiCell.swift; sourceTree = "<group>"; };
+		F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarCell.swift; sourceTree = "<group>"; };
 		F18FB7F421CEB6CE003C0B41 /* icons8-decision-filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@3x.png"; sourceTree = "<group>"; };
 		F18FB7F621CEB6E4003C0B41 /* icons8-decision-filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@2x.png"; sourceTree = "<group>"; };
 		F18FB7F821CEB6F2003C0B41 /* icons8-decision-filled@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@1x.png"; sourceTree = "<group>"; };
@@ -90,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B513B5B34518113C4834851 /* Pods_Notifi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA93E068EA1CFEBCC7310C53 /* Pods_NotifiTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,19 +120,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9960E16856BAB84ABD75A501 /* Pods_NotifiUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E3B91CDE674775DCB563EFF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9378D3AC670D188557A42075 /* Pods-Notifi.debug.xcconfig */,
+				E3C714F3CEAF3159A3E8EEC9 /* Pods-Notifi.release.xcconfig */,
+				967AA3600B3F5D79293D9F9F /* Pods-NotifiTests.debug.xcconfig */,
+				5A2022D12CEE5B4A931162F8 /* Pods-NotifiTests.release.xcconfig */,
+				3E01E1CB1D8E8EC0A917EFBD /* Pods-NotifiUITests.debug.xcconfig */,
+				EBEB7753A1FCC0F521F0C64E /* Pods-NotifiUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		85873A1D7514166F687E658B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				26FDBF0B829C23F63DCF054C /* Pods_Notifi.framework */,
+				73B48BFC9FF63CC8F67E2B99 /* Pods_NotifiTests.framework */,
+				D15B64156065FDF93F8A6AB9 /* Pods_NotifiUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F1F36EFA214A9F98008FB3E5 = {
 			isa = PBXGroup;
 			children = (
+				F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */,
 				F1F36F05214A9F98008FB3E5 /* Notifi */,
 				F1F36F1A214A9F9B008FB3E5 /* NotifiTests */,
 				F1F36F25214A9F9B008FB3E5 /* NotifiUITests */,
 				F1F36F04214A9F98008FB3E5 /* Products */,
+				1E3B91CDE674775DCB563EFF /* Pods */,
+				85873A1D7514166F687E658B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,9 +229,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F1F36F2B214A9F9B008FB3E5 /* Build configuration list for PBXNativeTarget "Notifi" */;
 			buildPhases = (
+				1DBB93ADF7F85ECCA2C70ABA /* [CP] Check Pods Manifest.lock */,
 				F1F36EFF214A9F98008FB3E5 /* Sources */,
 				F1F36F00214A9F98008FB3E5 /* Frameworks */,
 				F1F36F01214A9F98008FB3E5 /* Resources */,
+				7FC2AE4EE16AD11A01DF2CBB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -203,6 +248,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F1F36F2E214A9F9B008FB3E5 /* Build configuration list for PBXNativeTarget "NotifiTests" */;
 			buildPhases = (
+				FA89742D49ED84388828F971 /* [CP] Check Pods Manifest.lock */,
 				F1F36F13214A9F9B008FB3E5 /* Sources */,
 				F1F36F14214A9F9B008FB3E5 /* Frameworks */,
 				F1F36F15214A9F9B008FB3E5 /* Resources */,
@@ -221,6 +267,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F1F36F31214A9F9B008FB3E5 /* Build configuration list for PBXNativeTarget "NotifiUITests" */;
 			buildPhases = (
+				1586DADC6198077FA8AEF0E3 /* [CP] Check Pods Manifest.lock */,
 				F1F36F1E214A9F9B008FB3E5 /* Sources */,
 				F1F36F1F214A9F9B008FB3E5 /* Frameworks */,
 				F1F36F20214A9F9B008FB3E5 /* Resources */,
@@ -320,6 +367,97 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1586DADC6198077FA8AEF0E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotifiUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1DBB93ADF7F85ECCA2C70ABA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Notifi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7FC2AE4EE16AD11A01DF2CBB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Notifi/Pods-Notifi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Notifi/Pods-Notifi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA89742D49ED84388828F971 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotifiTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F1F36EFF214A9F98008FB3E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -336,6 +474,7 @@
 				F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */,
 				F1F36F3B214BF219008FB3E5 /* NofitiData.swift in Sources */,
 				F1EC60B5217F89E70089ADF1 /* randomViewController.swift in Sources */,
+				F173BC5021D00C7A00BC2B24 /* calendarCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +645,7 @@
 		};
 		F1F36F2C214A9F9B008FB3E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9378D3AC670D188557A42075 /* Pods-Notifi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -524,6 +664,7 @@
 		};
 		F1F36F2D214A9F9B008FB3E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3C714F3CEAF3159A3E8EEC9 /* Pods-Notifi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -542,6 +683,7 @@
 		};
 		F1F36F2F214A9F9B008FB3E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 967AA3600B3F5D79293D9F9F /* Pods-NotifiTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -563,6 +705,7 @@
 		};
 		F1F36F30214A9F9B008FB3E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A2022D12CEE5B4A931162F8 /* Pods-NotifiTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -584,6 +727,7 @@
 		};
 		F1F36F32214A9F9B008FB3E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E01E1CB1D8E8EC0A917EFBD /* Pods-NotifiUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -604,6 +748,7 @@
 		};
 		F1F36F33214A9F9B008FB3E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBEB7753A1FCC0F521F0C64E /* Pods-NotifiUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
