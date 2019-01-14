@@ -21,6 +21,9 @@
 		F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */; };
 		F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */; };
 		F173BC5021D00C7A00BC2B24 /* calendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */; };
+		F173BC5221D2A43900BC2B24 /* CalendarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5121D2A43900BC2B24 /* CalendarController.swift */; };
+		F173BC5421E1310400BC2B24 /* ActiveNotifiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5321E1310300BC2B24 /* ActiveNotifiData.swift */; };
+		F173BC5621E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5521E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift */; };
 		F18FB7F521CEB6CE003C0B41 /* icons8-decision-filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F421CEB6CE003C0B41 /* icons8-decision-filled@3x.png */; };
 		F18FB7F721CEB6E4003C0B41 /* icons8-decision-filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F621CEB6E4003C0B41 /* icons8-decision-filled@2x.png */; };
 		F18FB7F921CEB6F3003C0B41 /* icons8-decision-filled@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F821CEB6F2003C0B41 /* icons8-decision-filled@1x.png */; };
@@ -76,6 +79,9 @@
 		F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifisController.swift; sourceTree = "<group>"; };
 		F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiCell.swift; sourceTree = "<group>"; };
 		F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarCell.swift; sourceTree = "<group>"; };
+		F173BC5121D2A43900BC2B24 /* CalendarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarController.swift; sourceTree = "<group>"; };
+		F173BC5321E1310300BC2B24 /* ActiveNotifiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiData.swift; sourceTree = "<group>"; };
+		F173BC5521E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiDataTableCell.swift; sourceTree = "<group>"; };
 		F18FB7F421CEB6CE003C0B41 /* icons8-decision-filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@3x.png"; sourceTree = "<group>"; };
 		F18FB7F621CEB6E4003C0B41 /* icons8-decision-filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@2x.png"; sourceTree = "<group>"; };
 		F18FB7F821CEB6F2003C0B41 /* icons8-decision-filled@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@1x.png"; sourceTree = "<group>"; };
@@ -179,8 +185,11 @@
 				F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */,
 				F1F36F08214A9F98008FB3E5 /* TableViewController.swift */,
 				F1F36F0A214A9F98008FB3E5 /* Main.storyboard */,
+				F173BC5121D2A43900BC2B24 /* CalendarController.swift */,
 				F1EC60B4217F89E70089ADF1 /* randomViewController.swift */,
 				F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */,
+				F173BC5521E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift */,
+				F173BC5321E1310300BC2B24 /* ActiveNotifiData.swift */,
 				F1FE121D2151678700ACC512 /* CreateNotifi.swift */,
 				F1A29F442159016F00592DF1 /* myNotifications.swift */,
 				F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */,
@@ -468,12 +477,15 @@
 				F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */,
 				F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */,
 				F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */,
+				F173BC5621E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift in Sources */,
 				F1FE121E2151678700ACC512 /* CreateNotifi.swift in Sources */,
 				F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */,
 				F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */,
+				F173BC5221D2A43900BC2B24 /* CalendarController.swift in Sources */,
 				F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */,
 				F1F36F3B214BF219008FB3E5 /* NofitiData.swift in Sources */,
 				F1EC60B5217F89E70089ADF1 /* randomViewController.swift in Sources */,
+				F173BC5421E1310400BC2B24 /* ActiveNotifiData.swift in Sources */,
 				F173BC5021D00C7A00BC2B24 /* calendarCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

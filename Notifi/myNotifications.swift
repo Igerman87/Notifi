@@ -108,7 +108,7 @@ class myNotifications: UIAlertController
         {
             notification.body = ReminderPhoneNumber
         }
-            //notification.userInfo = ["NOTIFI_ID": notifiID, "USER_ID": ruserok]
+
         notification.categoryIdentifier = "NOTIFI"
         notification.sound = UNNotificationSound.default
         
@@ -117,25 +117,16 @@ class myNotifications: UIAlertController
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Time.timeIntervalSinceNow > 60 ? Time.timeIntervalSinceNow: 60, repeats: false)
         
         
-        let request = UNNotificationRequest(identifier: dateFormatter.string(from: Time) + FullName, content: notification, trigger: trigger)
+        let request = UNNotificationRequest(identifier: dateFormatter.string(from: Time) + notification.body, content: notification, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
-        if allNotifis[FullName] != nil
-        {
-            allNotifis[FullName]?.append(dateFormatter.string(from: Time))
-        }
-        else
-        {
-            allNotifis[FullName] = []
-            
-            allNotifis[FullName]?.append(dateFormatter.string(from: Time))
-        }
-        
+                
         if Alert
         {
             let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) -> Void in
+
+            }))
         
             if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
             {

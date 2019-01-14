@@ -26,5 +26,4 @@ import ContactsUI
         self.ReminderPhoneNumber = reminderPhone
         self.Picture = Picture
     }
-    
 }

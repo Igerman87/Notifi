@@ -57,6 +57,8 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
 
     override func viewDidLoad()
     {
+//UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
         datePicker.datePickerMode = .dateAndTime
         self.datePicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
         
@@ -130,8 +132,6 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
-        
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
         switch response.actionIdentifier {
@@ -189,9 +189,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        allNotifis[notification.request.content.subtitle] =
-            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
-        
+       
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])

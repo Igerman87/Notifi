@@ -93,8 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
-        
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
         print(response.notification.request.content.body.filter{ "+0123456789".contains($0)})
@@ -154,8 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        allNotifis[notification.request.content.subtitle] =
-            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         

@@ -12,14 +12,23 @@ import UIKit
 class ActiveNotifiCell: UITableViewCell {
     
     @IBOutlet weak var ActiveNotifiLabel: UILabel!
-    @IBOutlet weak var ActiveNotifiNumber: UILabel!
+    @IBOutlet weak var ActiveNotifiPhoneTypeLongNameForAll: UILabel!
+    @IBOutlet weak var ActiveNotifiTime: UILabel!
+    @IBOutlet weak var ActiveNotifiPicture: UIImageView!
     
-    func Update(time:String, phone:String) -> Void {
+    func Update(activeNotifi: ActiveNotifiData) -> Void
+    {
+        let start = activeNotifi.time.index(activeNotifi.time.startIndex, offsetBy: 11)
+        let end = activeNotifi.time.index(activeNotifi.time.startIndex, offsetBy: 16)
+        let range = start..<end
+        let subStr = activeNotifi.time[range]
         
-        print(time)
-        print(phone)
+        ActiveNotifiTime.textColor = UIColor(displayP3Red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
         
-        ActiveNotifiLabel.text =  time
-        ActiveNotifiNumber.text = phone
+        
+        ActiveNotifiLabel.text = activeNotifi.fullName
+        ActiveNotifiPhoneTypeLongNameForAll.text = activeNotifi.phoneType
+        ActiveNotifiTime.text = String(subStr)
+        ActiveNotifiPicture.image = activeNotifi.picture
     }
 }

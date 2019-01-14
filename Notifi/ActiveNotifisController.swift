@@ -10,11 +10,24 @@ import Foundation
 import UIKit
 import UserNotifications
 
+var activeNotifiStructure:[String:[ActiveNotifiData]] = [:]
+
+struct sectionData {
+    var section:String
+    var numOfActiveNotifi:Int
+    var sectionLocation:Int
+}
+
 class ActiveNotifisController:TableViewController{
     
-    var activeNotifiSectionTitles: [String] = []
+    
     var indexTitles: [String] = []
+    var mainTable:[String] = ["Today", "Tomorrow", "Ever"]
     var phoneNumberForCall = [String:String]()
+    var selectedIndexPath: IndexPath?
+    var activeNotifiCounterForTable:Int = 0
+    var keyName:String = ""
+    var selectedRowDataAssist:[sectionData] = []
     
     var isFirstRun: Bool = true
     
@@ -39,34 +52,79 @@ class ActiveNotifisController:TableViewController{
         navigationItem.hidesSearchBarWhenScrolling = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+
     }
     
     
     
     override func numberOfSections(in tableView: UITableView) -> Int
     {
-        return activeNotifiSectionTitles.count
+ //       print(activeNotifiStructure.count)
+
+        return 1//activeNotifiStructure.count
+
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return activeNotifiSectionTitles[section]
+//        print(Array(activeNotifiStructure)[section].key)
+
+        return ""// Array(activeNotifiStructure)[section].key
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return (allNotifis[activeNotifiSectionTitles[section]]?.count ?? 0)
+        if selectedIndexPath != nil && selectedIndexPath?.section == section
+        {
+            return 3  + activeNotifiStructure[keyName]!.count
+        }
+        else
+        {
+            return 3
+        }
+
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_notifis", for: indexPath) as! ActiveNotifiCell
         
-        let phoneNumber = phoneNumberForCall[((allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!) + activeNotifiSectionTitles[indexPath.section]]
-        
-        cell.Update(time:(allNotifis[activeNotifiSectionTitles[indexPath.section]]?[indexPath.row])!, phone: phoneNumber ?? "")
-        
-        return cell
+        if selectedIndexPath != nil && keyName != ""
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_notifis", for: indexPath) as! ActiveNotifiCell
+            
+            let array = activeNotifiStructure[keyName]
+            
+            if array?.isEmpty == true
+            {
+                return cell
+            }
+            
+            cell.Update(activeNotifi: array![activeNotifiCounterForTable])
+            
+            activeNotifiCounterForTable += 1
+            
+            return cell
+        }
+        else
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_dates", for: indexPath) as! ActiveNotifiDataTableCell
+            
+            cell.backgroundColor = UIColor.lightGray// UIColor.init(red: 240/255.0, green: 240/255.0, blue: 25.0/255.0, alpha: 0)
+            
+            let array = activeNotifiStructure[mainTable[indexPath.row]]!
+            
+            if  mainTable[indexPath.row] == "Today"
+            {
+                UIApplication.shared.applicationIconBadgeNumber = array.count
+            }
+            
+            cell.Update(number: String(array.count), name: mainTable[indexPath.row])
+            
+
+            
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -86,65 +144,176 @@ class ActiveNotifisController:TableViewController{
     
     override func viewWillAppear(_ animated: Bool)
     {
-
-        
+        selectedIndexPath = nil
+        keyName = ""
+        activeNotifiCounterForTable = 0
         updateTable()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         searchController.searchBar.resignFirstResponder()
+        tableView.deselectRow(at: indexPath, animated: false)
         
-        // Empty for now
+        tableView.beginUpdates()
+        
+        if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row
+        {
+            let rowToDelete = getRowsForTable()
+
+            tableView.deleteRows(at: rowToDelete, with: .fade)
+            selectedIndexPath = nil
+
+            activeNotifiCounterForTable = 0
+            keyName = ""
+        }
+       else
+        {
+            if selectedIndexPath != nil
+            {
+                let rowToDelete = getRowsForTable()
+                
+                tableView.deleteRows(at: rowToDelete, with: .fade)
+                activeNotifiCounterForTable = 0
+                keyName = ""
+            }
+            
+            var rowsToIsert:[IndexPath] = []
+            
+           rowsToIsert = calculateRowsToInsert(indexPath: indexPath)
+        
+            tableView.insertRows(at: rowsToIsert, with: .fade)
+        }
+        tableView.endUpdates()
+        
+        tableView.scrollToRow(at: selectedIndexPath == nil ? IndexPath(row: 0, section: 0): selectedIndexPath!, at: .top, animated: true)
+    }
+    
+    
+    func calculateRowsToInsert(indexPath:IndexPath) -> [IndexPath]
+    {
+        var rowsToIsert:[IndexPath] = []
+
+        
+//        if keyName == ""
+//        {
+//            switch indexPath.row
+//            {
+//            case 0:
+//                keyName = "Today"
+//                break
+//            case 1:
+//                keyName = "Tomorrow"
+//
+//                break
+//            case 2:
+//                keyName = "Ever"
+//
+//                break
+//            default:
+//
+//                break
+//            }
+//
+//            rowsToIsert = getRowsForTable()
+//
+//            selectedIndexPath = IndexPath(row: indexPath.row, section: indexPath.section)
+//        }
+//        else
+//        {
+            if indexPath.row == 0
+            {
+                keyName = "Today"
+                selectedIndexPath = IndexPath(row: 0, section: indexPath.section)
+            }
+            else if (indexPath.row == (tableView.numberOfRows(inSection: indexPath.section ) - 1))
+            {
+                keyName = "Ever"
+                selectedIndexPath = IndexPath(row: 2, section: indexPath.section)
+            }
+            else
+            {
+                keyName = "Tomorrow"
+                selectedIndexPath = IndexPath(row: 1, section: indexPath.section)
+            }
+            
+            rowsToIsert = getRowsForTable()
+//        }
+        
+        return (rowsToIsert)
+    }
+    
+    func getRowsForTable() -> [IndexPath]
+    {
+        var deleteIndexes:[IndexPath] = []
+        
+        for section in selectedRowDataAssist
+        {
+            if keyName == section.section
+            {
+                print(section.sectionLocation)
+                print(section.sectionLocation + section.numOfActiveNotifi)
+                
+                for number in section.sectionLocation..<(section.sectionLocation + section.numOfActiveNotifi)
+                {
+                    deleteIndexes.append(IndexPath(row: number, section: 0))
+                }
+                
+                break
+            }
+        }
+        
+        return deleteIndexes
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int
     {
-        return index
+        return 0
     }
 
     override func sectionIndexTitles(for tableView: UITableView) -> [String]?
     {
-        return indexTitles
+        return nil
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-
-        let notifiToDeleteName = self.activeNotifiSectionTitles[indexPath.section]
-        let notifiToDeleteTime = allNotifis[notifiToDeleteName]![indexPath.row]
-        
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (UITableViewRowAction, indexPath) in
-        
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
-            
-            self.updateTable()
-
-        }
-        
-        let call = UITableViewRowAction(style: .normal, title: "Call") { (UITableViewRowAction, indexPath) in
-            
-            let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
-            
-            let phone = (self.phoneNumberForCall[cell.ActiveNotifiLabel.text! + self.activeNotifiSectionTitles[indexPath.section]])?.filter{ "+0123456789".contains($0)}
-
-            let phoneUrl = "tel://" + phone!
-            
-            let url = URL(string: phoneUrl)
-            
-            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-            
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
-            
-            self.updateTable()
-        }
-        
-        call.backgroundColor = UIColor.green
-        
-        return [delete,call]
-    }
+//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//
+//        let notifiToDeleteName = self.activeNotifiSectionTitles[indexPath.section]
+//        let notifiToDeleteTime = "TODO"
+//
+//        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (UITableViewRowAction, indexPath) in
+//
+//            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
+//
+//            self.updateTable()
+//
+//        }
+//
+//        let call = UITableViewRowAction(style: .normal, title: "Call") { (UITableViewRowAction, indexPath) in
+//
+//            let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
+//
+//            let phone = (self.phoneNumberForCall[cell.ActiveNotifiLabel.text! + self.activeNotifiSectionTitles[indexPath.section]])?.filter{ "+0123456789".contains($0)}
+//
+//            let phoneUrl = "tel://" + phone!
+//
+//            let url = URL(string: phoneUrl)
+//
+//            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+//
+//            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
+//
+//            self.updateTable()
+//        }
+//
+//        call.backgroundColor = UIColor.green
+//
+//        return [delete,call]
+//    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
+     
         
         if editingStyle == .delete
         {
@@ -152,11 +321,21 @@ class ActiveNotifisController:TableViewController{
         }
     }
     
+
+}
+
+extension ActiveNotifisController
+{
     @objc func updateTable() -> Void
     {
         allNotifis.removeAll()
-        activeNotifiSectionTitles.removeAll()
+        
         indexTitles.removeAll()
+        selectedRowDataAssist.removeAll()
+        
+        activeNotifiStructure["Today"] = []
+        activeNotifiStructure["Tomorrow"] = []
+        activeNotifiStructure["Ever"] = []
         
         group.enter()
         
@@ -164,23 +343,18 @@ class ActiveNotifisController:TableViewController{
             
             for req in requests
             {
-                
                 if (req.content.categoryIdentifier == "NOTIFI")
                 {
-                    if allNotifis[req.content.subtitle] != nil
-                    {
-    
-                        allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
-                    }
-                    else
-                    {
-                        allNotifis[req.content.subtitle] = []
-                        
-                        allNotifis[req.content.subtitle]?.append(String(req.identifier.prefix(16)))
-                    }
+                    let fullName = req.content.subtitle
+                    let phoneNumber = req.content.body.filter{ "+0123456789".contains($0)}
+                    let phoneType = req.content.body.prefix(while: {$0 != ":"})
+                    let time = req.identifier.prefix(16)
+                    let picture = (contactsOneDimantion.filter({$0.FullName == fullName}).first)?.Picture
+                    let identifier = req.identifier
                     
-                    self.phoneNumberForCall[String(req.identifier.prefix(16)) + req.content.subtitle] = req.content.body
+                    let newNofiti = ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: phoneNumber, phoneTypeIn: String(phoneType), timeIn: String(time), pictureIn: picture!, indetifierIn: identifier)
                     
+                    self.prepareTable(newNotifi: newNofiti)
                 }
             }
             
@@ -189,31 +363,49 @@ class ActiveNotifisController:TableViewController{
         })
         
         group.wait()
-
-        if allNotifis.isEmpty
-        {
-            allNotifis[""] = []
-            
-            allNotifis[""]?.append("No reminders")
-        }
         
-        for activeNotifi in allNotifis
-        {
-            activeNotifiSectionTitles.append(activeNotifi.key)
-        }
+        selectedRowDataAssist.append(sectionData(section: "Today", numOfActiveNotifi: (activeNotifiStructure["Today"]?.count)!, sectionLocation: 1))
+        selectedRowDataAssist.append(sectionData(section: "Tomorrow", numOfActiveNotifi: (activeNotifiStructure["Tomorrow"]?.count)!, sectionLocation: 2))
+        selectedRowDataAssist.append(sectionData(section: "Ever", numOfActiveNotifi: (activeNotifiStructure["Ever"]?.count)!, sectionLocation: 3))
         
-        for index in activeNotifiSectionTitles
-        {
-            if !(indexTitles.contains(String(index.prefix(1))))
-            {
-                indexTitles.append(String(index.prefix(1)))
-            }
-        }
+        //indexTitles.sort()
         
-        indexTitles.sort()
-
-        
+        print(activeNotifiStructure)
         
         tableView.reloadData()
+    }
+    
+    func prepareTable(newNotifi: ActiveNotifiData) -> Void
+    {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        let calendar = Calendar.current
+
+        if calendar.isDateInToday(dateFormatter.date(from: newNotifi.time)!)
+        {
+            var array: [ActiveNotifiData] = activeNotifiStructure["Today"]!
+            
+            array.append(newNotifi)
+            
+            activeNotifiStructure["Today"] = array
+        }
+        else if calendar.isDateInTomorrow(dateFormatter.date(from: newNotifi.time)!)
+        {
+            var array: [ActiveNotifiData] = activeNotifiStructure["Tomorrow"]!
+        
+            array.append(newNotifi)
+            
+            activeNotifiStructure["Tomorrow"] = array
+        }
+        else
+        {
+            var array: [ActiveNotifiData] = activeNotifiStructure["Ever"]!
+            
+            array.append(newNotifi)
+            
+            activeNotifiStructure["Ever"] = array
+        }
     }
 }

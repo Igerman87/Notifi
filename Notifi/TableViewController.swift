@@ -16,7 +16,8 @@ var sectionTitles: [String] = []
 var Contacts: [[NotifiContact]] = []
 var contactsOneDimantion: [NotifiContact] = []
 
-var allNotifis = [String:[String]]()
+
+var allNotifis = [String:NotifiContact]()
 
 class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UNUserNotificationCenterDelegate, UIPickerViewDelegate
 {
@@ -24,20 +25,17 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     @IBOutlet weak var addNotifiOutlet: UIBarButtonItem!
 
     var searchController = UISearchController(searchResultsController: nil)
-    var selectedIndexPath :IndexPath?
     var searchContacts: [NotifiContact] = []
  
     var isSearching: Bool = false
     
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     override func viewWillDisappear(_ animated: Bool)
     {
-        if selectedIndexPath != nil
-        {
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
-            selectedIndexPath = nil
-            tableView.endUpdates()
-        }
         
         if isSearching
         {
@@ -103,25 +101,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     {
         if isSearching
         {
-            if selectedIndexPath != nil && selectedIndexPath?.section == section
-            {
-                return searchContacts.count + 1
-            }
-            else
-            {
-                return searchContacts.count
-            }
+            return searchContacts.count
         }
         else
         {
-            if selectedIndexPath != nil && selectedIndexPath?.section == section
-            {
-                return Contacts[section].count + 1
-            }
-            else
-            {
-                return Contacts[section].count
-            }
+            return Contacts[section].count
         }
     }
     
@@ -164,139 +148,49 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        
-        if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row && selectedIndexPath!.section == indexPath.section
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
+        if isSearching
         {
-            let cellpicker = tableView.dequeueReusableCell(withIdentifier: "cell_id") as! pickerTableViewCell
-            if isSearching
-            {
-                cellpicker.Update(CellContact: searchContacts[indexPath.row - 1])                
-            }
-            else
-            {
-               cellpicker.Update(CellContact: Contacts[indexPath.section][indexPath.row - 1])
-            }
-            
-            return cellpicker
-        }
-        else if selectedIndexPath != nil && indexPath.row > selectedIndexPath!.row && indexPath.section == selectedIndexPath?.section
-        {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
-            if isSearching
-            {
-                cell.Update(CellContact: searchContacts[indexPath.row - 1])
-            }
-            else
-            {
-                cell.Update(CellContact: Contacts[indexPath.section][indexPath.row - 1])
-            }
-            
-            return cell
+            cell.Update(CellContact: searchContacts[indexPath.row])
         }
         else
         {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_name", for: indexPath) as! NameCell
-            if isSearching
-            {
-                cell.Update(CellContact: searchContacts[indexPath.row])
-            }
-            else
-            {
-                cell.Update(CellContact: Contacts[indexPath.section][indexPath.row])
-            }
-            
-            return cell
+            cell.Update(CellContact: Contacts[indexPath.section][indexPath.row])
         }
+        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
         searchController.searchBar.resignFirstResponder()
-        
-        tableView.beginUpdates()
-        
-        if selectedIndexPath != nil && selectedIndexPath!.row - 1 == indexPath.row && selectedIndexPath!.section == indexPath.section
+
+        if isSearching
         {
-            tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
-            selectedIndexPath = nil
+            cellContactDetails = searchContacts[indexPath.row]
         }
         else
         {
-            if selectedIndexPath != nil
-            {
-                tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
-            }
-            
-            selectedIndexPath = calculateDatePickerIndexPath(indexPathSelected: indexPath)
-            tableView.insertRows(at: [selectedIndexPath!], with: .fade)
+            cellContactDetails = Contacts[indexPath.section][indexPath.row]
         }
-        tableView.endUpdates()
-        var scrolIndex = indexPath
-        scrolIndex.row = scrolIndex.row > 0 ? scrolIndex.row - 1 : 0
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        tableView.scrollToRow(at: scrolIndex, at: .top, animated: true)
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        
-        if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row && selectedIndexPath!.section == indexPath.section
-        {
-            return 277
-        }
-        
         return 60 // Height for nameCell
-    }
-    
-    func calculateDatePickerIndexPath(indexPathSelected:IndexPath) -> IndexPath {
-        
-        if selectedIndexPath != nil && selectedIndexPath!.row <= indexPathSelected.row && selectedIndexPath!.section == indexPathSelected.section
-        {
-            return IndexPath(row: indexPathSelected.row, section: indexPathSelected.section)
-        }
-        else
-        {
-            return IndexPath(row: indexPathSelected.row + 1, section: indexPathSelected.section)
-        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
     {
         searchBar.resignFirstResponder()
         
-        selectedIndexPath = nil
-        
         isSearching = false
         
         tableView.reloadData()
     }
-
-    
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-//    {
-//        if searchBar.text != ""
-//        {
-//            isSearching = true
-//
-//            searchBar.resignFirstResponder()
-//
-//            searchContacts = contactsOneDimantion.filter {$0.FullName.range(of: searchBar.text!, options:.caseInsensitive) != nil }
-//
-//            tableView.reloadData()
-//        }
-//    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
-        if selectedIndexPath != nil
-        {
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [selectedIndexPath!], with: .fade)
-            selectedIndexPath = nil
-            tableView.endUpdates()
-        }
         
         if searchText == ""
         {
@@ -317,8 +211,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         completionHandler()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
-        
-        allNotifis[response.notification.request.content.subtitle] = allNotifis[response.notification.request.content.subtitle]?.filter{$0 != response.notification.request.identifier}
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
@@ -378,9 +270,8 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        allNotifis[notification.request.content.subtitle] =
-            allNotifis[notification.request.content.subtitle]?.filter{$0 != notification.request.identifier}
-        
+
+
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
