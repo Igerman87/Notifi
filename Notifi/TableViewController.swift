@@ -164,6 +164,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
         searchController.searchBar.resignFirstResponder()
+        tableView.deselectRow(at: indexPath, animated: false)
 
         if isSearching
         {
@@ -194,7 +195,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         if searchText == ""
         {
-            searchContacts.removeAll()
+            searchContacts = contactsOneDimantion
         }
         else
         {

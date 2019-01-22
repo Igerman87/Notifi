@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc class ActiveNotifiData : NSObject {
+class ActiveNotifiData : NSObject {
     
     var fullName: String!
     var phoneNumber: String!

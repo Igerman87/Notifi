@@ -59,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
 
         UNUserNotificationCenter.current().delegate = self
+
+        completedNitifi = ((UserDefaults.standard.array(forKey: "Active") as? [ActiveNotifiData])!)
         
         return true
     }
@@ -84,6 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+  
+        UserDefaults.standard.set(completedNitifi, forKey: "Active")
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)

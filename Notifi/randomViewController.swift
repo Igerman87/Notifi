@@ -13,6 +13,7 @@ import UserNotifications // debug
 class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate
 {
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var viewCollectoin: UICollectionView!
     
     @IBOutlet weak var phoneText: UITextField!
     @IBOutlet weak var nameText: UITextField!
@@ -31,7 +32,9 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
                 let myNot = myNotifications()
                 
                 myNot.createNotification(FullName: nameText.text == "" ? "John Doe": nameText.text!,
-                                         ReminderPhoneNumber: phoneText.text!, Type:"Random", Time:datePicker.date, Alert: true)
+                                         ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:datePicker.date, Alert: true)
+                
+                showSuccessAlert()
             }
             else
             {
@@ -39,6 +42,8 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
                 dateFormatterWithoutSeconds.dateFormat = "yyyy-MM-dd HH:mm"
                 
                 datePicker.date = Date(timeIntervalSinceNow: 120)
+                
+                
             }
         }
         else
@@ -75,6 +80,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         view.addGestureRecognizer(tap)
+     
         
     }
 
@@ -200,7 +206,51 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
-
     
+    func showSuccessAlert(){
+        
+        let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) -> Void in
+            
+            //  self.presentingViewController?.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now())
+            {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }))
+        
+        if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
+        {
+            presentedVC.present(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
+extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSource
+{
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+        return 5
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = viewCollectoin.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! randomCollectionCell
+
+        if contactsOneDimantion.isEmpty == true
+        {
+            cell.update(data : NotifiContact(fullName: "Ananas", phoneNumbers: [], emails: [], Picture: UIImage(named: "icons8-decision-filled")!, reminderPhone: "Hui"))
+        }
+        else
+        {
+            //cell.update(data : contactsOneDimantion[indexPath.row])
+        }
+        
+        return cell
+    }
+}

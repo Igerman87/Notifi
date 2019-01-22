@@ -65,14 +65,12 @@ class CalendarController:  UIViewController
                         cellContactDetails.ReminderType = phoneType
                         
                         myNotifi.createNotification(contact: cellContactDetails, Type:cellContactDetails.ReminderType, Time: time)
-                        
-                        self.presentingViewController?.dismiss(animated: true, completion: nil )
-
+                       
+                        self.showSuccessAlert()
                     }))
                 }
-                UIApplication.shared.keyWindow?.rootViewController?.present(phoneMenu, animated: true, completion: {
-                    
-                })
+                UIApplication.shared.keyWindow?.rootViewController?.present(phoneMenu, animated: true, completion:nil)
+                
             }
             else
             {
@@ -89,8 +87,10 @@ class CalendarController:  UIViewController
                 
                 cellContactDetails.ReminderPhoneNumber = ((cellContactDetails.PhoneNumbers[0].value).value(forKey: "digits") as! String)
                 myNotifi.createNotification(contact: cellContactDetails, Type:phoneType , Time: time)
-
+                
+                showSuccessAlert()
             }
+
         }
         else
         {
@@ -262,6 +262,28 @@ class CalendarController:  UIViewController
 //        {
 //            reminderPicker.date = Date(timeIntervalSinceNow: 120)
 //        }
+    }
+    
+    func showSuccessAlert(){
+        
+        let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) -> Void in
+            
+            //  self.presentingViewController?.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now())
+            {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }))
+        
+        if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
+        {
+            presentedVC.present(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

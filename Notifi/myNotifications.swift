@@ -66,7 +66,7 @@ class myNotifications: UIAlertController
     
     func createNotification(contact: NotifiContact, Type:String, Time: Date) -> Void
     {
-        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber,Type: Type, Time: Time, Alert: true)
+        genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber,Type: Type, Time: Time, Alert: false)
     }
     
     func createNotification(FullName: String,ReminderPhoneNumber: String, Type:String, Time:Date, Alert:Bool) -> Void
@@ -119,23 +119,12 @@ class myNotifications: UIAlertController
         
         let request = UNNotificationRequest(identifier: dateFormatter.string(from: Time) + notification.body, content: notification, trigger: trigger)
         
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                
-        if Alert
-        {
-            let alert = UIAlertController(title: "Notifi set successfuly", message: "I won't allow you to forget", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(UIAlertAction) -> Void in
-
-            }))
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: {(Error) -> Void in
         
-            if let presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
+            if Error == nil
             {
-                presentedVC.present(alert, animated: true, completion: nil)
+ 
             }
-            else
-            {
-                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-            }
-        }
+        })
     }
 }

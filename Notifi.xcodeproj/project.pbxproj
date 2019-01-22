@@ -24,6 +24,7 @@
 		F173BC5221D2A43900BC2B24 /* CalendarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5121D2A43900BC2B24 /* CalendarController.swift */; };
 		F173BC5421E1310400BC2B24 /* ActiveNotifiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5321E1310300BC2B24 /* ActiveNotifiData.swift */; };
 		F173BC5621E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5521E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift */; };
+		F173BC5821F4EFFE00BC2B24 /* randomCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC5721F4EFFE00BC2B24 /* randomCollectionCell.swift */; };
 		F18FB7F521CEB6CE003C0B41 /* icons8-decision-filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F421CEB6CE003C0B41 /* icons8-decision-filled@3x.png */; };
 		F18FB7F721CEB6E4003C0B41 /* icons8-decision-filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F621CEB6E4003C0B41 /* icons8-decision-filled@2x.png */; };
 		F18FB7F921CEB6F3003C0B41 /* icons8-decision-filled@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = F18FB7F821CEB6F2003C0B41 /* icons8-decision-filled@1x.png */; };
@@ -82,6 +83,7 @@
 		F173BC5121D2A43900BC2B24 /* CalendarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarController.swift; sourceTree = "<group>"; };
 		F173BC5321E1310300BC2B24 /* ActiveNotifiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiData.swift; sourceTree = "<group>"; };
 		F173BC5521E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiDataTableCell.swift; sourceTree = "<group>"; };
+		F173BC5721F4EFFE00BC2B24 /* randomCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = randomCollectionCell.swift; sourceTree = "<group>"; };
 		F18FB7F421CEB6CE003C0B41 /* icons8-decision-filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@3x.png"; sourceTree = "<group>"; };
 		F18FB7F621CEB6E4003C0B41 /* icons8-decision-filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@2x.png"; sourceTree = "<group>"; };
 		F18FB7F821CEB6F2003C0B41 /* icons8-decision-filled@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-decision-filled@1x.png"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */,
 				F173BC5521E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift */,
 				F173BC5321E1310300BC2B24 /* ActiveNotifiData.swift */,
+				F173BC5721F4EFFE00BC2B24 /* randomCollectionCell.swift */,
 				F1FE121D2151678700ACC512 /* CreateNotifi.swift */,
 				F1A29F442159016F00592DF1 /* myNotifications.swift */,
 				F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */,
@@ -474,6 +477,7 @@
 			files = (
 				F1A29F452159016F00592DF1 /* myNotifications.swift in Sources */,
 				F1032B9E218AEC8100CA5B38 /* nameCell.swift in Sources */,
+				F173BC5821F4EFFE00BC2B24 /* randomCollectionCell.swift in Sources */,
 				F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */,
 				F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */,
 				F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */,

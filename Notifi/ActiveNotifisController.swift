@@ -11,6 +11,7 @@ import UIKit
 import UserNotifications
 
 var activeNotifiStructure:[String:[ActiveNotifiData]] = [:]
+var completedNitifi: [ActiveNotifiData] = []
 
 struct sectionData {
     var section:String
@@ -22,12 +23,13 @@ class ActiveNotifisController:TableViewController{
     
     
     var indexTitles: [String] = []
-    var mainTable:[String] = ["Today", "Tomorrow", "Ever"]
+    var mainTable:[String] = ["Today", "Tomorrow", "Forthcoming"]
     var phoneNumberForCall = [String:String]()
     var selectedIndexPath: IndexPath?
     var activeNotifiCounterForTable:Int = 0
     var keyName:String = ""
-    var selectedRowDataAssist:[sectionData] = []
+    var selectedRowDataAssist:[String:sectionData] = [:]
+    var selectedSection:sectionData = sectionData(section: "", numOfActiveNotifi: 0, sectionLocation: 0)
     
     var isFirstRun: Bool = true
     
@@ -36,9 +38,7 @@ class ActiveNotifisController:TableViewController{
         tableView.dataSource = self
         tableView.delegate = self
         //self.tableView.estimatedRowHeight = 90
-        
-        UNUserNotificationCenter.current().delegate = self
-        
+                
 //        searchController.searchBar.sizeToFit()
 //        searchController.searchBar.returnKeyType = .search
 //        searchController.searchBar.searchBarStyle = UISearchBar.Style.prominent
@@ -89,7 +89,7 @@ class ActiveNotifisController:TableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         
-        if selectedIndexPath != nil && keyName != ""
+        if selectedIndexPath != nil && keyName != "" && indexPath.row >= ((selectedRowDataAssist[keyName]?.sectionLocation)!) && indexPath.row <= ((selectedRowDataAssist[keyName]?.numOfActiveNotifi)! + (((selectedRowDataAssist[keyName]?.sectionLocation)!) - 1))
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell_id_active_notifis", for: indexPath) as! ActiveNotifiCell
             
@@ -100,9 +100,7 @@ class ActiveNotifisController:TableViewController{
                 return cell
             }
             
-            cell.Update(activeNotifi: array![activeNotifiCounterForTable])
-            
-            activeNotifiCounterForTable += 1
+            cell.Update(activeNotifi: array![indexPath.row - (selectedIndexPath?.row)!])
             
             return cell
         }
@@ -112,14 +110,21 @@ class ActiveNotifisController:TableViewController{
             
             cell.backgroundColor = UIColor.lightGray// UIColor.init(red: 240/255.0, green: 240/255.0, blue: 25.0/255.0, alpha: 0)
             
-            let array = activeNotifiStructure[mainTable[indexPath.row]]!
+            var adjustNum: Int = 0
             
-            if  mainTable[indexPath.row] == "Today"
+            if activeNotifiStructure[keyName] != nil && indexPath.row > 2
+            {
+                 adjustNum = ((activeNotifiStructure[keyName]?.count)!)
+            }
+            
+            let array = activeNotifiStructure[mainTable[indexPath.row - adjustNum]]!
+            
+            if  mainTable[indexPath.row - adjustNum] == "Today"
             {
                 UIApplication.shared.applicationIconBadgeNumber = array.count
             }
             
-            cell.Update(number: String(array.count), name: mainTable[indexPath.row])
+            cell.Update(number: String(array.count), name: mainTable[indexPath.row - adjustNum])
             
 
             
@@ -157,14 +162,13 @@ class ActiveNotifisController:TableViewController{
         
         tableView.beginUpdates()
         
-        if selectedIndexPath != nil && selectedIndexPath!.row == indexPath.row
+        if selectedIndexPath != nil && (selectedIndexPath!.row - 1) == indexPath.row
         {
             let rowToDelete = getRowsForTable()
 
             tableView.deleteRows(at: rowToDelete, with: .fade)
             selectedIndexPath = nil
 
-            activeNotifiCounterForTable = 0
             keyName = ""
         }
        else
@@ -174,7 +178,6 @@ class ActiveNotifisController:TableViewController{
                 let rowToDelete = getRowsForTable()
                 
                 tableView.deleteRows(at: rowToDelete, with: .fade)
-                activeNotifiCounterForTable = 0
                 keyName = ""
             }
             
@@ -194,51 +197,24 @@ class ActiveNotifisController:TableViewController{
     {
         var rowsToIsert:[IndexPath] = []
 
+        if indexPath.row == 0
+        {
+            keyName = "Today"
+            selectedIndexPath = IndexPath(row: 1, section: indexPath.section)
+        }
+        else if (indexPath.row == (tableView.numberOfRows(inSection: indexPath.section ) - 1))
+        {
+            keyName = "Forthcoming"
+            selectedIndexPath = IndexPath(row: 3, section: indexPath.section)
+        }
+        else
+        {
+            keyName = "Tomorrow"
+            selectedIndexPath = IndexPath(row: 2, section: indexPath.section)
+        }
         
-//        if keyName == ""
-//        {
-//            switch indexPath.row
-//            {
-//            case 0:
-//                keyName = "Today"
-//                break
-//            case 1:
-//                keyName = "Tomorrow"
-//
-//                break
-//            case 2:
-//                keyName = "Ever"
-//
-//                break
-//            default:
-//
-//                break
-//            }
-//
-//            rowsToIsert = getRowsForTable()
-//
-//            selectedIndexPath = IndexPath(row: indexPath.row, section: indexPath.section)
-//        }
-//        else
-//        {
-            if indexPath.row == 0
-            {
-                keyName = "Today"
-                selectedIndexPath = IndexPath(row: 0, section: indexPath.section)
-            }
-            else if (indexPath.row == (tableView.numberOfRows(inSection: indexPath.section ) - 1))
-            {
-                keyName = "Ever"
-                selectedIndexPath = IndexPath(row: 2, section: indexPath.section)
-            }
-            else
-            {
-                keyName = "Tomorrow"
-                selectedIndexPath = IndexPath(row: 1, section: indexPath.section)
-            }
-            
-            rowsToIsert = getRowsForTable()
-//        }
+        rowsToIsert = getRowsForTable()
+
         
         return (rowsToIsert)
     }
@@ -247,21 +223,16 @@ class ActiveNotifisController:TableViewController{
     {
         var deleteIndexes:[IndexPath] = []
         
-        for section in selectedRowDataAssist
+        let selectedSection = selectedRowDataAssist[keyName]
+            
+        print(selectedSection!.sectionLocation)
+        print(selectedSection!.sectionLocation + selectedSection!.numOfActiveNotifi)
+        
+        for number in selectedSection!.sectionLocation..<(selectedSection!.sectionLocation + selectedSection!.numOfActiveNotifi)
         {
-            if keyName == section.section
-            {
-                print(section.sectionLocation)
-                print(section.sectionLocation + section.numOfActiveNotifi)
-                
-                for number in section.sectionLocation..<(section.sectionLocation + section.numOfActiveNotifi)
-                {
-                    deleteIndexes.append(IndexPath(row: number, section: 0))
-                }
-                
-                break
-            }
+            deleteIndexes.append(IndexPath(row: number, section: 0))
         }
+
         
         return deleteIndexes
     }
@@ -335,7 +306,7 @@ extension ActiveNotifisController
         
         activeNotifiStructure["Today"] = []
         activeNotifiStructure["Tomorrow"] = []
-        activeNotifiStructure["Ever"] = []
+        activeNotifiStructure["Forthcoming"] = []
         
         group.enter()
         
@@ -349,10 +320,13 @@ extension ActiveNotifisController
                     let phoneNumber = req.content.body.filter{ "+0123456789".contains($0)}
                     let phoneType = req.content.body.prefix(while: {$0 != ":"})
                     let time = req.identifier.prefix(16)
-                    let picture = (contactsOneDimantion.filter({$0.FullName == fullName}).first)?.Picture
                     let identifier = req.identifier
                     
-                    let newNofiti = ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: phoneNumber, phoneTypeIn: String(phoneType), timeIn: String(time), pictureIn: picture!, indetifierIn: identifier)
+                    let picture = (contactsOneDimantion.filter({$0.FullName == fullName}).first)?.Picture ?? UIImage(named: "icons8-decision-filled")!
+                    
+                    let newNofiti = ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: phoneNumber, phoneTypeIn: String(phoneType), timeIn: String(time), pictureIn: picture, indetifierIn: identifier)
+
+                    completedNitifi.append(newNofiti)
                     
                     self.prepareTable(newNotifi: newNofiti)
                 }
@@ -364,9 +338,9 @@ extension ActiveNotifisController
         
         group.wait()
         
-        selectedRowDataAssist.append(sectionData(section: "Today", numOfActiveNotifi: (activeNotifiStructure["Today"]?.count)!, sectionLocation: 1))
-        selectedRowDataAssist.append(sectionData(section: "Tomorrow", numOfActiveNotifi: (activeNotifiStructure["Tomorrow"]?.count)!, sectionLocation: 2))
-        selectedRowDataAssist.append(sectionData(section: "Ever", numOfActiveNotifi: (activeNotifiStructure["Ever"]?.count)!, sectionLocation: 3))
+        selectedRowDataAssist["Today"] = sectionData(section: "Today", numOfActiveNotifi: (activeNotifiStructure["Today"]?.count)!, sectionLocation: 1)
+        selectedRowDataAssist["Tomorrow"] = sectionData(section: "Tomorrow", numOfActiveNotifi: (activeNotifiStructure["Tomorrow"]?.count)!, sectionLocation: 2)
+        selectedRowDataAssist["Forthcoming"] = sectionData(section: "Forthcoming", numOfActiveNotifi: (activeNotifiStructure["Forthcoming"]?.count)!, sectionLocation: 3)
         
         //indexTitles.sort()
         
@@ -401,11 +375,11 @@ extension ActiveNotifisController
         }
         else
         {
-            var array: [ActiveNotifiData] = activeNotifiStructure["Ever"]!
+            var array: [ActiveNotifiData] = activeNotifiStructure["Forthcoming"]!
             
             array.append(newNotifi)
             
-            activeNotifiStructure["Ever"] = array
+            activeNotifiStructure["Forthcoming"] = array
         }
     }
 }
