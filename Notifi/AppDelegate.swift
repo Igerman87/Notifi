@@ -59,8 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
 
         UNUserNotificationCenter.current().delegate = self
+        
+        if let data = UserDefaults.standard.value(forKey: "Recent") as? Data {
+            recentNotifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
+        }
 
-        completedNitifi = ((UserDefaults.standard.array(forKey: "Active") as? [ActiveNotifiData])!)
+        if let data = UserDefaults.standard.value(forKey: "Completed") as? Data {
+            completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
+        }
+
+
         
         return true
     }
@@ -86,8 +94,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-  
-        UserDefaults.standard.set(completedNitifi, forKey: "Active")
+
+
+        
+        if let data = try? JSONEncoder().encode(recentNotifi)
+        {
+            UserDefaults.standard.set(data, forKey: "Recent")
+        }
+        
+        if let data = try? JSONEncoder().encode(completedNitifi)
+        {
+            UserDefaults.standard.set(data, forKey: "Completed")
+        }
+
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)

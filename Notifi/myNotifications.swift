@@ -67,11 +67,14 @@ class myNotifications: UIAlertController
     func createNotification(contact: NotifiContact, Type:String, Time: Date) -> Void
     {
         genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber,Type: Type, Time: Time, Alert: false)
+    
+        self.updateRecentNotifi(contact: contact, type: Type)
     }
     
     func createNotification(FullName: String,ReminderPhoneNumber: String, Type:String, Time:Date, Alert:Bool) -> Void
     {
         genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber,Type: Type, Time: Time, Alert: Alert)
+
     }
     
     private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String,Type:String, Time:Date, Alert:Bool) -> Void
@@ -126,5 +129,40 @@ class myNotifications: UIAlertController
  
             }
         })
+ 
+
+    }
+    
+    func updateRecentNotifi(contact: NotifiContact, type:String) {
+        
+        if recentNotifi.isEmpty
+        {
+            recentNotifi.append(ActiveNotifiData(fullnameIn: contact.FullName, phoneNumberIn: contact.ReminderPhoneNumber, phoneTypeIn:type, timeIn: "Hui2", pictureIn: contact.Picture, indetifierIn: "Hui3"))
+        }
+        else if recentNotifi.count < 7
+        {
+            recentNotifi.append(recentNotifi[recentNotifi.count - 1])
+        }
+
+        for index in stride(from: recentNotifi.count == 7 ? 6:(recentNotifi.count - 1), to: 0, by: -1)
+        {
+            if index == 0
+            {
+                break;
+            }
+            recentNotifi.swapAt(index, index - 1)
+            
+        }
+
+        recentNotifi[0] = ActiveNotifiData(fullnameIn: contact.FullName, phoneNumberIn: contact.ReminderPhoneNumber, phoneTypeIn:type, timeIn: "Hui2", pictureIn: contact.Picture, indetifierIn: "Hui3")
+//        }
+//        else
+//        {
+//
+//
+//
+//            recentNotifi.append(ActiveNotifiData(fullnameIn: contact.FullName, phoneNumberIn: ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String), phoneTypeIn: "Hui", timeIn: "Hui2", pictureIn: contact.Picture, indetifierIn: "Hui3"))
+//        }
+//        recentNotifi.a
     }
 }

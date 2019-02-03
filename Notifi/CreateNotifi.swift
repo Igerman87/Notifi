@@ -10,6 +10,8 @@ import Foundation
 import EventKit
 import UserNotificationsUI
 
+var recentNotifi:[ActiveNotifiData] = []
+
 class CreateNotifi: UIAlertController
 {
     var eventStore = EKEventStore()
@@ -65,4 +67,5 @@ class CreateNotifi: UIAlertController
         return
     }
     
+
 }

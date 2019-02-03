@@ -9,14 +9,39 @@
 import Foundation
 import UIKit
 import UserNotifications // debug
+import Contacts
 
 class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate
 {
+    var tempStringHolder:String = ""
+    
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var viewCollectoin: UICollectionView!
     
     @IBOutlet weak var phoneText: UITextField!
-    @IBOutlet weak var nameText: UITextField!
+    @IBOutlet weak var newNameText: UILabel!
+    @IBAction func minButton(_ sender: UIButton) {
+    }
+    
+    @IBAction func hrButton(_ sender: UIButton) {
+    }
+    @IBAction func fourHrButton(_ sender: Any) {
+    }
+    @IBAction func twelveHrButton(_ sender: UIButton)
+    {
+    }
+    @IBAction func twenyFourHrButton(_ sender: UIButton) {
+    }
+    @IBAction func elseButton(_ sender: UIButton)
+    {
+        let name = newNameText.text == "Name" ? "John Doe": newNameText.text!
+        if phoneText.text == "Phone"
+        {
+            phoneText.text = "0000000000"
+        }
+        cellContactDetails = NotifiContact(fullName: name, phoneNumbers: [], emails: [], Picture: UIImage(named: "icons8-decision-filled")!, reminderPhone: phoneText.text!)
+        
+    }
     
     @IBAction func buttonSetNotifi(_ sender: UIButton)
     {
@@ -31,7 +56,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             {
                 let myNot = myNotifications()
                 
-                myNot.createNotification(FullName: nameText.text == "" ? "John Doe": nameText.text!,
+                myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
                                          ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:datePicker.date, Alert: true)
                 
                 showSuccessAlert()
@@ -58,23 +83,33 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     override func viewWillAppear(_ animated: Bool)
     {
         checkClipBoard()
+        self.tabBarController?.tabBar.isHidden = false
+        viewCollectoin.reloadData()
+        
+        newNameText.text = "Name"
+        phoneText.text = "Phone"
     }
 
     override func viewDidLoad()
     {
 //UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
-        datePicker.datePickerMode = .dateAndTime
-        self.datePicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
+//        datePicker.datePickerMode = .dateAndTime
+//        self.datePicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
+        
+        viewCollectoin.delegate = self
         
         phoneText.delegate = self
         phoneText.keyboardType = UIKeyboardType.phonePad
-        nameText.delegate = self
+        
+        phoneText.tag = 1
+        newNameText.tag = 2
+        setupRandomBorders()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
-        datePicker.date = Date(timeIntervalSinceNow: 3600)
+ //       datePicker.date = Date(timeIntervalSinceNow: 3600)
     
         NotificationCenter.default.addObserver(self, selector: #selector(checkClipBoard), name: UIApplication.willEnterForegroundNotification, object: nil)
         
@@ -97,13 +132,23 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     
     func textFieldDidBeginEditing(_ textField: UITextField)
     {
-        datePicker.isHidden = true
+        textField.text = ""
     }
     
     func textFieldDidEndEditing(_ textField: UITextField)
     {
         view.endEditing(true)
-        datePicker.isHidden = false
+        if textField.text == ""
+        {
+            if  textField.tag == 1
+            {
+                textField.text = "Phone"
+            }
+            else if textField.tag == 2
+            {
+                textField.text = "Name"
+            }
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -126,7 +171,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             }
         }
         
-        nameText.text = ""
+        newNameText.text = "Name"
     }
         
     @objc func DismissKeyboard(){
@@ -235,22 +280,54 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return 5
+        return recentNotifi.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = viewCollectoin.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! randomCollectionCell
 
-        if contactsOneDimantion.isEmpty == true
+        if recentNotifi.count > indexPath.row
         {
-            cell.update(data : NotifiContact(fullName: "Ananas", phoneNumbers: [], emails: [], Picture: UIImage(named: "icons8-decision-filled")!, reminderPhone: "Hui"))
+            cell.update(data: recentNotifi[indexPath.row])
         }
-        else
-        {
-            //cell.update(data : contactsOneDimantion[indexPath.row])
-        }
-        
+
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    {
+        newNameText.text = recentNotifi[indexPath.row].fullName
+        phoneText.text = recentNotifi[indexPath.row].phoneNumber
+    }
+
+    func setupRandomBorders() {
+        let borderTop = CALayer()
+        borderTop.backgroundColor = UIColor.gray.cgColor
+        borderTop.frame = CGRect(x: 0, y: 0, width: newNameText.frame.size.width, height: 0.5)
+        
+        let borderButtomName = CALayer()
+        borderButtomName.backgroundColor = UIColor.gray.cgColor
+        borderButtomName.frame = CGRect(x: 0, y: newNameText.frame.size.height - 0.5 , width: newNameText.frame.size.width, height: 0.5)
+
+        let borderButtomPhone = CALayer()
+        borderButtomPhone.backgroundColor = UIColor.gray.cgColor
+        borderButtomPhone.frame = CGRect(x: 0, y: newNameText.frame.size.height - 0.5 , width: newNameText.frame.size.width, height: 0.5)
+        
+        newNameText.layer.addSublayer(borderButtomName)
+        //newNameText.layer.addSublayer(borderTop)
+        
+        phoneText.layer.addSublayer(borderButtomPhone)
+    }
+    
+    func validateNotifiValues()
+    {
+        if phoneText.text == "Phone"
+        {
+            let alert = UIAlertController(title: "Notifi issue", message: "Phone number must be entered", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
     }
 }

@@ -283,6 +283,17 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
+    
+    func updateCompletedTable(response: UNNotificationResponse)
+    {
+//        let fullName = req.content.subtitle
+//        let phoneNumber = req.content.body.filter{ "+0123456789".contains($0)}
+//        let phoneType = req.content.body.prefix(while: {$0 != ":"})
+//        let time = req.identifier.prefix(16)
+//        let identifier = req.identifier
+//
+//        completedNitifi.append(ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: phoneNumber, phoneTypeIn: phoneType, timeIn: time, pictureIn: <#T##UIImage#>, indetifierIn: <#T##String#>))
+    }
 }
 
     

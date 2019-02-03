@@ -74,18 +74,31 @@ class CalendarController:  UIViewController
             }
             else
             {
-                var phoneType = cellContactDetails.PhoneNumbers[0].label!
+                var phoneType:String = ""
+                var phoneNumber:String = ""
                 
-                if(phoneType.isEmpty)
+                if cellContactDetails.ReminderPhoneNumber != ""
                 {
+                    phoneNumber = cellContactDetails.ReminderPhoneNumber
                     phoneType = "Phone"
                 }
                 else
                 {
-                    phoneType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                    phoneType = cellContactDetails.PhoneNumbers[0].label!
+                    
+                    if(phoneType.isEmpty)
+                    {
+                        phoneType = "Phone"
+                    }
+                    else
+                    {
+                        phoneType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                    }
+                    
+                    phoneNumber = ((cellContactDetails.PhoneNumbers[0].value).value(forKey: "digits") as! String)
                 }
                 
-                cellContactDetails.ReminderPhoneNumber = ((cellContactDetails.PhoneNumbers[0].value).value(forKey: "digits") as! String)
+                cellContactDetails.ReminderPhoneNumber = phoneNumber
                 myNotifi.createNotification(contact: cellContactDetails, Type:phoneType , Time: time)
                 
                 showSuccessAlert()
