@@ -11,74 +11,89 @@ import UIKit
 import UserNotifications // debug
 import Contacts
 
+var randomImage:UIImage?
+
 class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate
 {
     var tempStringHolder:String = ""
+    var myNot = myNotifications()
     
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var viewCollectoin: UICollectionView!
     
     @IBOutlet weak var phoneText: UITextField!
-    @IBOutlet weak var newNameText: UILabel!
-    @IBAction func minButton(_ sender: UIButton) {
-    }
+    @IBOutlet weak var newNameText: UITextField!
+    @IBOutlet weak var fifteenButtonOutlet: UIButton!
     
-    @IBAction func hrButton(_ sender: UIButton) {
+    @IBAction func fifteenButton(_ sender: UIButton)
+    {
+        _ = setNotification(time: Date(timeIntervalSinceNow: 900))
     }
-    @IBAction func fourHrButton(_ sender: Any) {
+    @IBAction func oneHourButton(_ sender: Any)
+    {
+        _ = setNotification(time: Date(timeIntervalSinceNow: (60 *  60)))
+    }
+
+    @IBAction func fourHrButton(_ sender: Any)
+    {
+        _ = setNotification(time: Date(timeIntervalSinceNow: (60 * 60 * 4)))
     }
     @IBAction func twelveHrButton(_ sender: UIButton)
     {
+        _ = setNotification(time: Date(timeIntervalSinceNow: (60 * 60 * 12)))
     }
-    @IBAction func twenyFourHrButton(_ sender: UIButton) {
+    @IBAction func twenyFourHrButton(_ sender: UIButton)
+    {
+        _ = setNotification(time: Date(timeIntervalSinceNow: (60 * 60 * 24)))
     }
     @IBAction func elseButton(_ sender: UIButton)
     {
         let name = newNameText.text == "Name" ? "John Doe": newNameText.text!
-        if phoneText.text == "Phone"
+        let values = validateNotifiValues()
+        if values == true
         {
-            phoneText.text = "0000000000"
+            cellContactDetails = NotifiContact(fullName: name, phoneNumbers: [], emails: [], Picture: randomImage ?? UIImage(named: "icons8-decision-filled")!, reminderPhone: phoneText.text!)
+
         }
-        cellContactDetails = NotifiContact(fullName: name, phoneNumbers: [], emails: [], Picture: UIImage(named: "icons8-decision-filled")!, reminderPhone: phoneText.text!)
         
     }
     
-    @IBAction func buttonSetNotifi(_ sender: UIButton)
-    {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
-
-        view.endEditing(true)
-        
-        if phoneText.text != ""
-        {
-            if datePicker.date > Date()
-            {
-                let myNot = myNotifications()
-                
-                myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
-                                         ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:datePicker.date, Alert: true)
-                
-                showSuccessAlert()
-            }
-            else
-            {
-                let dateFormatterWithoutSeconds = DateFormatter()
-                dateFormatterWithoutSeconds.dateFormat = "yyyy-MM-dd HH:mm"
-                
-                datePicker.date = Date(timeIntervalSinceNow: 120)
-                
-                
-            }
-        }
-        else
-        {
-            let alert = UIAlertController(title: "Notifi issue", message: "Phone number must be entered", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-        }
-    }
+//    @IBAction func buttonSetNotifi(_ sender: UIButton)
+//    {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
+//
+//        view.endEditing(true)
+//
+//        if phoneText.text != ""
+//        {
+//            if datePicker.date > Date()
+//            {
+//                let myNot = myNotifications()
+//
+//                myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
+//                                         ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:datePicker.date, Alert: true)
+//
+//                showSuccessAlert()
+//            }
+//            else
+//            {
+//                let dateFormatterWithoutSeconds = DateFormatter()
+//                dateFormatterWithoutSeconds.dateFormat = "yyyy-MM-dd HH:mm"
+//
+//                datePicker.date = Date(timeIntervalSinceNow: 120)
+//
+//
+//            }
+//        }
+//        else
+//        {
+//            let alert = UIAlertController(title: "Notifi issue", message: "Phone number must be entered", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//
+//            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+//        }
+//    }
     
     override func viewWillAppear(_ animated: Bool)
     {
@@ -88,18 +103,18 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         newNameText.text = "Name"
         phoneText.text = "Phone"
+        randomImage = nil
     }
 
     override func viewDidLoad()
     {
 //UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        
-//        datePicker.datePickerMode = .dateAndTime
-//        self.datePicker.addTarget(self, action: #selector(reminderPickerDateChanged), for: .valueChanged)
+
         
         viewCollectoin.delegate = self
         
         phoneText.delegate = self
+        newNameText.delegate = self
         phoneText.keyboardType = UIKeyboardType.phonePad
         
         phoneText.tag = 1
@@ -108,15 +123,14 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
- //       datePicker.date = Date(timeIntervalSinceNow: 3600)
     
         NotificationCenter.default.addObserver(self, selector: #selector(checkClipBoard), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
      
-        
+//        fifteenButtonOutlet.titleLabel?.attributedText = setupFonts(stringToChange: (fifteenButtonOutlet!.titleLabel?.text)!)
     }
 
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
@@ -292,6 +306,8 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell.update(data: recentNotifi[indexPath.row])
         }
 
+        
+        
         return cell
     }
     
@@ -299,6 +315,7 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
     {
         newNameText.text = recentNotifi[indexPath.row].fullName
         phoneText.text = recentNotifi[indexPath.row].phoneNumber
+        randomImage = recentNotifi[indexPath.row].picture
     }
 
     func setupRandomBorders() {
@@ -320,7 +337,7 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
         phoneText.layer.addSublayer(borderButtomPhone)
     }
     
-    func validateNotifiValues()
+    func validateNotifiValues() -> Bool
     {
         if phoneText.text == "Phone"
         {
@@ -328,6 +345,48 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             
             UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            
+            return false
         }
+        
+        return true
+    }
+    
+    func setNotification(time:Date) -> Bool
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
+        
+        view.endEditing(true)
+        
+        if phoneText.text == "Phone"
+        {
+            let alert = UIAlertController(title: "Notifi issue", message: "Phone number must be entered", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+            
+            return false
+        }
+        else
+        {
+            myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
+                                     ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:time, Alert: true)
+            
+            showSuccessAlert()
+        }
+        
+        return true
+    }
+    
+    func setupFonts(stringToChange: String) -> NSMutableAttributedString
+    {
+        let attributeString = NSMutableAttributedString(string: stringToChange)
+        
+        attributeString.addAttribute(.font, value: 21, range: NSRange(location: 0, length: 1))
+        
+        attributeString.addAttribute(.font, value: 15, range: NSRange(location: 1, length: stringToChange.count - 1))
+        
+        return attributeString
     }
 }
