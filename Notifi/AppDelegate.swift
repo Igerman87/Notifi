@@ -68,8 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
         }
 
-
-        
         return true
     }
 
@@ -114,6 +112,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         completionHandler()
         
+//        if completedNitifi.isEmpty == true
+//        {
+//            if let data = UserDefaults.standard.value(forKey: "Completed") as? Data {
+//                completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
+//            }
+//        }
+        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
@@ -122,6 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         switch response.actionIdentifier {
         case "CALL_ACTION":
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body, phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -136,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let snoozeNotifi = myNotifications()
             
             snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
-                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "",Time: Date(timeIntervalSinceNow: 300), Alert: false)
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: String(response.notification.request.content.body.prefix(while: {$0 != ":"})),Time: Date(timeIntervalSinceNow: 300), Alert: false)
             
             
             break
@@ -146,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let snoozeNotifi = myNotifications()
             
             snoozeNotifi.createNotification(FullName: response.notification.request.content.subtitle,
-                                            ReminderPhoneNumber: response.notification.request.content.body, Type: "", Time: Date(timeIntervalSinceNow: 3600), Alert: false)
+                                            ReminderPhoneNumber: response.notification.request.content.body, Type: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), Time: Date(timeIntervalSinceNow: 3600), Alert: false)
             
             break
             
@@ -156,6 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             break
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -171,10 +180,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             break
         }
+        
+        if let data = try? JSONEncoder().encode(completedNitifi)
+        {
+            UserDefaults.standard.set(data, forKey: "Completed")
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
+        print("AppDelegate_will present")
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         

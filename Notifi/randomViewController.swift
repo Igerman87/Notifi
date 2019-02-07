@@ -109,7 +109,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     override func viewDidLoad()
     {
 //UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-
+        completedNitifi.removeAll()
         
         viewCollectoin.delegate = self
         
@@ -195,6 +195,8 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
+        print("Random")
+        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
@@ -254,7 +256,9 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-       
+        print("Random_will present")
+        
+        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])

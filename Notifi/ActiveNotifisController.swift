@@ -325,8 +325,6 @@ extension ActiveNotifisController
                     let picture = (contactsOneDimantion.filter({$0.FullName == fullName}).first)?.Picture ?? UIImage(named: "icons8-decision-filled")!
                     
                     let newNofiti = ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: phoneNumber, phoneTypeIn: String(phoneType), timeIn: String(time), pictureIn: picture, indetifierIn: identifier)
-
-                    completedNitifi.append(newNofiti)
                     
                     self.prepareTable(newNotifi: newNofiti)
                 }
@@ -344,7 +342,7 @@ extension ActiveNotifisController
         
         //indexTitles.sort()
         
-        print(activeNotifiStructure)
+ //       print(activeNotifiStructure)
         
         tableView.reloadData()
     }

@@ -211,6 +211,13 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         completionHandler()
         
+//        if completedNitifi.isEmpty == true
+//        {
+//            if let data = UserDefaults.standard.value(forKey: "Completed") as? Data {
+//                completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
+//            }
+//        }
+        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
@@ -218,6 +225,8 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         switch response.actionIdentifier {
         case "CALL_ACTION":
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -253,6 +262,8 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,       phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
@@ -266,6 +277,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             //nothing to do here
             
             break
+        }
+        
+        if let data = try? JSONEncoder().encode(completedNitifi)
+        {
+            UserDefaults.standard.set(data, forKey: "Completed")
         }
     }
     
