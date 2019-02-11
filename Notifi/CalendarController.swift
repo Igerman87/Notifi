@@ -9,8 +9,10 @@
 import Foundation
 import UIKit
 import JTAppleCalendar
+import UserNotifications
 
 var cellContactDetails: NotifiContact!
+var ideftifierForActive:String!
 
 class CalendarController:  UIViewController
 {
@@ -29,6 +31,11 @@ class CalendarController:  UIViewController
         
         if time > Date()
         {
+            if ideftifierForActive != nil
+            {                
+                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:[ideftifierForActive!])
+            }
+            
             let myNotifi = myNotifications()
 
             let phoneMenu = UIAlertController(title: nil, message: "Choose number", preferredStyle: .actionSheet)
@@ -117,7 +124,7 @@ class CalendarController:  UIViewController
             calendarView.selectDates([Date()])
         }
         
-//        self.tabBarController?.navigationController?.popToRootViewController(animated: true)
+
     }
     
     override func viewDidLoad()
@@ -129,6 +136,11 @@ class CalendarController:  UIViewController
         setupCalnedarView()
         
         setupDatePicker()
+    }
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        cellContactDetails = nil
+        ideftifierForActive = nil
     }
     
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController)

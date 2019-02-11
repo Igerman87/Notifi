@@ -16,8 +16,12 @@ class ActiveNotifiCell: UITableViewCell {
     @IBOutlet weak var ActiveNotifiTime: UILabel!
     @IBOutlet weak var ActiveNotifiPicture: UIImageView!
     
+    var cellFullInfo: ActiveNotifiData!
+    
     func Update(activeNotifi: ActiveNotifiData) -> Void
     {
+        cellFullInfo = activeNotifi
+        
         let start = activeNotifi.time.index(activeNotifi.time.startIndex, offsetBy: 11)
         let end = activeNotifi.time.index(activeNotifi.time.startIndex, offsetBy: 16)
         let range = start..<end

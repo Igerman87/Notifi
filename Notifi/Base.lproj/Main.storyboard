@@ -725,6 +725,7 @@
                                     <outlet property="ActiveNotifiPhoneTypeLongNameForAll" destination="mxr-ai-n4S" id="p10-az-pZ9"/>
                                     <outlet property="ActiveNotifiPicture" destination="gl8-QS-O0t" id="UfY-W9-7Gv"/>
                                     <outlet property="ActiveNotifiTime" destination="iSx-dR-gxB" id="65G-0p-v3P"/>
+                                    <segue destination="5EU-3k-DTj" kind="show" id="xLV-DB-vmV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -748,6 +749,6 @@
         <image name="icons8-user-account-filled-90.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hJX-ii-FlS"/>
+        <segue reference="xLV-DB-vmV"/>
     </inferredMetricsTieBreakers>
 </document>

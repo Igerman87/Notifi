@@ -26,7 +26,7 @@ class ActiveNotifisController:TableViewController{
     var mainTable:[String] = ["Today", "Tomorrow", "Forthcoming"]
     var phoneNumberForCall = [String:String]()
     var selectedIndexPath: IndexPath?
-    var activeNotifiCounterForTable:Int = 0
+
     var keyName:String = ""
     var selectedRowDataAssist:[String:sectionData] = [:]
     var selectedSection:sectionData = sectionData(section: "", numOfActiveNotifi: 0, sectionLocation: 0)
@@ -112,7 +112,7 @@ class ActiveNotifisController:TableViewController{
             
             var adjustNum: Int = 0
             
-            if activeNotifiStructure[keyName] != nil && indexPath.row > 2
+            if activeNotifiStructure[keyName] != nil && indexPath.row > 1
             {
                  adjustNum = ((activeNotifiStructure[keyName]?.count)!)
             }
@@ -151,8 +151,10 @@ class ActiveNotifisController:TableViewController{
     {
         selectedIndexPath = nil
         keyName = ""
-        activeNotifiCounterForTable = 0
+
         updateTable()
+        self.tabBarController?.tabBar.isHidden = false
+        self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -162,7 +164,15 @@ class ActiveNotifisController:TableViewController{
         
         tableView.beginUpdates()
         
-        if selectedIndexPath != nil && (selectedIndexPath!.row - 1) == indexPath.row
+        let cell = tableView.cellForRow(at: indexPath) as? ActiveNotifiCell
+        
+        if cell != nil
+        {
+            cellContactDetails = NotifiContact(fullName: (cell?.cellFullInfo.fullName)!, phoneNumbers: [], emails: [], Picture: (cell?.cellFullInfo.picture)!, reminderPhone: (cell?.cellFullInfo.phoneNumber)!)
+            
+            ideftifierForActive = (cell?.cellFullInfo.indetifier)!
+        }
+        else if selectedIndexPath != nil && (selectedIndexPath!.row - 1) == indexPath.row
         {
             let rowToDelete = getRowsForTable()
 
@@ -232,7 +242,6 @@ class ActiveNotifisController:TableViewController{
         {
             deleteIndexes.append(IndexPath(row: number, section: 0))
         }
-
         
         return deleteIndexes
     }
@@ -247,52 +256,39 @@ class ActiveNotifisController:TableViewController{
         return nil
     }
     
-//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//
-//        let notifiToDeleteName = self.activeNotifiSectionTitles[indexPath.section]
-//        let notifiToDeleteTime = "TODO"
-//
-//        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (UITableViewRowAction, indexPath) in
-//
-//            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
-//
-//            self.updateTable()
-//
-//        }
-//
-//        let call = UITableViewRowAction(style: .normal, title: "Call") { (UITableViewRowAction, indexPath) in
-//
-//            let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
-//
-//            let phone = (self.phoneNumberForCall[cell.ActiveNotifiLabel.text! + self.activeNotifiSectionTitles[indexPath.section]])?.filter{ "+0123456789".contains($0)}
-//
-//            let phoneUrl = "tel://" + phone!
-//
-//            let url = URL(string: phoneUrl)
-//
-//            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-//
-//            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifiToDeleteTime + ":00" + notifiToDeleteName])
-//
-//            self.updateTable()
-//        }
-//
-//        call.backgroundColor = UIColor.green
-//
-//        return [delete,call]
-//    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
-    {
-     
-        
-        if editingStyle == .delete
-        {
- 
-        }
-    }
-    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
+        let cell = tableView.cellForRow(at: indexPath) as? ActiveNotifiCell
+
+        let delete = UITableViewRowAction(style: .default, title: "Delete") { (UITableViewRowAction, indexPath) in
+
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [(cell?.cellFullInfo.indetifier)!])
+
+            self.updateTable()
+
+        }
+
+        let call = UITableViewRowAction(style: .default, title: "Call") { (UITableViewRowAction, indexPath) in
+
+            let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
+
+            let phone = cell.cellFullInfo.phoneNumber
+
+            let phoneUrl = "tel://" + phone!
+
+            let url = URL(string: phoneUrl)
+
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [cell.cellFullInfo.indetifier!])
+
+            self.updateTable()
+        }
+
+        call.backgroundColor = UIColor.green
+
+        return [delete,call]
+    }
 }
 
 extension ActiveNotifisController
@@ -340,9 +336,7 @@ extension ActiveNotifisController
         selectedRowDataAssist["Tomorrow"] = sectionData(section: "Tomorrow", numOfActiveNotifi: (activeNotifiStructure["Tomorrow"]?.count)!, sectionLocation: 2)
         selectedRowDataAssist["Forthcoming"] = sectionData(section: "Forthcoming", numOfActiveNotifi: (activeNotifiStructure["Forthcoming"]?.count)!, sectionLocation: 3)
         
-        //indexTitles.sort()
-        
- //       print(activeNotifiStructure)
+        sortByTime()
         
         tableView.reloadData()
     }
@@ -378,6 +372,14 @@ extension ActiveNotifisController
             array.append(newNotifi)
             
             activeNotifiStructure["Forthcoming"] = array
+        }
+    }
+    
+    func sortByTime() {
+        
+        for key in activeNotifiStructure.keys
+        {
+            activeNotifiStructure[key] = activeNotifiStructure[key]!.sorted(by: {$0.time > $1.time})
         }
     }
 }

@@ -58,42 +58,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
     }
     
-//    @IBAction func buttonSetNotifi(_ sender: UIButton)
-//    {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
-//
-//        view.endEditing(true)
-//
-//        if phoneText.text != ""
-//        {
-//            if datePicker.date > Date()
-//            {
-//                let myNot = myNotifications()
-//
-//                myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
-//                                         ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:datePicker.date, Alert: true)
-//
-//                showSuccessAlert()
-//            }
-//            else
-//            {
-//                let dateFormatterWithoutSeconds = DateFormatter()
-//                dateFormatterWithoutSeconds.dateFormat = "yyyy-MM-dd HH:mm"
-//
-//                datePicker.date = Date(timeIntervalSinceNow: 120)
-//
-//
-//            }
-//        }
-//        else
-//        {
-//            let alert = UIAlertController(title: "Notifi issue", message: "Phone number must be entered", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//
-//            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-//        }
-//    }
+
     
     override func viewWillAppear(_ animated: Bool)
     {
