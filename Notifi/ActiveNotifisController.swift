@@ -21,23 +21,26 @@ struct sectionData {
 
 class ActiveNotifisController:TableViewController{
     
-    
     var indexTitles: [String] = []
     var mainTable:[String] = ["Today", "Tomorrow", "Forthcoming"]
     var phoneNumberForCall = [String:String]()
     var selectedIndexPath: IndexPath?
-
+    @IBOutlet var footer:UIButton!
+    
     var keyName:String = ""
     var selectedRowDataAssist:[String:sectionData] = [:]
     var selectedSection:sectionData = sectionData(section: "", numOfActiveNotifi: 0, sectionLocation: 0)
     
-    var isFirstRun: Bool = true
+    var isReschedule: Bool = false
     
     override func viewDidLoad()
     {        
         tableView.dataSource = self
         tableView.delegate = self
-        //self.tableView.estimatedRowHeight = 90
+        
+        addCompletedButton()
+        
+
                 
 //        searchController.searchBar.sizeToFit()
 //        searchController.searchBar.returnKeyType = .search
@@ -112,19 +115,21 @@ class ActiveNotifisController:TableViewController{
             
             var adjustNum: Int = 0
             
-            if activeNotifiStructure[keyName] != nil && indexPath.row > 1
+            if ((activeNotifiStructure[keyName] != nil) && keyName != "Forthcoming")//(indexPath.row > ((activeNotifiStructure[keyName]?.count)!)))
             {
                  adjustNum = ((activeNotifiStructure[keyName]?.count)!)
             }
             
-            let array = activeNotifiStructure[mainTable[indexPath.row - adjustNum]]!
+            let finalIndex = (indexPath.row - adjustNum) > 0 ? (indexPath.row - adjustNum):indexPath.row
             
-            if  mainTable[indexPath.row - adjustNum] == "Today"
+            let array = activeNotifiStructure[mainTable[finalIndex]]!
+            
+            if  mainTable[finalIndex] == "Today"
             {
                 UIApplication.shared.applicationIconBadgeNumber = array.count
             }
             
-            cell.Update(number: String(array.count), name: mainTable[indexPath.row - adjustNum])
+            cell.Update(number: String(array.count), name: mainTable[finalIndex])
             
 
             
@@ -147,14 +152,49 @@ class ActiveNotifisController:TableViewController{
         
     }
     
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        footer.isHidden = true
+    }
+    
     override func viewWillAppear(_ animated: Bool)
     {
-        selectedIndexPath = nil
-        keyName = ""
-
-        updateTable()
-        self.tabBarController?.tabBar.isHidden = false
-        self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        if (footer != nil)
+        {
+            footer.isHidden = false
+        }
+        if isReschedule == true
+        {
+            
+            updateTable()
+            self.tabBarController?.tabBar.isHidden = false
+            isReschedule = false
+        }
+        else
+        {
+            selectedIndexPath = nil
+            keyName = ""
+            
+            updateTable()
+            self.tabBarController?.tabBar.isHidden = false
+            
+            var row = 0
+            
+            if activeNotifiStructure["Today"]?.isEmpty != true
+            {
+                row = 0
+            }
+            else if activeNotifiStructure["Tomorrow"]?.isEmpty != true
+            {
+                row = 1
+            }
+            else if activeNotifiStructure["Forthcoming"]?.isEmpty != true
+            {
+                row = 2
+            }
+            
+            self.tableView(self.tableView, didSelectRowAt: IndexPath(row: row, section: 0))
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -171,6 +211,7 @@ class ActiveNotifisController:TableViewController{
             cellContactDetails = NotifiContact(fullName: (cell?.cellFullInfo.fullName)!, phoneNumbers: [], emails: [], Picture: (cell?.cellFullInfo.picture)!, reminderPhone: (cell?.cellFullInfo.phoneNumber)!)
             
             ideftifierForActive = (cell?.cellFullInfo.indetifier)!
+            oldReminderTime = (cell?.cellFullInfo.time)!
         }
         else if selectedIndexPath != nil && (selectedIndexPath!.row - 1) == indexPath.row
         {
@@ -199,7 +240,7 @@ class ActiveNotifisController:TableViewController{
         }
         tableView.endUpdates()
         
-        tableView.scrollToRow(at: selectedIndexPath == nil ? IndexPath(row: 0, section: 0): selectedIndexPath!, at: .top, animated: true)
+        //tableView.scrollToRow(at: selectedIndexPath == nil ? IndexPath(row: 0, section: 0): selectedIndexPath!, at: .top, animated: true)
     }
     
     
@@ -259,13 +300,25 @@ class ActiveNotifisController:TableViewController{
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let cell = tableView.cellForRow(at: indexPath) as? ActiveNotifiCell
+        
+        if cell == nil
+        {
+            return []
+        }
 
         let delete = UITableViewRowAction(style: .default, title: "Delete") { (UITableViewRowAction, indexPath) in
 
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [(cell?.cellFullInfo.indetifier)!])
 
-            self.updateTable()
+            //et tempIndexPath = self.selectedIndexPath
+            //let tempKeyName = self.keyName
 
+//            self.selectedIndexPath = nil
+//            self.keyName = ""
+            
+            self.updateTable()
+  
+            
         }
 
         let call = UITableViewRowAction(style: .default, title: "Call") { (UITableViewRowAction, indexPath) in
@@ -281,7 +334,7 @@ class ActiveNotifisController:TableViewController{
             UIApplication.shared.open(url!, options: [:], completionHandler: nil)
 
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [cell.cellFullInfo.indetifier!])
-
+            
             self.updateTable()
         }
 
@@ -379,7 +432,48 @@ extension ActiveNotifisController
         
         for key in activeNotifiStructure.keys
         {
-            activeNotifiStructure[key] = activeNotifiStructure[key]!.sorted(by: {$0.time > $1.time})
+            activeNotifiStructure[key] = activeNotifiStructure[key]!.sorted(by: {$0.time < $1.time})
+        }
+    }
+    
+    func addCompletedButton()
+    {
+        if footer == nil
+        {
+            footer = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - ((self.tabBarController?.tabBar.frame.size.height)! + 50 ), width: self.view.bounds.width, height: 50))
+            footer.backgroundColor = UIColor.white
+//            footer.layer.cornerRadius = 25
+//            footer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+          //  footer.layer.borderColor = UIColor.lightGray.cgColor
+          //  footer.layer.borderWidth = 1
+            
+            let borderTop = CALayer()
+            borderTop.backgroundColor = UIColor.gray.cgColor
+            borderTop.frame = CGRect(x: 0, y: 0, width: footer.frame.size.width, height: 0.5)
+            
+            let borderButtom = CALayer()
+            borderButtom.backgroundColor = UIColor.gray.cgColor
+            borderButtom.frame = CGRect(x: 0, y: footer.frame.size.height - 0.5 , width: footer.frame.size.width, height: 0.5)
+            
+            footer.layer.addSublayer(borderTop)
+            footer.layer.addSublayer(borderButtom)
+            
+            footer.setTitle("History", for: .normal)
+            footer.setTitleColor(UIColor.lightGray, for: .normal)
+            footer.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            
+            self.tabBarController!.view.addSubview(footer)
         }
     }
 }
+
+//extension ActiveNotifisController {
+//
+//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if scrollView == self.tableView
+//        {
+//           let originY = scrollView.frame.size.height - completedButton.frame.size.height + scrollView.contentOffset.y
+//            completedButton.frame = CGRect(x: 0, y: originY, width: scrollView.frame.width, height: completedButton.frame.size.height)
+//        }
+//    }
+//}

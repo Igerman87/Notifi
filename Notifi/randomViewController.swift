@@ -12,6 +12,8 @@ import UserNotifications // debug
 import Contacts
 
 var randomImage:UIImage?
+var iMinSessions = 7
+var iTryAgainSessions = 14
 
 class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate
 {
@@ -95,7 +97,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
      
-//        fifteenButtonOutlet.titleLabel?.attributedText = setupFonts(stringToChange: (fifteenButtonOutlet!.titleLabel?.text)!)
+        rateMe()
     }
 
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
@@ -358,4 +360,54 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         return attributeString
     }
+}
+
+extension randomViewController
+{
+    func rateMe() {
+        let neverRate = UserDefaults.standard.bool(forKey: "neverRate")
+        var numLaunches = UserDefaults.standard.integer(forKey: "numLaunches") + 1
+        
+        if (!neverRate && (numLaunches == iMinSessions || numLaunches >= (iMinSessions + iTryAgainSessions + 1)))
+        {
+            showRateMe()
+            numLaunches = iMinSessions + 1
+        }
+        UserDefaults.standard.set(numLaunches, forKey: "numLaunches")
+    }
+    
+    func showRateMe() {
+        let alert = UIAlertController(title: "Rate Us", message: "Thanks for using <TBD>", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Rate <TBD>", style: UIAlertAction.Style.default, handler: { alertAction in
+            
+         //  guard let writeReviewURL = URL(string: "itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=<1441138351>")
+         //   else{fatalError("Expected valid URL")}
+            guard let writeReviewURL = URL(string: "https://itunes.apple.com/app/id1441138351?action=write-review")
+                else { fatalError("Expected a valid URL") }
+            UIApplication.shared.open(writeReviewURL, options: [:], completionHandler: nil)
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "No Thanks", style: UIAlertAction.Style.default, handler: { alertAction in
+            UserDefaults.standard.set(true, forKey: "neverRate")
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Maybe Later", style: UIAlertAction.Style.default, handler: { alertAction in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+//    func loveMe()
+//    {
+//        let alert = UIAlertController(title: "", message: "Do you like using <TBD> ?", preferredStyle: UIAlertController.Style.alert)
+//        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { alertAction in
+//        
+//            showRateMe()
+//        }))
+//            
+//        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: { alertAction in
+//                
+//                showRateMe()
+//        }))
+//    }
 }

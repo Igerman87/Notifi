@@ -13,6 +13,7 @@ import UserNotifications
 
 var cellContactDetails: NotifiContact!
 var ideftifierForActive:String!
+var oldReminderTime:String!
 
 class CalendarController:  UIViewController
 {
@@ -129,7 +130,9 @@ class CalendarController:  UIViewController
     
     override func viewDidLoad()
     {
-        self.tabBarController?.tabBar.isHidden = true   
+        self.tabBarController?.tabBar.isHidden = true
+        
+
         
         setupHeader()
     
@@ -141,6 +144,7 @@ class CalendarController:  UIViewController
     {
         cellContactDetails = nil
         ideftifierForActive = nil
+        oldReminderTime = nil
     }
     
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController)
@@ -209,8 +213,16 @@ class CalendarController:  UIViewController
         datePicker.layer.addSublayer(borderTop)
         datePicker.layer.addSublayer(borderButtom)
         
-        datePicker.date = Date(timeIntervalSinceNow: 60 * 60)
-        
+        if oldReminderTime != nil
+        {
+            calendarView.selectDates([dateFormatter.date(from: oldReminderTime)!])
+            datePicker.date = dateFormatter.date(from: oldReminderTime)!
+        }
+        else
+        {
+            datePicker.date = Date(timeIntervalSinceNow: 60 * 60)
+        }
+            
         datePicker.addTarget(self, action: #selector(datePickerDateChanged), for: .valueChanged)
     }
     
