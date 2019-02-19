@@ -19,6 +19,8 @@
 		F1245E0A21A7401900720A74 /* icons8-add-phone-90@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1245E0721A7401800720A74 /* icons8-add-phone-90@2x.png */; };
 		F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C40F32152700800308ACD /* ContactServiceSorted.swift */; };
 		F1592A85221887670044AC4F /* emailAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1592A84221887670044AC4F /* emailAgent.swift */; };
+		F1592A872219FB980044AC4F /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1592A862219FB980044AC4F /* HistoryController.swift */; };
+		F1592A89221C80420044AC4F /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1592A88221C80420044AC4F /* HistoryCell.swift */; };
 		F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */; };
 		F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */; };
 		F173BC5021D00C7A00BC2B24 /* calendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */; };
@@ -79,6 +81,8 @@
 		F1245E0721A7401800720A74 /* icons8-add-phone-90@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-add-phone-90@2x.png"; sourceTree = "<group>"; };
 		F13C40F32152700800308ACD /* ContactServiceSorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactServiceSorted.swift; sourceTree = "<group>"; };
 		F1592A84221887670044AC4F /* emailAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emailAgent.swift; sourceTree = "<group>"; };
+		F1592A862219FB980044AC4F /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
+		F1592A88221C80420044AC4F /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		F15E0B9521710E5800D81F4C /* ActiveNotifisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifisController.swift; sourceTree = "<group>"; };
 		F15E0B972172646F00D81F4C /* ActiveNotifiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveNotifiCell.swift; sourceTree = "<group>"; };
 		F173BC4F21D00C7A00BC2B24 /* calendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarCell.swift; sourceTree = "<group>"; };
@@ -189,6 +193,8 @@
 				F1F36F06214A9F98008FB3E5 /* AppDelegate.swift */,
 				F1F36F08214A9F98008FB3E5 /* TableViewController.swift */,
 				F1F36F0A214A9F98008FB3E5 /* Main.storyboard */,
+				F1592A862219FB980044AC4F /* HistoryController.swift */,
+				F1592A88221C80420044AC4F /* HistoryCell.swift */,
 				F173BC5121D2A43900BC2B24 /* CalendarController.swift */,
 				F1592A84221887670044AC4F /* emailAgent.swift */,
 				F1EC60B4217F89E70089ADF1 /* randomViewController.swift */,
@@ -482,12 +488,14 @@
 				F1A29F452159016F00592DF1 /* myNotifications.swift in Sources */,
 				F1032B9E218AEC8100CA5B38 /* nameCell.swift in Sources */,
 				F173BC5821F4EFFE00BC2B24 /* randomCollectionCell.swift in Sources */,
+				F1592A872219FB980044AC4F /* HistoryController.swift in Sources */,
 				F15E0B982172646F00D81F4C /* ActiveNotifiCell.swift in Sources */,
 				F13C40F42152700800308ACD /* ContactServiceSorted.swift in Sources */,
 				F1F36F37214AAB07008FB3E5 /* pickerTableViewCell.swift in Sources */,
 				F173BC5621E5216E00BC2B24 /* ActiveNotifiDataTableCell.swift in Sources */,
 				F1FE121E2151678700ACC512 /* CreateNotifi.swift in Sources */,
 				F1F36F09214A9F98008FB3E5 /* TableViewController.swift in Sources */,
+				F1592A89221C80420044AC4F /* HistoryCell.swift in Sources */,
 				F1F36F07214A9F98008FB3E5 /* AppDelegate.swift in Sources */,
 				F173BC5221D2A43900BC2B24 /* CalendarController.swift in Sources */,
 				F15E0B9621710E5800D81F4C /* ActiveNotifisController.swift in Sources */,

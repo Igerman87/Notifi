@@ -88,7 +88,7 @@ class CalendarController:  UIViewController
                 if cellContactDetails.ReminderPhoneNumber != ""
                 {
                     phoneNumber = cellContactDetails.ReminderPhoneNumber
-                    phoneType = "Phone"
+                    phoneType = "phone"
                 }
                 else
                 {
@@ -96,7 +96,7 @@ class CalendarController:  UIViewController
                     
                     if(phoneType.isEmpty)
                     {
-                        phoneType = "Phone"
+                        phoneType = "phone"
                     }
                     else
                     {

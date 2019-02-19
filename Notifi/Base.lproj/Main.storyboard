@@ -38,7 +38,7 @@
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <size key="titleShadowOffset" width="11" height="0.0"/>
-                                                <state key="normal" title="15 Minutes">
+                                                <state key="normal" title="15m">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -54,7 +54,7 @@
                                                 <rect key="frame" x="121" y="0.0" width="101" height="36"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="1 Hour">
+                                                <state key="normal" title="1hr">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -70,7 +70,7 @@
                                                 <rect key="frame" x="242" y="0.0" width="101" height="36"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="4 Hours">
+                                                <state key="normal" title="4hr">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -91,7 +91,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="101" height="38"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="12 Hours">
+                                                <state key="normal" title="12hr">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -107,7 +107,7 @@
                                                 <rect key="frame" x="121" y="0.0" width="101" height="38"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="24 Hours">
+                                                <state key="normal" title="1d">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -123,7 +123,7 @@
                                                 <rect key="frame" x="242" y="0.0" width="101" height="38"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <state key="normal" title="Else">
+                                                <state key="normal" title="custom">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -704,8 +704,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSx-dR-gxB">
-                                            <rect key="frame" x="306" y="5" width="66" height="50"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSx-dR-gxB">
+                                            <rect key="frame" x="306" y="0.0" width="66" height="60"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -736,10 +736,75 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Active" image="icons8-alarm-clock-filled-90.png" landscapeImage="      " id="xrE-7i-kco"/>
                     <navigationItem key="navigationItem" id="BLg-M6-6Zb"/>
+                    <connections>
+                        <segue destination="ZX7-RN-Bp9" kind="show" identifier="History" id="eEQ-XE-Hcs"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBU-Ky-Pya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="124" y="182.51231527093597"/>
+        </scene>
+        <!--History-->
+        <scene sceneID="0dg-wl-P9W">
+            <objects>
+                <tableViewController storyboardIdentifier="History" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZX7-RN-Bp9" userLabel="History" customClass="historyController" customModule="Notifi" customModuleProvider="target" propertyAccessControl="none" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="qUk-vg-39D">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell_history" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell_history" rowHeight="60" id="mZ7-xI-xYn" customClass="historyCell" customModule="Notifi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mZ7-xI-xYn" id="kJL-gQ-aSB">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="600" translatesAutoresizingMaskIntoConstraints="NO" id="UKz-JA-zAx">
+                                            <rect key="frame" x="82" y="4" width="210" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bVD-an-P8B">
+                                            <rect key="frame" x="16" y="4" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="25"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ActiveNotifiPhoneTypeLongNameForAll" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jr1-1a-364">
+                                            <rect key="frame" x="82" y="34" width="210" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="name" destination="UKz-JA-zAx" id="pLO-UU-rAc"/>
+                                    <outlet property="picture" destination="bVD-an-P8B" id="cKs-IX-giT"/>
+                                    <outlet property="type" destination="Jr1-1a-364" id="48v-aS-G2T"/>
+                                    <segue destination="5EU-3k-DTj" kind="show" id="Lxm-ls-UOu"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZX7-RN-Bp9" id="saI-Cf-Wvf"/>
+                            <outlet property="delegate" destination="ZX7-RN-Bp9" id="Ayg-cr-SVm"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Active" image="icons8-alarm-clock-filled-90.png" landscapeImage="      " id="WR1-1T-X81"/>
+                    <navigationItem key="navigationItem" title="Completed" id="CqD-m9-e3M"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2AJ-6s-avA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1118" y="183"/>
         </scene>
     </scenes>
     <resources>
@@ -749,6 +814,6 @@
         <image name="icons8-user-account-filled-90.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xLV-DB-vmV"/>
+        <segue reference="Lxm-ls-UOu"/>
     </inferredMetricsTieBreakers>
 </document>

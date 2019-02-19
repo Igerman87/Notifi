@@ -76,7 +76,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     override func viewDidLoad()
     {
 //UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        completedNitifi.removeAll()
+        //completedNitifi.removeAll()
         
         viewCollectoin.delegate = self
         
@@ -342,7 +342,7 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
         else
         {
             myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
-                                     ReminderPhoneNumber: phoneText.text!, Type:"Phone", Time:time, Alert: true)
+                                     ReminderPhoneNumber: phoneText.text!, Type:"phone", Time:time, Alert: true)
             
             showSuccessAlert()
         }

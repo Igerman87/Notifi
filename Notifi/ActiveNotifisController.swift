@@ -212,6 +212,7 @@ class ActiveNotifisController:TableViewController{
             
             ideftifierForActive = (cell?.cellFullInfo.indetifier)!
             oldReminderTime = (cell?.cellFullInfo.time)!
+            isReschedule = true
         }
         else if selectedIndexPath != nil && (selectedIndexPath!.row - 1) == indexPath.row
         {
@@ -446,6 +447,7 @@ extension ActiveNotifisController
 //            footer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
           //  footer.layer.borderColor = UIColor.lightGray.cgColor
           //  footer.layer.borderWidth = 1
+            footer.addTarget(self, action: #selector(showHistory), for: .touchUpInside)
             
             let borderTop = CALayer()
             borderTop.backgroundColor = UIColor.gray.cgColor
@@ -458,12 +460,16 @@ extension ActiveNotifisController
             footer.layer.addSublayer(borderTop)
             footer.layer.addSublayer(borderButtom)
             
-            footer.setTitle("History", for: .normal)
+            footer.setTitle("Completed", for: .normal)
             footer.setTitleColor(UIColor.lightGray, for: .normal)
             footer.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
             
             self.tabBarController!.view.addSubview(footer)
         }
+    }
+    @objc func showHistory()
+    {
+        self.performSegue(withIdentifier:"History", sender: self)
     }
 }
 

@@ -60,11 +60,14 @@ class pickerTableViewCell: UITableViewCell
                                             
                                             if(phoneType.isEmpty)
                                             {
-                                                phoneType = "Phone"
+                                                phoneType = "phone"
                                             }
                                             else
                                             {
-                                                phoneType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                                               
+                                                let typePhone = phoneType.lowercased()
+                                                
+                                                phoneType = String(typePhone.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
                                             }
                                             
                                             self.cellContactDetails.ReminderPhoneNumber = alert.title!

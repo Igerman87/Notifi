@@ -103,9 +103,11 @@ class myNotifications: UIAlertController
         notification.subtitle = FullName
         print(Type)
         
-        if Type != ""
+        let lowerType = Type.lowercased()
+        
+        if lowerType != ""
         {
-            notification.body = Type + ": " + ReminderPhoneNumber
+            notification.body = lowerType + ": " + ReminderPhoneNumber
         }
         else
         {

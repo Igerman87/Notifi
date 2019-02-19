@@ -64,10 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             recentNotifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
         }
 
-        if let data = UserDefaults.standard.value(forKey: "Completed") as? Data {
-            completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
+        if let completedData = UserDefaults.standard.value(forKey: "Completed") as? Data {
+            completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: completedData)
         }
 
+        print("just after read from save")
+        print(completedNitifi)
+        
         return true
     }
 
@@ -100,9 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(data, forKey: "Recent")
         }
         
-        if let data = try? JSONEncoder().encode(completedNitifi)
+        if let completedData = try? JSONEncoder().encode(completedNitifi)
         {
-            UserDefaults.standard.set(data, forKey: "Completed")
+            UserDefaults.standard.set(completedData, forKey: "Completed")
         }
 
     }
