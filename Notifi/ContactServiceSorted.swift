@@ -32,18 +32,21 @@ class ContactServiceSorted
             try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, error) -> Void in
                 guard (contact.phoneNumbers.first?.value.stringValue) != nil  else {return}
                 
-                var contactImgae: UIImage?
-                
-                if contact.imageData != nil
+                if !contact.givenName.isEmpty || !contact.familyName.isEmpty
                 {
-                    contactImgae = UIImage(data: contact.imageData!)
+                    var contactImgae: UIImage?
+                    
+                    if contact.imageData != nil
+                    {
+                        contactImgae = UIImage(data: contact.imageData!)
+                    }
+                    else
+                    {
+                        contactImgae = UIImage(named: "icons8-decision-filled")
+                    }
+                    
+                    self.NotifiContacts.append(NotifiContact(fullName: contact.givenName + " " + contact.familyName, phoneNumbers: contact.phoneNumbers, emails: contact.emailAddresses, Picture:contactImgae!, reminderPhone:""))
                 }
-                else
-                {
-                    contactImgae = UIImage(named: "icons8-decision-filled")
-                }
-                
-                self.NotifiContacts.append(NotifiContact(fullName: contact.givenName + " " + contact.familyName, phoneNumbers: contact.phoneNumbers, emails: contact.emailAddresses, Picture:contactImgae!, reminderPhone:""))
             })
             
             self.setUpCollation()
@@ -81,10 +84,12 @@ extension UILocalizedIndexedCollation {
             unsortedSections.append([])
         }
         
+        let dominantLanguage = NSLinguisticTagger.dominantLanguage(for: array[0].FullName) ?? "Other"
+        
         //Put each object into section
         for item in array
         {
-            let index:Int = self.section(for: item, collationStringSelector: collationStringSelector)
+            var index:Int = self.section(for: item, collationStringSelector: collationStringSelector)            
             unsortedSections[index].append(item)
         }
         

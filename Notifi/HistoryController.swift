@@ -11,8 +11,29 @@ import UIKit
 
 class historyController: UITableViewController {
     
-    override func viewDidLoad() {
-        // empty
+    @IBAction func deleteAll(_ sender: Any)
+    {
+        if completedNitifi.isEmpty == false
+        {
+            let dateAlert = UIAlertController(title: "Delete all completed notifies ?", message: nil, preferredStyle: .alert)
+            
+            dateAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler:{ (action) -> Void in
+                
+                completedNitifi.removeAll()
+                
+                self.tableView.reloadData()
+                
+                self.navigationController?.popViewController(animated: true)
+            }))
+            
+            dateAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler:{ (action) -> Void in }))
+            
+            UIApplication.shared.keyWindow?.rootViewController?.present(dateAlert, animated: true, completion: nil)
+        }
+    }
+    override func viewDidLoad()
+    {
+        //empty
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int
@@ -41,5 +62,17 @@ class historyController: UITableViewController {
         let cell = tableView.cellForRow(at: indexPath) as? historyCell
     
         cellContactDetails = NotifiContact(fullName: (cell?.cellFullInfo.fullName)!, phoneNumbers: [], emails: [], Picture: (cell?.cellFullInfo.picture)!, reminderPhone: (cell?.cellFullInfo.phoneNumber)!)
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .default, title: "Delete") { (UITableViewRowAction, indexPath) in
+            
+            completedNitifi.remove(at: indexPath.row)
+            
+            tableView.reloadData()
+        }
+        
+        return[delete]
     }
 }

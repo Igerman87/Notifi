@@ -68,17 +68,20 @@ class myNotifications: UIAlertController
     {
         genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber,Type: Type, Time: Time, Alert: false)
     
-        self.updateRecentNotifi(contact: contact, type: Type)
+
     }
     
     func createNotification(FullName: String,ReminderPhoneNumber: String, Type:String, Time:Date, Alert:Bool) -> Void
     {
         genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber,Type: Type, Time: Time, Alert: Alert)
+        
 
     }
     
     private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String,Type:String, Time:Date, Alert:Bool) -> Void
     {
+        self.updateRecentNotifi(fullName: FullName, reminderPhoneNumber: ReminderPhoneNumber, picture: randomImage ?? UIImage(named: "icons8-decision-filled")!, type: Type)
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {granted, error in
             
             if !granted
@@ -101,7 +104,6 @@ class myNotifications: UIAlertController
         
         notification.title = "Its time to call: "
         notification.subtitle = FullName
-        print(Type)
         
         let lowerType = Type.lowercased()
         
@@ -135,36 +137,46 @@ class myNotifications: UIAlertController
 
     }
     
-    func updateRecentNotifi(contact: NotifiContact, type:String) {
+    func updateRecentNotifi(fullName: String, reminderPhoneNumber: String, picture:UIImage, type:String)
+        {
         
-        if recentNotifi.isEmpty
+        if fullName != "John Doe"
         {
-            recentNotifi.append(ActiveNotifiData(fullnameIn: contact.FullName, phoneNumberIn: contact.ReminderPhoneNumber, phoneTypeIn:type, timeIn: "Hui2", pictureIn: contact.Picture, indetifierIn: "Hui3"))
-        }
-        else if recentNotifi.count < 7
-        {
-            recentNotifi.append(recentNotifi[recentNotifi.count - 1])
-        }
-
-        for index in stride(from: recentNotifi.count == 7 ? 6:(recentNotifi.count - 1), to: 0, by: -1)
-        {
-            if index == 0
+            let duplicateIndex = recentNotifi.firstIndex(where: {$0.fullName == fullName})
+        
+            if (duplicateIndex != nil)
             {
-                break;
+                for index in stride(from: duplicateIndex!, to: 0, by: -1)
+                {
+                    if index == 0
+                    {
+                        break;
+                    }
+                    recentNotifi.swapAt(index, index - 1)
+                }
             }
-            recentNotifi.swapAt(index, index - 1)
-            
-        }
+            else
+            {
+                if recentNotifi.isEmpty
+                {
+                    recentNotifi.append(ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: reminderPhoneNumber, phoneTypeIn:type, timeIn: "Hui2", pictureIn: picture, indetifierIn: "Hui3"))
+                }
+                else if recentNotifi.count < 7
+                {
+                    recentNotifi.append(recentNotifi[recentNotifi.count - 1])
+                }
+                
+                for index in stride(from: recentNotifi.count == 7 ? 6:(recentNotifi.count - 1), to: 0, by: -1)
+                {
+                    if index == 0
+                    {
+                        break;
+                    }
+                    recentNotifi.swapAt(index, index - 1)
+                }
+            }
 
-        recentNotifi[0] = ActiveNotifiData(fullnameIn: contact.FullName, phoneNumberIn: contact.ReminderPhoneNumber, phoneTypeIn:type, timeIn: "Hui2", pictureIn: contact.Picture, indetifierIn: "Hui3")
-//        }
-//        else
-//        {
-//
-//
-//
-//            recentNotifi.append(ActiveNotifiData(fullnameIn: contact.FullName, phoneNumberIn: ((contact.PhoneNumbers[0].value).value(forKey: "digits") as! String), phoneTypeIn: "Hui", timeIn: "Hui2", pictureIn: contact.Picture, indetifierIn: "Hui3"))
-//        }
-//        recentNotifi.a
+            recentNotifi[0] = ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: reminderPhoneNumber, phoneTypeIn:type, timeIn: "Hui2", pictureIn: picture, indetifierIn: "Hui3")
+        }
     }
 }

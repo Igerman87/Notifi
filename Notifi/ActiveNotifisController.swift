@@ -9,9 +9,12 @@
 import Foundation
 import UIKit
 import UserNotifications
+import MessageUI
 
 var activeNotifiStructure:[String:[ActiveNotifiData]] = [:]
 var completedNitifi: [ActiveNotifiData] = []
+var iMinSessions = 10
+var iTryAgainSessions = 7
 
 struct sectionData {
     var section:String
@@ -56,23 +59,19 @@ class ActiveNotifisController:TableViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: UIApplication.willEnterForegroundNotification, object: nil)
         
-
+        rateMe()
     }
     
     
     
     override func numberOfSections(in tableView: UITableView) -> Int
     {
- //       print(activeNotifiStructure.count)
-
         return 1//activeNotifiStructure.count
 
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-//        print(Array(activeNotifiStructure)[section].key)
-
         return ""// Array(activeNotifiStructure)[section].key
     }
     
@@ -276,9 +275,6 @@ class ActiveNotifisController:TableViewController{
         var deleteIndexes:[IndexPath] = []
         
         let selectedSection = selectedRowDataAssist[keyName]
-            
-        print(selectedSection!.sectionLocation)
-        print(selectedSection!.sectionLocation + selectedSection!.numOfActiveNotifi)
         
         for number in selectedSection!.sectionLocation..<(selectedSection!.sectionLocation + selectedSection!.numOfActiveNotifi)
         {
@@ -325,8 +321,16 @@ class ActiveNotifisController:TableViewController{
         let call = UITableViewRowAction(style: .default, title: "Call") { (UITableViewRowAction, indexPath) in
 
             let cell =  tableView.cellForRow(at: indexPath) as! ActiveNotifiCell
-
+            
             let phone = cell.cellFullInfo.phoneNumber
+            
+            completedNitifi.reverse()
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: cell.cellFullInfo.fullName, phoneNumberIn: cell.cellFullInfo.phoneNumber,       phoneTypeIn: cell.cellFullInfo.phoneType, timeIn: cell.cellFullInfo.time, pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            
+            completedNitifi.reverse()
+            
+
 
             let phoneUrl = "tel://" + phone!
 
@@ -473,13 +477,104 @@ extension ActiveNotifisController
     }
 }
 
-//extension ActiveNotifisController {
-//
-//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if scrollView == self.tableView
-//        {
-//           let originY = scrollView.frame.size.height - completedButton.frame.size.height + scrollView.contentOffset.y
-//            completedButton.frame = CGRect(x: 0, y: originY, width: scrollView.frame.width, height: completedButton.frame.size.height)
-//        }
-//    }
-//}
+extension ActiveNotifisController
+{
+    func rateMe() {
+        let neverRate = UserDefaults.standard.bool(forKey: "neverRate")
+        var numLaunches = UserDefaults.standard.integer(forKey: "numLaunches") + 1
+        
+        if ( (!neverRate && numLaunches == iMinSessions || numLaunches >= (iMinSessions + iTryAgainSessions + 1)))
+        {
+            loveMe()
+            numLaunches = iMinSessions + 1
+        }
+        UserDefaults.standard.set(numLaunches, forKey: "numLaunches")
+    }
+    
+    func showRateMe() {
+        let alert = UIAlertController(title: "Rate Us", message: "Thanks for using <TBD>", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Rate <TBD>", style: UIAlertAction.Style.default, handler: { alertAction in
+            UserDefaults.standard.set(true, forKey: "neverRate")
+            guard let writeReviewURL = URL(string: "https://itunes.apple.com/app/id1441138351?action=write-review")
+                else { fatalError("Expected a valid URL") }
+            UIApplication.shared.open(writeReviewURL, options: [:], completionHandler: nil)
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "No Thanks", style: UIAlertAction.Style.default, handler: { alertAction in
+            UserDefaults.standard.set(true, forKey: "neverRate")
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Maybe Later", style: UIAlertAction.Style.default, handler: { alertAction in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func negativeRate()
+    {
+        let alert = UIAlertController(title: "Please tell us why", message: nil, preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak alert] (_) in
+            let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
+            
+            self.sendEmail(messageBody: textField.text!)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (_) in }))
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func loveMe()
+    {
+        
+        let alert = UIAlertController(title: "Do you like using <TBD> ?", message: nil, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { alertAction in
+            
+            self.showRateMe()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: { alertAction in
+            UserDefaults.standard.set(true, forKey: "neverRate")
+            self.negativeRate()
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension ActiveNotifisController:MFMailComposeViewControllerDelegate
+{
+    
+    func sendEmail(messageBody:String) {
+        
+        if !MFMailComposeViewController.canSendMail() {
+
+            return
+        }
+        
+        let composeVC = MFMailComposeViewController()
+        composeVC.mailComposeDelegate = self
+        // Configure the fields of the interface.
+        composeVC.setToRecipients(["Sway4labs@gmail.com","ilya.german@gmail.com"])
+        composeVC.setSubject("App <TBD> review")
+        composeVC.setMessageBody(messageBody, isHTML: false)
+        // Present the view controller modally.
+        self.present(composeVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController,didFinishWith result: MFMailComposeResult,error: Error?)
+    {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}

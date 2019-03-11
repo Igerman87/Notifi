@@ -11,9 +11,9 @@ import UIKit
 import UserNotifications // debug
 import Contacts
 
+
 var randomImage:UIImage?
-var iMinSessions = 7
-var iTryAgainSessions = 14
+
 
 class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate
 {
@@ -30,23 +30,49 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     @IBAction func fifteenButton(_ sender: UIButton)
     {
         _ = setNotification(time: Date(timeIntervalSinceNow: 900))
+        
+        randomImage = nil
+        viewCollectoin.reloadData()
+        
+        textDefaultSet()
     }
     @IBAction func oneHourButton(_ sender: Any)
     {
         _ = setNotification(time: Date(timeIntervalSinceNow: (60 *  60)))
+    
+        randomImage = nil
+        viewCollectoin.reloadData()
+        
+        textDefaultSet()
     }
 
     @IBAction func fourHrButton(_ sender: Any)
     {
         _ = setNotification(time: Date(timeIntervalSinceNow: (60 * 60 * 4)))
+    
+        randomImage = nil
+        viewCollectoin.reloadData()
+        
+        textDefaultSet()
     }
+    
     @IBAction func twelveHrButton(_ sender: UIButton)
     {
         _ = setNotification(time: Date(timeIntervalSinceNow: (60 * 60 * 12)))
+    
+        randomImage = nil
+        viewCollectoin.reloadData()
+        
+        textDefaultSet()
     }
     @IBAction func twenyFourHrButton(_ sender: UIButton)
     {
         _ = setNotification(time: Date(timeIntervalSinceNow: (60 * 60 * 24)))
+    
+        randomImage = nil
+        viewCollectoin.reloadData()
+        
+        textDefaultSet()
     }
     @IBAction func elseButton(_ sender: UIButton)
     {
@@ -57,6 +83,11 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             cellContactDetails = NotifiContact(fullName: name, phoneNumbers: [], emails: [], Picture: randomImage ?? UIImage(named: "icons8-decision-filled")!, reminderPhone: phoneText.text!)
 
         }
+        
+        viewCollectoin.reloadData()
+        randomImage = nil
+        
+        textDefaultSet()
         
     }
     
@@ -75,8 +106,6 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
 
     override func viewDidLoad()
     {
-//UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        //completedNitifi.removeAll()
         
         viewCollectoin.delegate = self
         
@@ -97,7 +126,7 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
      
-        rateMe()
+
     }
 
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
@@ -113,7 +142,12 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     
     func textFieldDidBeginEditing(_ textField: UITextField)
     {
-        textField.text = ""
+        textField.textColor = UIColor.black
+        
+        if textField.text == "Phone" || textField.text == "Name"
+        {
+            textField.text = ""
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField)
@@ -124,10 +158,14 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             if  textField.tag == 1
             {
                 textField.text = "Phone"
+                
+                textField.textColor = UIColor.lightGray
             }
             else if textField.tag == 2
             {
                 textField.text = "Name"
+                
+                textField.textColor = UIColor.lightGray
             }
         }
     }
@@ -160,9 +198,27 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         view.endEditing(true)
     }
     
+    func textDefaultSet()
+    {
+        newNameText.text = "Name"
+        phoneText.text = "Phone"
+
+        textGreySet()
+    }
+    
+    func textGreySet()
+    {
+        newNameText.textColor = UIColor.lightGray
+        phoneText.textColor = UIColor.lightGray
+    }
+    
+    func textBlackSet()
+    {
+        newNameText.textColor = UIColor.black
+        phoneText.textColor = UIColor.black
+    }
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        print("Random")
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
@@ -223,8 +279,6 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        print("Random_will present")
-        
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
@@ -286,6 +340,9 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
     {
         newNameText.text = recentNotifi[indexPath.row].fullName
         phoneText.text = recentNotifi[indexPath.row].phoneNumber
+        
+        textBlackSet()
+        
         randomImage = recentNotifi[indexPath.row].picture
     }
 
@@ -340,7 +397,7 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return false
         }
         else
-        {
+        {            
             myNot.createNotification(FullName: newNameText.text == "Name" ? "John Doe": newNameText.text!,
                                      ReminderPhoneNumber: phoneText.text!, Type:"phone", Time:time, Alert: true)
             
@@ -362,52 +419,3 @@ extension randomViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-extension randomViewController
-{
-    func rateMe() {
-        let neverRate = UserDefaults.standard.bool(forKey: "neverRate")
-        var numLaunches = UserDefaults.standard.integer(forKey: "numLaunches") + 1
-        
-        if (!neverRate && (numLaunches == iMinSessions || numLaunches >= (iMinSessions + iTryAgainSessions + 1)))
-        {
-            showRateMe()
-            numLaunches = iMinSessions + 1
-        }
-        UserDefaults.standard.set(numLaunches, forKey: "numLaunches")
-    }
-    
-    func showRateMe() {
-        let alert = UIAlertController(title: "Rate Us", message: "Thanks for using <TBD>", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Rate <TBD>", style: UIAlertAction.Style.default, handler: { alertAction in
-            
-         //  guard let writeReviewURL = URL(string: "itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=<1441138351>")
-         //   else{fatalError("Expected valid URL")}
-            guard let writeReviewURL = URL(string: "https://itunes.apple.com/app/id1441138351?action=write-review")
-                else { fatalError("Expected a valid URL") }
-            UIApplication.shared.open(writeReviewURL, options: [:], completionHandler: nil)
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "No Thanks", style: UIAlertAction.Style.default, handler: { alertAction in
-            UserDefaults.standard.set(true, forKey: "neverRate")
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Maybe Later", style: UIAlertAction.Style.default, handler: { alertAction in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-//    func loveMe()
-//    {
-//        let alert = UIAlertController(title: "", message: "Do you like using <TBD> ?", preferredStyle: UIAlertController.Style.alert)
-//        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { alertAction in
-//        
-//            showRateMe()
-//        }))
-//            
-//        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: { alertAction in
-//                
-//                showRateMe()
-//        }))
-//    }
-}

@@ -66,11 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         if let completedData = UserDefaults.standard.value(forKey: "Completed") as? Data {
             completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: completedData)
+            
+            completedNitifi.reverse()
         }
-
-        print("just after read from save")
-        print(completedNitifi)
-        
         return true
     }
 
@@ -103,6 +101,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserDefaults.standard.set(data, forKey: "Recent")
         }
         
+        completedNitifi.reverse()
+        
         if let completedData = try? JSONEncoder().encode(completedNitifi)
         {
             UserDefaults.standard.set(completedData, forKey: "Completed")
@@ -115,23 +115,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         completionHandler()
         
-//        if completedNitifi.isEmpty == true
-//        {
-//            if let data = UserDefaults.standard.value(forKey: "Completed") as? Data {
-//                completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
-//            }
-//        }
-        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
         
-        print(response.notification.request.content.body.filter{ "+0123456789".contains($0)})
-        
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body, phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            completedNitifi.reverse()
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body, phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(response.notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            
+            completedNitifi.reverse()
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -167,7 +162,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
-            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            completedNitifi.reverse()
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(response.notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            
+            completedNitifi.reverse()
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -192,7 +191,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        print("AppDelegate_will present")
+        completedNitifi.reverse()
+        
+        completedNitifi.append(ActiveNotifiData(fullnameIn: notification.request.content.subtitle, phoneNumberIn: notification.request.content.body,          phoneTypeIn: String(notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+        
+        completedNitifi.reverse()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         

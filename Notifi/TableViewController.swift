@@ -211,22 +211,18 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         completionHandler()
         
-//        if completedNitifi.isEmpty == true
-//        {
-//            if let data = UserDefaults.standard.value(forKey: "Completed") as? Data {
-//                completedNitifi = try! JSONDecoder().decode([ActiveNotifiData].self, from: data)
-//            }
-//        }
-        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
-        
-        
+
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            completedNitifi.reverse()
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(response.notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            
+            completedNitifi.reverse()
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -262,7 +258,11 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
-            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,       phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: "", pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            completedNitifi.reverse()
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,       phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(response.notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+            
+            completedNitifi.reverse()
             
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
@@ -278,16 +278,15 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
             break
         }
-        
-        if let data = try? JSONEncoder().encode(completedNitifi)
-        {
-            UserDefaults.standard.set(data, forKey: "Completed")
-        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-
+        completedNitifi.reverse()
+        
+        completedNitifi.append(ActiveNotifiData(fullnameIn: notification.request.content.subtitle, phoneNumberIn: notification.request.content.body,       phoneTypeIn: String(notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
+        
+        completedNitifi.reverse()
 
         UIApplication.shared.applicationIconBadgeNumber = 0
         
@@ -300,16 +299,7 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
     
-    func updateCompletedTable(response: UNNotificationResponse)
-    {
-//        let fullName = req.content.subtitle
-//        let phoneNumber = req.content.body.filter{ "+0123456789".contains($0)}
-//        let phoneType = req.content.body.prefix(while: {$0 != ":"})
-//        let time = req.identifier.prefix(16)
-//        let identifier = req.identifier
-//
-//        completedNitifi.append(ActiveNotifiData(fullnameIn: fullName, phoneNumberIn: phoneNumber, phoneTypeIn: phoneType, timeIn: time, pictureIn: <#T##UIImage#>, indetifierIn: <#T##String#>))
-    }
+
 }
 
     

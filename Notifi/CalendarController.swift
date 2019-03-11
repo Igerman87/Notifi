@@ -57,12 +57,16 @@ class CalendarController:  UIViewController
                     
                     if(phoneType.isEmpty)
                     {
-                        phoneType = "Phone"
+                        phoneType = "phone"
                     }
                     else
                     {
-                        phoneType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                        let tempType = String(phoneType.drop(while: {$0 != "<"}).dropFirst().prefix(while: { $0 != "!" } ).dropLast())
+                        
+                        phoneType = tempType == "" ? phoneType:tempType
                     }
+                    
+                    phoneType = phoneType.lowercased()
                     
                     PhoneLabelToPhone[phoneType] = ((phoneNumber.value).value(forKey: "digits") as! String)
                     
@@ -182,6 +186,10 @@ class CalendarController:  UIViewController
     }
     
     func setupCalnedarView() {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
         calendarView.minimumLineSpacing = 0
         calendarView.minimumInteritemSpacing = 0
         
@@ -190,8 +198,21 @@ class CalendarController:  UIViewController
             self.setupViewsOfCalendar(from: visibleDates)
         }
         
-        calendarView.selectDates([Date()])
-
+        let now = Date()
+        
+        if oldReminderTime != nil
+        {
+            calendarView.selectDates([dateFormatter.date(from: oldReminderTime)!])
+        }
+        else if Calendar.current.isDateInTomorrow(now.addingTimeInterval(60 * 60)) == true
+        {
+            
+            calendarView.selectDates([now.addingTimeInterval(60 * 60)])
+        }
+        else
+        {
+            calendarView.selectDates([now])
+        }
     }
     
     func setupDatePicker()
@@ -215,7 +236,7 @@ class CalendarController:  UIViewController
         
         if oldReminderTime != nil
         {
-            calendarView.selectDates([dateFormatter.date(from: oldReminderTime)!])
+            
             datePicker.date = dateFormatter.date(from: oldReminderTime)!
         }
         else
