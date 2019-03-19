@@ -100,13 +100,16 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         viewCollectoin.reloadData()
         
         newNameText.text = "Name"
-        phoneText.text = "Phone"
+        
+        if phoneText.text == "EMPTY"
+        {
+            phoneText.text = "Phone"
+        }
         randomImage = nil
     }
 
     override func viewDidLoad()
     {
-        
         viewCollectoin.delegate = self
         
         phoneText.delegate = self
@@ -125,8 +128,6 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-     
-
     }
 
     @objc func reminderPickerDateChanged(reminderPicker: UIDatePicker)
@@ -187,6 +188,10 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
             if (numberString?.count)! >= 9
             {
                 phoneText.text = numberString
+            }
+            else
+            {
+                phoneText.text = "EMPTY"
             }
         }
         

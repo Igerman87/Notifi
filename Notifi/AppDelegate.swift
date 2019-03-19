@@ -18,6 +18,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
+        
+        let screenHight = UIScreen.main.bounds.size.height
+        let screenWeidth = UIScreen.main.bounds.size.width
+        
+        print(screenHight)
+        print(screenWeidth)
+        
+        if screenHight == 667
+        {
+            let storyboard = UIStoryboard(name: "smallStoryBoard", bundle: nil)
+    
+            self.window!.rootViewController = storyboard.instantiateInitialViewController()
+            
+            self.window?.makeKeyAndVisible()
+        }
+        else if screenHight == 736 || screenWeidth >= 414
+        {
+            let storyboard = UIStoryboard(name: "bigStoryBoard", bundle: nil)
+            
+            self.window!.rootViewController = storyboard.instantiateInitialViewController()
+            
+            self.window?.makeKeyAndVisible()
+        }
+        
         // weird after download the first call wont get threw, only need to work for the first time
         if UserDefaults.standard.bool(forKey: "firstRun") == false
         {
@@ -195,7 +219,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completedNitifi.append(ActiveNotifiData(fullnameIn: notification.request.content.subtitle, phoneNumberIn: notification.request.content.body,          phoneTypeIn: String(notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
         
-        completedNitifi.reverse()
+        if let completedData = try? JSONEncoder().encode(completedNitifi)
+        {
+            UserDefaults.standard.set(completedData, forKey: "Completed")
+        }
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         

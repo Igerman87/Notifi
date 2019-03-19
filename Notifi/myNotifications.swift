@@ -66,6 +66,8 @@ class myNotifications: UIAlertController
     
     func createNotification(contact: NotifiContact, Type:String, Time: Date) -> Void
     {
+        randomImage = contact.Picture
+        
         genericNotificationCreator(FullName: contact.FullName, ReminderPhoneNumber: contact.ReminderPhoneNumber,Type: Type, Time: Time, Alert: false)
     
 
@@ -75,12 +77,17 @@ class myNotifications: UIAlertController
     {
         genericNotificationCreator(FullName: FullName, ReminderPhoneNumber: ReminderPhoneNumber,Type: Type, Time: Time, Alert: Alert)
         
-
+       // randomImage = contact.Picture
     }
     
     private func genericNotificationCreator (FullName: String,ReminderPhoneNumber: String,Type:String, Time:Date, Alert:Bool) -> Void
     {
-        self.updateRecentNotifi(fullName: FullName, reminderPhoneNumber: ReminderPhoneNumber, picture: randomImage ?? UIImage(named: "icons8-decision-filled")!, type: Type)
+        if randomImage != nil
+        {
+            self.updateRecentNotifi(fullName: FullName, reminderPhoneNumber: ReminderPhoneNumber, picture: randomImage ?? UIImage(named: "icons8-decision-filled")!, type: Type)
+ 
+            randomImage = nil
+        }
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {granted, error in
             

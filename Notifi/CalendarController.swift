@@ -143,6 +143,8 @@ class CalendarController:  UIViewController
         setupCalnedarView()
         
         setupDatePicker()
+        
+        
     }
     override func viewWillDisappear(_ animated: Bool)
     {
@@ -203,6 +205,7 @@ class CalendarController:  UIViewController
         if oldReminderTime != nil
         {
             calendarView.selectDates([dateFormatter.date(from: oldReminderTime)!])
+            calendarView.scrollToDate(dateFormatter.date(from: oldReminderTime)!)
         }
         else if Calendar.current.isDateInTomorrow(now.addingTimeInterval(60 * 60)) == true
         {

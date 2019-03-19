@@ -292,6 +292,13 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
         
+        completedNitifi.reverse()
+        
+        if let completedData = try? JSONEncoder().encode(completedNitifi)
+        {
+            UserDefaults.standard.set(completedData, forKey: "Completed")
+        }
+        
         let phoneNumber = "tel://\(notification.request.content.body.filter{ "+0123456789".contains($0)})"
         
         let url = URL(string: phoneNumber)

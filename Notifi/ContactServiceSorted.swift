@@ -49,17 +49,26 @@ class ContactServiceSorted
                 }
             })
             
-            self.setUpCollation()
+           self.setUpCollation()
          
-            // use this for faster reload !!!
-            //DispatchQueue.main.async {
-              //  self.tableView.reloadData()
             }
             
             catch let error as NSError
             {
                 print(error.localizedDescription)
             }
+        
+//            for contact in NotifiContacts
+//            {
+//                let sectionChar = contact.FullName.first
+//                let sectionCharUpper = (String(sectionChar!)).uppercased()
+//                let sectionCharLower = (String(sectionChar!)).lowercased()
+//
+//                if !(sectionTitles.contains(sectionCharUpper) || sectionTitles.contains(sectionCharLower))
+//                {
+//                   sectionTitles.append(sectionCharUpper)
+//                }
+//            }
         
         return (self.NotifiContactsWithSections, self.sectionTitles, self.NotifiContacts)
     }
@@ -84,12 +93,16 @@ extension UILocalizedIndexedCollation {
             unsortedSections.append([])
         }
         
-        let dominantLanguage = NSLinguisticTagger.dominantLanguage(for: array[0].FullName) ?? "Other"
-        
         //Put each object into section
         for item in array
         {
-            var index:Int = self.section(for: item, collationStringSelector: collationStringSelector)            
+            var index:Int = self.section(for: item, collationStringSelector: collationStringSelector)
+            
+            if unsortedSections[unsortedSections.count - 1].count > 3
+            {
+                index = unsortedSections.count - 1
+            }
+            
             unsortedSections[index].append(item)
         }
         
@@ -97,9 +110,20 @@ extension UILocalizedIndexedCollation {
         var sectionTitles = [String]()
         var sections = [AnyObject]()
         
-        for index in 0 ..< unsortedSections.count { if unsortedSections[index].count > 0 {
-            sectionTitles.append(self.sectionTitles[index])
-            sections.append(self.sortedArray(from: unsortedSections[index], collationStringSelector: collationStringSelector) as AnyObject)
+        for index in 0 ..< unsortedSections.count {
+            
+            if unsortedSections[index].count > 0 {
+                
+                sectionTitles.append(self.sectionTitles[index])
+                
+                if index == unsortedSections.count - 1
+                {
+                    sections.append(unsortedSections[index] as AnyObject)
+                }
+                else
+                {
+                    sections.append(self.sortedArray(from: unsortedSections[index], collationStringSelector: collationStringSelector) as AnyObject)
+                }
             }
         }
         

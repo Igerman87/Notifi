@@ -46,27 +46,27 @@ class ActiveNotifiCell: UITableViewCell {
         {
             if Calendar.current.isDate(now, equalTo: date!, toGranularity:  .weekOfYear)
             {
-                return "This\rWeek"
+                return "This\rweek"
             }
             else if Calendar.current.isDate(now.addingTimeInterval(TimeInterval(nextWeek)), equalTo: date!, toGranularity:  .weekOfYear)
             {
-                return "Next\rWeek"
+                return "Next\rweek"
             }
             else if Calendar.current.isDate(now, equalTo: date!, toGranularity:  .month)
             {
-                return "This\rMonth"
+                return "This\rmonth"
             }
             else if Calendar.current.isDate(now.addingTimeInterval(TimeInterval(nextMonth)), equalTo: date!, toGranularity:  .month)
             {
-                return "Next\rMonth"
+                return "Next\rmonth"
             }
             else if Calendar.current.isDate(now, equalTo: date!, toGranularity:  .year)
             {
-                return "This\rYear"
+                return "This\ryear"
             }
             else
             {
-                return "Far\rFuture"
+                return "Far\rfuture"
             }
         }
         else
