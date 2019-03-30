@@ -75,4 +75,8 @@ class historyController: UITableViewController {
         
         return[delete]
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
 }

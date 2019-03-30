@@ -218,12 +218,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
         switch response.actionIdentifier {
         case "CALL_ACTION":
             
-            completedNitifi.reverse()
-            
-            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,          phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(response.notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
-            
-            completedNitifi.reverse()
-            
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
@@ -258,12 +252,6 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
             
         case "com.apple.UNNotificationDefaultActionIdentifier":
             
-            completedNitifi.reverse()
-            
-            completedNitifi.append(ActiveNotifiData(fullnameIn: response.notification.request.content.subtitle, phoneNumberIn: response.notification.request.content.body,       phoneTypeIn: String(response.notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(response.notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
-            
-            completedNitifi.reverse()
-            
             let phoneNumber = "tel://\(response.notification.request.content.body.filter{ "+0123456789".contains($0)})"
             
             let url = URL(string: phoneNumber)
@@ -282,28 +270,23 @@ class TableViewController: UITableViewController,UISearchBarDelegate, UISearchDi
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
-        completedNitifi.reverse()
-        
-        completedNitifi.append(ActiveNotifiData(fullnameIn: notification.request.content.subtitle, phoneNumberIn: notification.request.content.body,       phoneTypeIn: String(notification.request.content.body.prefix(while: {$0 != ":"})), timeIn: String(notification.request.identifier.prefix(16)), pictureIn: UIImage(named: "icons8-decision-filled")!, indetifierIn: ""))
-        
-        completedNitifi.reverse()
-
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
         
-        completedNitifi.reverse()
+        let alert = UIAlertController(title: "Call " + notification.request.content.subtitle + " ? ", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {(UIAlertAction) -> Void in
+            
+            let phoneNumber = "tel://\(notification.request.content.body.filter{ "+0123456789".contains($0)})"
+            
+            let url = URL(string: phoneNumber)
+            
+            
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {(UIAlertAction) -> Void in }))
         
-        if let completedData = try? JSONEncoder().encode(completedNitifi)
-        {
-            UserDefaults.standard.set(completedData, forKey: "Completed")
-        }
-        
-        let phoneNumber = "tel://\(notification.request.content.body.filter{ "+0123456789".contains($0)})"
-        
-        let url = URL(string: phoneNumber)
-        
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
 

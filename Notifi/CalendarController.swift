@@ -160,12 +160,20 @@ class CalendarController:  UIViewController
     
     func setupHeader()
     {
-        let logoContainer = UIView(frame: CGRect(x: 30, y: 0, width: 270, height: 30))
+        let logoContainer = UIView(frame: CGRect(x: 0, y: 5, width: UIScreen.main.bounds.width, height: 30))
         
-        let label = UILabel()
+        let label = UILabel(frame: CGRect(x: 40, y: 5, width: 100, height: 30))
+        
+        if cellContactDetails.FullName.count > 25
+        {
+            cellContactDetails.FullName = String(cellContactDetails.FullName.dropLast(cellContactDetails.FullName.count - 25))
+        
+            cellContactDetails.FullName.append("...")
+        }
+        
         label.text = cellContactDetails.FullName
         label.sizeToFit()
-        label.center = logoContainer.center
+        //label.center = logoContainer.center
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         imageView.contentMode = .scaleAspectFit
@@ -175,7 +183,7 @@ class CalendarController:  UIViewController
         
         let imageAspect = imageView.image!.size.width/imageView.image!.size.height
         
-       imageView.frame = CGRect(x: label.frame.origin.x - label.frame.size.height * imageAspect - 30, y: label.frame.origin.y - 8, width: (label.frame.size.height * imageAspect * 1.7),    height: label.frame.size.height * 1.7 )
+       imageView.frame = CGRect(x: 0, y: label.frame.origin.y - 6, width: (label.frame.size.height * imageAspect * 1.7),    height: label.frame.size.height * 1.7 )
         
         imageView.contentMode = .scaleAspectFit
         

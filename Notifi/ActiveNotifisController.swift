@@ -25,7 +25,7 @@ struct sectionData {
 class ActiveNotifisController:TableViewController{
     
     var indexTitles: [String] = []
-    var mainTable:[String] = ["Today", "Tomorrow", "Forthcoming"]
+    var mainTable:[String] = ["Today", "Tomorrow", "Forthcoming", " ", " "]
     var phoneNumberForCall = [String:String]()
     var selectedIndexPath: IndexPath?
     @IBOutlet var footer:UIButton!
@@ -445,7 +445,7 @@ extension ActiveNotifisController
     {
         if footer == nil
         {
-            footer = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - ((self.tabBarController?.tabBar.frame.size.height)! + 50 ), width: self.view.bounds.width, height: 50))
+            footer = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - ((self.tabBarController?.tabBar.frame.size.height)! + 45 ), width: self.view.bounds.width, height: 45))
             footer.backgroundColor = UIColor.white
 //            footer.layer.cornerRadius = 25
 //            footer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -464,7 +464,7 @@ extension ActiveNotifisController
             footer.layer.addSublayer(borderTop)
             footer.layer.addSublayer(borderButtom)
             
-            footer.setTitle("Completed", for: .normal)
+            footer.setTitle("History", for: .normal)
             footer.setTitleColor(UIColor.lightGray, for: .normal)
             footer.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
             

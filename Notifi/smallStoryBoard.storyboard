@@ -729,7 +729,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGP-Em-N8f">
-                                            <rect key="frame" x="309" y="-2" width="66" height="60"/>
+                                            <rect key="frame" x="287" y="-1" width="80" height="60"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -752,7 +752,7 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Active" image="icons8-alarm-clock-filled-90.png" landscapeImage="      " id="EeK-4E-q9A"/>
-                    <navigationItem key="navigationItem" title="Completed" id="WVw-fq-9oo">
+                    <navigationItem key="navigationItem" title="History" id="WVw-fq-9oo">
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="mnK-CX-HLG">
                             <connections>
                                 <action selector="deleteAll:" destination="tQn-i0-3Bv" id="sTd-FE-r4y"/>
@@ -772,6 +772,6 @@
         <image name="icons8-user-account-filled-90.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="I6c-lP-KFk"/>
+        <segue reference="Zwr-Eh-RoF"/>
     </inferredMetricsTieBreakers>
 </document>

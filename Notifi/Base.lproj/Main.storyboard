@@ -776,7 +776,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEh-fX-e4e">
-                                            <rect key="frame" x="309" y="-2" width="66" height="60"/>
+                                            <rect key="frame" x="279" y="-2" width="80" height="60"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -799,7 +799,7 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Active" image="icons8-alarm-clock-filled-90.png" landscapeImage="      " id="WR1-1T-X81"/>
-                    <navigationItem key="navigationItem" title="Completed" id="CqD-m9-e3M">
+                    <navigationItem key="navigationItem" title="History" id="CqD-m9-e3M">
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="HHd-MA-jCV">
                             <connections>
                                 <action selector="deleteAll:" destination="ZX7-RN-Bp9" id="5A4-Xe-LAH"/>
@@ -809,7 +809,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AJ-6s-avA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1117.5999999999999" y="182.15892053973016"/>
+            <point key="canvasLocation" x="1117.5999999999999" y="181.77339901477833"/>
         </scene>
     </scenes>
     <resources>
@@ -819,6 +819,6 @@
         <image name="icons8-user-account-filled-90.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hJX-ii-FlS"/>
+        <segue reference="Lxm-ls-UOu"/>
     </inferredMetricsTieBreakers>
 </document>

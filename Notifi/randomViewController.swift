@@ -101,9 +101,13 @@ class randomViewController: UIViewController, UITextFieldDelegate, UNUserNotific
         
         newNameText.text = "Name"
         
+        newNameText.textColor = UIColor.lightGray
+        
         if phoneText.text == "EMPTY"
         {
             phoneText.text = "Phone"
+            
+            phoneText.textColor = UIColor.lightGray
         }
         randomImage = nil
     }

@@ -52,9 +52,9 @@ class myNotifications: UIAlertController
             
             let dismissAction = UNNotificationAction(identifier: "DISMISS_ACTION", title: "Dismiss", options: UNNotificationActionOptions(rawValue: 0))
             
-            let snooze = UNNotificationAction(identifier: "SNOOZE", title: "Remind me In 5 minutes", options: UNNotificationActionOptions(rawValue: 0))
+            let snooze = UNNotificationAction(identifier: "SNOOZE", title: "Remind me in 5 minutes", options: UNNotificationActionOptions(rawValue: 0))
             
-            let snoozeHour = UNNotificationAction(identifier: "SNOOZE_HOUR", title: "Remind me In one hour", options: UNNotificationActionOptions(rawValue: 0))
+            let snoozeHour = UNNotificationAction(identifier: "SNOOZE_HOUR", title: "Remind me in 1 hour", options: UNNotificationActionOptions(rawValue: 0))
             
             let notifiReminderCategory = UNNotificationCategory(identifier: "NOTIFI", actions: [callAction, dismissAction, snooze, snoozeHour], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
             
@@ -84,8 +84,21 @@ class myNotifications: UIAlertController
     {
         if randomImage != nil
         {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:00"
+        
             self.updateRecentNotifi(fullName: FullName, reminderPhoneNumber: ReminderPhoneNumber, picture: randomImage ?? UIImage(named: "icons8-decision-filled")!, type: Type)
  
+  
+            
+            let stringTime = dateFormatter.string(from: Date())
+            
+            completedNitifi.reverse()
+            
+            completedNitifi.append(ActiveNotifiData(fullnameIn: FullName, phoneNumberIn: ReminderPhoneNumber, phoneTypeIn: Type, timeIn: stringTime, pictureIn: randomImage!, indetifierIn: ""))
+            
+            completedNitifi.reverse()
+            
             randomImage = nil
         }
         
@@ -149,6 +162,8 @@ class myNotifications: UIAlertController
         
         if fullName != "John Doe"
         {
+
+            
             let duplicateIndex = recentNotifi.firstIndex(where: {$0.fullName == fullName})
         
             if (duplicateIndex != nil)
