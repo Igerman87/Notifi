@@ -9,4 +9,11 @@ Entry screen:
 
 Active reminders:
 
+
 ![alt text](https://github.com/Igerman87/Notifi/blob/master/IMG_8868.PNG)
+
+
+Time selection:
+
+
+![alt text](https://github.com/Igerman87/Notifi/blob/master/image1.png)
